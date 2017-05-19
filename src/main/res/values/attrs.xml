@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <declare-styleable name="StopBadgeView">
+
+        <attr
+            name="stopBadge_circleColor"
+            format="color" />
+
+        <attr
+            name="stopBadge_shadowColor"
+            format="color" />
+
+        <attr
+            name="stopBadge_shadowDx"
+            format="dimension" />
+
+        <attr
+            name="stopBadge_shadowDy"
+            format="dimension" />
+
+        <attr
+            name="stopBadge_shadowRadius"
+            format="dimension" />
+
+        <attr
+            name="stopBadge_shape"
+            format="enum">
+
+            <enum
+                name="arrowUp"
+                value="0" />
+
+            <enum
+                name="arrowDown"
+                value="1" />
+
+        </attr>
+
+        <attr
+            name="stopBadge_shapeColor"
+            format="color" />
+
+        <attr
+            name="stopBadge_stopNumber"
+            format="integer" />
+
+    </declare-styleable>
+
+</resources>
