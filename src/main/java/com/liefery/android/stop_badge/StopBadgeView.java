@@ -148,12 +148,12 @@ public class StopBadgeView extends View {
     }
 
     public void setShapeArrowUp() {
-        setShape( SHAPE_ARROW_UP );
+        stopBadge.setShapeArrowUp();
         invalidateAndResetCache();
     }
 
     public void setShapeArrowDown() {
-        setShape( SHAPE_ARROW_DOWN );
+        stopBadge.setShapeArrowDown();
         invalidateAndResetCache();
     }
 

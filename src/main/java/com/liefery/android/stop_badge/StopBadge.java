@@ -92,6 +92,14 @@ public class StopBadge {
         this.shapePath = shape;
     }
 
+    public void setShapeArrowUp() {
+        setShape( SHAPE_ARROW_UP );
+    }
+
+    public void setShapeArrowDown() {
+        setShape( SHAPE_ARROW_DOWN );
+    }
+
     /**
      * Converts the number's text-representation to an unadjusted Path
      */
