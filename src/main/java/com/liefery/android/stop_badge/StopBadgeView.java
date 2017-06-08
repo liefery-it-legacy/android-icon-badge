@@ -11,7 +11,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
-import com.liefery.android.stop.badge.R;
+import com.liefery.android.stop_badge.R;
 
 import static com.liefery.android.stop_badge.StopBadge.SHAPE_ARROW_DOWN;
 import static com.liefery.android.stop_badge.StopBadge.SHAPE_ARROW_UP;

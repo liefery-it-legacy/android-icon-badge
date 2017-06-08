@@ -2,7 +2,7 @@
 
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.liefery.android.stop.badge.sample">
+    package="com.liefery.android.stop_badge.sample">
 
     <application
         android:label="Liefery Stop Badge Sample">
