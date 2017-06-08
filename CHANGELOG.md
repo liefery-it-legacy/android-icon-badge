@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.2
+
+_2017-06-08_
+
+ *  Set support-annotations dependency to compile scope
+ *  Change package from stop.bade to stop_badge
+
 ## 1.0.1
 
 _2017-05-23_
