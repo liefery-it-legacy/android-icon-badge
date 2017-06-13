@@ -47,7 +47,7 @@ public class StopBadge {
 
     private final Paint circlePaint = new Paint( ANTI_ALIAS_FLAG );
 
-    private Path shapePath;
+    private Path shapePath = new Path();
 
     private Paint shapePaint = new Paint( ANTI_ALIAS_FLAG );
 
