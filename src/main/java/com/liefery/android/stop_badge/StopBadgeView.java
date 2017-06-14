@@ -4,22 +4,15 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Path;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.view.View;
-import com.liefery.android.stop_badge.R;
+import android.widget.ImageView;
 
-import static com.liefery.android.stop_badge.StopBadge.SHAPE_ARROW_DOWN;
-import static com.liefery.android.stop_badge.StopBadge.SHAPE_ARROW_UP;
-
-public class StopBadgeView extends View {
+public class StopBadgeView extends ImageView {
     private final StopBadge stopBadge = new StopBadge();
-
-    private Bitmap cache;
 
     public StopBadgeView( Context context ) {
         super( context );
@@ -70,6 +63,8 @@ public class StopBadgeView extends View {
     }
 
     private void initialize( @NonNull TypedArray styles ) {
+        setScaleType( ScaleType.CENTER );
+
         int circleColor = styles.getColor(
             R.styleable.StopBadgeView_stopBadge_circleColor,
             Integer.MIN_VALUE );
@@ -119,85 +114,73 @@ public class StopBadgeView extends View {
             -1 );
         if ( stopNumber != -1 )
             setStopNumber( stopNumber );
-
-        setAlpha( getAlpha() );
-    }
-
-    @Override
-    public void setAlpha( float alpha ) {
-        super.setAlpha( alpha );
-
-        if ( stopBadge != null ) {
-            stopBadge.setAlpha( alpha );
-        }
     }
 
     public void setCircleColor( @ColorInt int color ) {
         stopBadge.setCircleColor( color );
-        invalidateAndResetCache();
+        invalidate();
     }
 
     public void setShapeColor( @ColorInt int color ) {
         stopBadge.setShapeColor( color );
-        invalidateAndResetCache();
+        invalidate();
     }
 
     public void setShape( Path path ) {
         stopBadge.setShape( path );
-        invalidateAndResetCache();
+        invalidate();
     }
 
     public void setShapeArrowUp() {
         stopBadge.setShapeArrowUp();
-        invalidateAndResetCache();
+        invalidate();
     }
 
     public void setShapeArrowDown() {
         stopBadge.setShapeArrowDown();
-        invalidateAndResetCache();
+        invalidate();
     }
 
     public void setStopNumber( int stopNumber ) {
         stopBadge.setStopNumber( stopNumber );
-        invalidateAndResetCache();
+        invalidate();
     }
 
     public void setShadowColor( @ColorInt int color ) {
         stopBadge.setShadowColor( color );
-        invalidateAndResetCache();
+        invalidate();
     }
 
     public void setShadowDx( float dx ) {
         stopBadge.setShadowDx( dx );
-        invalidateAndResetCache();
+        invalidate();
     }
 
     public void setShadowDy( float dy ) {
         stopBadge.setShadowDy( dy );
-        invalidateAndResetCache();
+        invalidate();
     }
 
     public void setShadowRadius( float radius ) {
         stopBadge.setShadowRadius( radius );
-        invalidateAndResetCache();
+        invalidate();
     }
 
     @Override
-    protected void onDraw( Canvas canvas ) {
-        if ( cache == null ) {
-            int size = Math.min( canvas.getWidth(), canvas.getHeight() );
-            cache = stopBadge.export( size );
+    protected void onLayout(
+        boolean changed,
+        int left,
+        int top,
+        int right,
+        int bottom ) {
+        super.onLayout( changed, left, top, right, bottom );
+
+        if ( changed ) {
+            int width = right - left;
+            int height = bottom - top;
+            int size = Math.min( width, height );
+            Bitmap bitmap = stopBadge.export( size );
+            setImageBitmap( bitmap );
         }
-
-        canvas.drawBitmap(
-            cache,
-            -stopBadge.shadowSizeX(),
-            -stopBadge.shadowSizeY(),
-            null );
-    }
-
-    private void invalidateAndResetCache() {
-        this.cache = null;
-        invalidate();
     }
 }
