@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.5
+
+_2017-06-15_
+
+ * Properly invalidate the generated `Bitmap` after applying widget changes dynamically
+
 ## 1.0.4
 
 _2017-06-14_
