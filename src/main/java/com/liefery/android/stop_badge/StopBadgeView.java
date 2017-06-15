@@ -14,6 +14,8 @@ import android.widget.ImageView;
 public class StopBadgeView extends ImageView {
     private final StopBadge stopBadge = new StopBadge();
 
+    private Bitmap cache;
+
     public StopBadgeView( Context context ) {
         super( context );
 
@@ -118,52 +120,52 @@ public class StopBadgeView extends ImageView {
 
     public void setCircleColor( @ColorInt int color ) {
         stopBadge.setCircleColor( color );
-        invalidate();
+        invalidateAndReset();
     }
 
     public void setShapeColor( @ColorInt int color ) {
         stopBadge.setShapeColor( color );
-        invalidate();
+        invalidateAndReset();
     }
 
     public void setShape( Path path ) {
         stopBadge.setShape( path );
-        invalidate();
+        invalidateAndReset();
     }
 
     public void setShapeArrowUp() {
         stopBadge.setShapeArrowUp();
-        invalidate();
+        invalidateAndReset();
     }
 
     public void setShapeArrowDown() {
         stopBadge.setShapeArrowDown();
-        invalidate();
+        invalidateAndReset();
     }
 
     public void setStopNumber( int stopNumber ) {
         stopBadge.setStopNumber( stopNumber );
-        invalidate();
+        invalidateAndReset();
     }
 
     public void setShadowColor( @ColorInt int color ) {
         stopBadge.setShadowColor( color );
-        invalidate();
+        invalidateAndReset();
     }
 
     public void setShadowDx( float dx ) {
         stopBadge.setShadowDx( dx );
-        invalidate();
+        invalidateAndReset();
     }
 
     public void setShadowDy( float dy ) {
         stopBadge.setShadowDy( dy );
-        invalidate();
+        invalidateAndReset();
     }
 
     public void setShadowRadius( float radius ) {
         stopBadge.setShadowRadius( radius );
-        invalidate();
+        invalidateAndReset();
     }
 
     @Override
@@ -175,12 +177,21 @@ public class StopBadgeView extends ImageView {
         int bottom ) {
         super.onLayout( changed, left, top, right, bottom );
 
-        if ( changed ) {
+        if ( cache == null ) {
             int width = right - left;
             int height = bottom - top;
             int size = Math.min( width, height );
-            Bitmap bitmap = stopBadge.export( size );
-            setImageBitmap( bitmap );
+            cache = stopBadge.export( size );
+            setImageBitmap( cache );
         }
+    }
+
+    private void invalidateAndReset() {
+        if ( cache != null ) {
+            cache.recycle();
+            cache = null;
+        }
+
+        invalidate();
     }
 }
