@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class StopBadgeView extends ImageView {
@@ -180,7 +181,7 @@ public class StopBadgeView extends ImageView {
         if ( cache == null ) {
             int width = right - left;
             int height = bottom - top;
-            int size = Math.min( width, height );
+            int size = Math.max( width, height );
             cache = stopBadge.export( size );
             setImageBitmap( cache );
         }

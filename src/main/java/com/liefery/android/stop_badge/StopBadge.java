@@ -3,6 +3,7 @@ package com.liefery.android.stop_badge;
 import android.graphics.*;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.util.Log;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -233,12 +234,15 @@ public class StopBadge {
     }
 
     int shadowSizeY() {
-        return (int) ( shadowRadius + Math.abs( shadowDx ) );
+        return (int) ( shadowRadius + Math.abs( shadowDy ) );
     }
 
     public Bitmap export( int size ) {
-        Bitmap bitmap = Bitmap.createBitmap( size + shadowSizeX() * 2, size
-            + shadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
+        int newSize = Math.max( shadowSizeX(), shadowSizeY() ) * 2 + size;
+        Bitmap bitmap = Bitmap.createBitmap(
+            newSize,
+            newSize,
+            Bitmap.Config.ARGB_8888 );
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Canvas canvas = new Canvas( bitmap );
