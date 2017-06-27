@@ -5,8 +5,7 @@ lazy val root = project.in( file( "." ) )
         libraryDependencies ++=
             "com.android.support" % "support-annotations" % "25.3.1" % "compile" ::
             Nil,
-        name := "android-stop-badge",
-        organization := "com.github.liefery",
+        name := "stop-badge",
         publishArtifact in ( Compile, packageDoc ) := false
     )
 

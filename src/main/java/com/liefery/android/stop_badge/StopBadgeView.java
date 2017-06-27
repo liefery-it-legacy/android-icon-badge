@@ -9,7 +9,6 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 public class StopBadgeView extends ImageView {

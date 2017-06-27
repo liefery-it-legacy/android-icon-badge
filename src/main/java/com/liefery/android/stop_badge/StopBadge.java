@@ -3,7 +3,6 @@ package com.liefery.android.stop_badge;
 import android.graphics.*;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
-import android.util.Log;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
