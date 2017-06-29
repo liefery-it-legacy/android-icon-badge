@@ -180,7 +180,7 @@ public class StopBadgeView extends ImageView {
         if ( cache == null ) {
             int width = right - left;
             int height = bottom - top;
-            int size = Math.max( width, height );
+            int size = Math.min( width, height );
             cache = stopBadge.export( size );
             setImageBitmap( cache );
         }

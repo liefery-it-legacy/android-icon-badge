@@ -237,11 +237,8 @@ public class StopBadge {
     }
 
     public Bitmap export( int size ) {
-        int newSize = Math.max( shadowSizeX(), shadowSizeY() ) * 2 + size;
-        Bitmap bitmap = Bitmap.createBitmap(
-            newSize,
-            newSize,
-            Bitmap.Config.ARGB_8888 );
+        Bitmap bitmap = Bitmap.createBitmap( size + shadowSizeX() * 2, size
+            + shadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Canvas canvas = new Canvas( bitmap );
