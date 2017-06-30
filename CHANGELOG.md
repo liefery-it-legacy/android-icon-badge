@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.6
+
+_2017-06-30_
+
+ * Fix shadow drawing issue (being cut off)
+
 ## 1.0.5
 
 _2017-06-15_
