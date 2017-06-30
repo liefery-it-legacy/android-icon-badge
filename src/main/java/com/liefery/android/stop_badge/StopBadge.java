@@ -63,7 +63,7 @@ public class StopBadge {
 
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
-    private final Paint textPaint = new Paint();
+    private final Paint textPaint = new Paint( ANTI_ALIAS_FLAG );
 
     private float scale = 1;
 
