@@ -190,8 +190,8 @@ public class StopBadgeView extends ImageView {
         if ( cache != null ) {
             cache.recycle();
             cache = null;
-        }
-
-        invalidate();
+            setImageDrawable( null );
+        } else
+            invalidate();
     }
 }
