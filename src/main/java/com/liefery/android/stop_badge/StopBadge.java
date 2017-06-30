@@ -233,7 +233,7 @@ public class StopBadge {
     }
 
     int shadowSizeY() {
-        return (int) ( shadowRadius + Math.abs( shadowDx ) );
+        return (int) ( shadowRadius + Math.abs( shadowDy ) );
     }
 
     public Bitmap export( int size ) {
