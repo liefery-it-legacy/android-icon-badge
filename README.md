@@ -33,6 +33,12 @@ dependencies {
 
 ## Usage
 
+Creating a Bitmap from the `StopBadgeFactory` class
+```
+Bitmap myBitmap = StopBadgeFactory.worker().fromArrowUp().setShadowColor(Color.RED).create()
+```
+
+Using the custom layout in XML:
 ```xml
 <com.liefery.android.stop_badge.StopBadgeView
     android:layout_width="50dp"
