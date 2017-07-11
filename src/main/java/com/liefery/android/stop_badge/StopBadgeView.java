@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 public class StopBadgeView extends ImageView {
-    private final StopBadge stopBadge = new StopBadge();
+    private StopBadgeFactory.StopBadgeCommonAttributesEditor stopBadgeBuilder;
 
     private Bitmap cache;
 
@@ -67,104 +67,106 @@ public class StopBadgeView extends ImageView {
     private void initialize( @NonNull TypedArray styles ) {
         setScaleType( ScaleType.CENTER );
 
-        int circleColor = styles.getColor(
-            R.styleable.StopBadgeView_stopBadge_circleColor,
-            Integer.MIN_VALUE );
-        if ( circleColor != Integer.MIN_VALUE )
-            setCircleColor( circleColor );
+        stopBadgeBuilder = StopBadgeFactory.fromNothing();
 
         int shape = styles.getInt(
             R.styleable.StopBadgeView_stopBadge_shape,
             -1 );
         if ( shape == 0 )
-            setShapeArrowUp();
+            stopBadgeBuilder = StopBadgeFactory.fromArrowUp();
         else if ( shape == 1 )
-            setShapeArrowDown();
-
-        int shapeColor = styles.getColor(
-            R.styleable.StopBadgeView_stopBadge_shapeColor,
-            Integer.MIN_VALUE );
-        if ( shapeColor != Integer.MIN_VALUE )
-            setShapeColor( shapeColor );
-
-        int shadowColor = styles.getColor(
-            R.styleable.StopBadgeView_stopBadge_shadowColor,
-            Integer.MIN_VALUE );
-        if ( shadowColor != Integer.MIN_VALUE )
-            setShadowColor( shadowColor );
-
-        float shadowDx = styles.getDimension(
-            R.styleable.StopBadgeView_stopBadge_shadowDx,
-            Integer.MIN_VALUE );
-        if ( shadowDx != Integer.MIN_VALUE )
-            setShadowDx( shadowDx );
-
-        float shadowDy = styles.getDimension(
-            R.styleable.StopBadgeView_stopBadge_shadowDy,
-            Integer.MIN_VALUE );
-        if ( shadowDy != Integer.MIN_VALUE )
-            setShadowDy( shadowDy );
-
-        float shadowRadius = styles.getDimension(
-            R.styleable.StopBadgeView_stopBadge_shadowRadius,
-            -1 );
-        if ( shadowRadius != -1 )
-            setShadowRadius( shadowRadius );
+            stopBadgeBuilder = StopBadgeFactory.fromArrowDown();
 
         int stopNumber = styles.getInt(
             R.styleable.StopBadgeView_stopBadge_stopNumber,
             -1 );
         if ( stopNumber != -1 )
-            setStopNumber( stopNumber );
+            stopBadgeBuilder = StopBadgeFactory.fromNumber( stopNumber );
+
+        int circleColor = styles.getColor(
+            R.styleable.StopBadgeView_stopBadge_circleColor,
+            Integer.MIN_VALUE );
+        if ( circleColor != Integer.MIN_VALUE )
+            stopBadgeBuilder.setCircleColor( circleColor );
+
+        int shapeColor = styles.getColor(
+            R.styleable.StopBadgeView_stopBadge_shapeColor,
+            Integer.MIN_VALUE );
+        if ( shapeColor != Integer.MIN_VALUE )
+            stopBadgeBuilder.setShapeColor( shapeColor );
+
+        int shadowColor = styles.getColor(
+            R.styleable.StopBadgeView_stopBadge_shadowColor,
+            Integer.MIN_VALUE );
+        if ( shadowColor != Integer.MIN_VALUE )
+            stopBadgeBuilder.setShadowColor( shadowColor );
+
+        float shadowDx = styles.getDimension(
+            R.styleable.StopBadgeView_stopBadge_shadowDx,
+            Integer.MIN_VALUE );
+        if ( shadowDx != Integer.MIN_VALUE )
+            stopBadgeBuilder.setShadowDx( shadowDx );
+
+        float shadowDy = styles.getDimension(
+            R.styleable.StopBadgeView_stopBadge_shadowDy,
+            Integer.MIN_VALUE );
+        if ( shadowDy != Integer.MIN_VALUE )
+            stopBadgeBuilder.setShadowDy( shadowDy );
+
+        float shadowRadius = styles.getDimension(
+            R.styleable.StopBadgeView_stopBadge_shadowRadius,
+            -1 );
+        if ( shadowRadius != -1 )
+            stopBadgeBuilder.setShadowRadius( shadowRadius );
     }
 
     public void setCircleColor( @ColorInt int color ) {
-        stopBadge.setCircleColor( color );
+        stopBadgeBuilder.setCircleColor( color );
         invalidateAndReset();
     }
 
     public void setShapeColor( @ColorInt int color ) {
-        stopBadge.setShapeColor( color );
+        stopBadgeBuilder.setShapeColor( color );
         invalidateAndReset();
     }
 
     public void setShape( Path path ) {
-        stopBadge.setShape( path );
+        stopBadgeBuilder = StopBadgeFactory.fromPath( path );
         invalidateAndReset();
     }
 
     public void setShapeArrowUp() {
-        stopBadge.setShapeArrowUp();
+        stopBadgeBuilder = StopBadgeFactory.fromArrowUp();
         invalidateAndReset();
     }
 
     public void setShapeArrowDown() {
-        stopBadge.setShapeArrowDown();
+        stopBadgeBuilder = StopBadgeFactory.fromArrowDown();
         invalidateAndReset();
     }
 
     public void setStopNumber( int stopNumber ) {
-        stopBadge.setStopNumber( stopNumber );
+        stopBadgeBuilder = StopBadgeFactory.fromNumber( stopNumber );
         invalidateAndReset();
     }
 
     public void setShadowColor( @ColorInt int color ) {
-        stopBadge.setShadowColor( color );
+        stopBadgeBuilder.setShadowColor( color );
         invalidateAndReset();
     }
 
     public void setShadowDx( float dx ) {
-        stopBadge.setShadowDx( dx );
+        stopBadgeBuilder.setShadowDx( dx );
         invalidateAndReset();
     }
 
     public void setShadowDy( float dy ) {
-        stopBadge.setShadowDy( dy );
+        stopBadgeBuilder.setShadowDy( dy );
         invalidateAndReset();
     }
 
     public void setShadowRadius( float radius ) {
-        stopBadge.setShadowRadius( radius );
+        stopBadgeBuilder.setShadowRadius( radius );
         invalidateAndReset();
     }
 
@@ -181,7 +183,7 @@ public class StopBadgeView extends ImageView {
             int width = right - left;
             int height = bottom - top;
             int size = Math.min( width, height );
-            cache = stopBadge.export( size );
+            cache = stopBadgeBuilder.create( size );
             setImageBitmap( cache );
         }
     }
