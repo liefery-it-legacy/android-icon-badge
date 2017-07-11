@@ -4,6 +4,8 @@ import android.graphics.*;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 
+import java.security.MessageDigest;
+
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class StopBadge {
@@ -41,6 +43,8 @@ public class StopBadge {
         SHAPE_ARROW_DOWN = arrowDown;
     }
 
+    private String pathContents = "empty";
+
     private float alpha = 1;
 
     private final Path circlePath = new Path();
@@ -54,6 +58,8 @@ public class StopBadge {
     private final Path adjustedShape = new Path();
 
     private int shadowColor = Color.argb( 125, 0, 0, 0 );
+
+    private int circleColor = Color.TRANSPARENT;
 
     private float shadowDx = 0;
 
@@ -80,7 +86,6 @@ public class StopBadge {
     public StopBadge() {
         textPaint.setTypeface( Typeface
                         .create( Typeface.DEFAULT, Typeface.BOLD ) );
-        setShapeColor( Color.TRANSPARENT );
     }
 
     public Path getShape() {
@@ -93,10 +98,12 @@ public class StopBadge {
     }
 
     public void setShapeArrowUp() {
+        this.pathContents = "arrow_up";
         setShape( SHAPE_ARROW_UP );
     }
 
     public void setShapeArrowDown() {
+        this.pathContents = "arrow_down";
         setShape( SHAPE_ARROW_DOWN );
     }
 
@@ -104,6 +111,8 @@ public class StopBadge {
      * Converts the number's text-representation to an unadjusted Path
      */
     public void setStopNumber( int stopNumber ) {
+        this.pathContents = "num(" + stopNumber + ")";
+
         if ( stopNumber < 0 ) {
             throw new IllegalArgumentException( "stopNumber must be >= 0" );
         }
@@ -133,6 +142,7 @@ public class StopBadge {
     }
 
     public void setShapeColor( @ColorInt int color ) {
+        circleColor = color;
         shapePaint.setColor( color );
     }
 
@@ -236,7 +246,19 @@ public class StopBadge {
         return (int) ( shadowRadius + Math.abs( shadowDx ) );
     }
 
-    public Bitmap export( int size ) {
+    public String toKey( int size ) {
+        StringBuilder builder = new StringBuilder();
+        builder.append( pathContents );
+        builder.append( shadowRadius );
+        builder.append( shadowColor );
+        builder.append( shadowDx );
+        builder.append( shadowDy );
+        builder.append( circlePaint.getAlpha() );
+        builder.append( circleColor );
+        return Integer.toString( builder.toString().hashCode() ) + "_" + size;
+    }
+
+    protected Bitmap export( int size ) {
         Bitmap bitmap = Bitmap.createBitmap( size + shadowSizeX() * 2, size
             + shadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
         int width = bitmap.getWidth();

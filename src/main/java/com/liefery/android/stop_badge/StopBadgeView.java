@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 public class StopBadgeView extends ImageView {
-    private StopBadgeFactory.StopBadgeCommonAttributesEditor stopBadgeBuilder;
+    private StopBadge stopBadge = new StopBadge();
 
     private Bitmap cache;
 
@@ -67,106 +67,104 @@ public class StopBadgeView extends ImageView {
     private void initialize( @NonNull TypedArray styles ) {
         setScaleType( ScaleType.CENTER );
 
-        stopBadgeBuilder = StopBadgeFactory.fromNothing();
-
         int shape = styles.getInt(
             R.styleable.StopBadgeView_stopBadge_shape,
             -1 );
         if ( shape == 0 )
-            stopBadgeBuilder = StopBadgeFactory.fromArrowUp();
+            setShapeArrowUp();
         else if ( shape == 1 )
-            stopBadgeBuilder = StopBadgeFactory.fromArrowDown();
+            setShapeArrowDown();
 
         int stopNumber = styles.getInt(
             R.styleable.StopBadgeView_stopBadge_stopNumber,
             -1 );
         if ( stopNumber != -1 )
-            stopBadgeBuilder = StopBadgeFactory.fromNumber( stopNumber );
+            setStopNumber( stopNumber );
 
         int circleColor = styles.getColor(
             R.styleable.StopBadgeView_stopBadge_circleColor,
             Integer.MIN_VALUE );
         if ( circleColor != Integer.MIN_VALUE )
-            stopBadgeBuilder.setCircleColor( circleColor );
+            stopBadge.setCircleColor( circleColor );
 
         int shapeColor = styles.getColor(
             R.styleable.StopBadgeView_stopBadge_shapeColor,
             Integer.MIN_VALUE );
         if ( shapeColor != Integer.MIN_VALUE )
-            stopBadgeBuilder.setShapeColor( shapeColor );
+            stopBadge.setShapeColor( shapeColor );
 
         int shadowColor = styles.getColor(
             R.styleable.StopBadgeView_stopBadge_shadowColor,
             Integer.MIN_VALUE );
         if ( shadowColor != Integer.MIN_VALUE )
-            stopBadgeBuilder.setShadowColor( shadowColor );
+            stopBadge.setShadowColor( shadowColor );
 
         float shadowDx = styles.getDimension(
             R.styleable.StopBadgeView_stopBadge_shadowDx,
             Integer.MIN_VALUE );
         if ( shadowDx != Integer.MIN_VALUE )
-            stopBadgeBuilder.setShadowDx( shadowDx );
+            stopBadge.setShadowDx( shadowDx );
 
         float shadowDy = styles.getDimension(
             R.styleable.StopBadgeView_stopBadge_shadowDy,
             Integer.MIN_VALUE );
         if ( shadowDy != Integer.MIN_VALUE )
-            stopBadgeBuilder.setShadowDy( shadowDy );
+            stopBadge.setShadowDy( shadowDy );
 
         float shadowRadius = styles.getDimension(
             R.styleable.StopBadgeView_stopBadge_shadowRadius,
             -1 );
         if ( shadowRadius != -1 )
-            stopBadgeBuilder.setShadowRadius( shadowRadius );
+            stopBadge.setShadowRadius( shadowRadius );
     }
 
     public void setCircleColor( @ColorInt int color ) {
-        stopBadgeBuilder.setCircleColor( color );
+        stopBadge.setCircleColor( color );
         invalidateAndReset();
     }
 
     public void setShapeColor( @ColorInt int color ) {
-        stopBadgeBuilder.setShapeColor( color );
+        stopBadge.setShapeColor( color );
         invalidateAndReset();
     }
 
     public void setShape( Path path ) {
-        stopBadgeBuilder = StopBadgeFactory.fromPath( path );
+        stopBadge.setShape( path );
         invalidateAndReset();
     }
 
     public void setShapeArrowUp() {
-        stopBadgeBuilder = StopBadgeFactory.fromArrowUp();
+        stopBadge.setShapeArrowUp();
         invalidateAndReset();
     }
 
     public void setShapeArrowDown() {
-        stopBadgeBuilder = StopBadgeFactory.fromArrowDown();
+        stopBadge.setShapeArrowDown();
         invalidateAndReset();
     }
 
     public void setStopNumber( int stopNumber ) {
-        stopBadgeBuilder = StopBadgeFactory.fromNumber( stopNumber );
+        stopBadge.setStopNumber( stopNumber );
         invalidateAndReset();
     }
 
     public void setShadowColor( @ColorInt int color ) {
-        stopBadgeBuilder.setShadowColor( color );
+        stopBadge.setShadowColor( color );
         invalidateAndReset();
     }
 
     public void setShadowDx( float dx ) {
-        stopBadgeBuilder.setShadowDx( dx );
+        stopBadge.setShadowDx( dx );
         invalidateAndReset();
     }
 
     public void setShadowDy( float dy ) {
-        stopBadgeBuilder.setShadowDy( dy );
+        stopBadge.setShadowDy( dy );
         invalidateAndReset();
     }
 
     public void setShadowRadius( float radius ) {
-        stopBadgeBuilder.setShadowRadius( radius );
+        stopBadge.setShadowRadius( radius );
         invalidateAndReset();
     }
 
@@ -183,7 +181,7 @@ public class StopBadgeView extends ImageView {
             int width = right - left;
             int height = bottom - top;
             int size = Math.min( width, height );
-            cache = stopBadgeBuilder.create( size );
+            cache = StopBadgeFactory.getBitmap( stopBadge, size );
             setImageBitmap( cache );
         }
     }
