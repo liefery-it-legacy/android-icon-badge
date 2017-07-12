@@ -252,8 +252,8 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:stopBadge_circleColor="#428e92"
-                app:stopBadge_shadowDx="-20dp"
-                app:stopBadge_shadowDy="30dp"
+                app:stopBadge_shadowDx="-1dp"
+                app:stopBadge_shadowDy="1dp"
                 app:stopBadge_shadowRadius="3dp"
                 app:stopBadge_stopNumber="6" />
 

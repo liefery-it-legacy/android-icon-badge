@@ -2,7 +2,6 @@ package com.liefery.android.stop_badge;
 
 import android.annotation.SuppressLint;
 import android.graphics.*;
-import android.util.Log;
 import android.util.LruCache;
 
 @SuppressLint( "NewApi" )

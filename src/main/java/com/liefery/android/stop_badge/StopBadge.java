@@ -4,8 +4,6 @@ import android.graphics.*;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 
-import java.security.MessageDigest;
-
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class StopBadge {
@@ -59,8 +57,6 @@ public class StopBadge {
 
     private int shadowColor = Color.argb( 125, 0, 0, 0 );
 
-    private int circleColor = Color.TRANSPARENT;
-
     private float shadowDx = 0;
 
     private float shadowDy = 0;
@@ -86,6 +82,7 @@ public class StopBadge {
     public StopBadge() {
         textPaint.setTypeface( Typeface
                         .create( Typeface.DEFAULT, Typeface.BOLD ) );
+        setShapeColor( Color.TRANSPARENT );
     }
 
     public Path getShape() {
@@ -142,7 +139,6 @@ public class StopBadge {
     }
 
     public void setShapeColor( @ColorInt int color ) {
-        circleColor = color;
         shapePaint.setColor( color );
     }
 
@@ -254,7 +250,8 @@ public class StopBadge {
         builder.append( shadowDx );
         builder.append( shadowDy );
         builder.append( circlePaint.getAlpha() );
-        builder.append( circleColor );
+        builder.append( circlePaint.getColor() );
+        builder.append( shapePaint.getColor() );
         return Integer.toString( builder.toString().hashCode() ) + "_" + size;
     }
 

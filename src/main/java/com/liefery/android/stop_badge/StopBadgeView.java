@@ -67,6 +67,12 @@ public class StopBadgeView extends ImageView {
     private void initialize( @NonNull TypedArray styles ) {
         setScaleType( ScaleType.CENTER );
 
+        int circleColor = styles.getColor(
+            R.styleable.StopBadgeView_stopBadge_circleColor,
+            Integer.MIN_VALUE );
+        if ( circleColor != Integer.MIN_VALUE )
+            setCircleColor( circleColor );
+
         int shape = styles.getInt(
             R.styleable.StopBadgeView_stopBadge_shape,
             -1 );
@@ -75,47 +81,41 @@ public class StopBadgeView extends ImageView {
         else if ( shape == 1 )
             setShapeArrowDown();
 
-        int stopNumber = styles.getInt(
-            R.styleable.StopBadgeView_stopBadge_stopNumber,
-            -1 );
-        if ( stopNumber != -1 )
-            setStopNumber( stopNumber );
-
-        int circleColor = styles.getColor(
-            R.styleable.StopBadgeView_stopBadge_circleColor,
-            Integer.MIN_VALUE );
-        if ( circleColor != Integer.MIN_VALUE )
-            stopBadge.setCircleColor( circleColor );
-
         int shapeColor = styles.getColor(
             R.styleable.StopBadgeView_stopBadge_shapeColor,
             Integer.MIN_VALUE );
         if ( shapeColor != Integer.MIN_VALUE )
-            stopBadge.setShapeColor( shapeColor );
+            setShapeColor( shapeColor );
 
         int shadowColor = styles.getColor(
             R.styleable.StopBadgeView_stopBadge_shadowColor,
             Integer.MIN_VALUE );
         if ( shadowColor != Integer.MIN_VALUE )
-            stopBadge.setShadowColor( shadowColor );
+            setShadowColor( shadowColor );
 
         float shadowDx = styles.getDimension(
             R.styleable.StopBadgeView_stopBadge_shadowDx,
             Integer.MIN_VALUE );
         if ( shadowDx != Integer.MIN_VALUE )
-            stopBadge.setShadowDx( shadowDx );
+            setShadowDx( shadowDx );
 
         float shadowDy = styles.getDimension(
             R.styleable.StopBadgeView_stopBadge_shadowDy,
             Integer.MIN_VALUE );
         if ( shadowDy != Integer.MIN_VALUE )
-            stopBadge.setShadowDy( shadowDy );
+            setShadowDy( shadowDy );
 
         float shadowRadius = styles.getDimension(
             R.styleable.StopBadgeView_stopBadge_shadowRadius,
             -1 );
         if ( shadowRadius != -1 )
-            stopBadge.setShadowRadius( shadowRadius );
+            setShadowRadius( shadowRadius );
+
+        int stopNumber = styles.getInt(
+            R.styleable.StopBadgeView_stopBadge_stopNumber,
+            -1 );
+        if ( stopNumber != -1 )
+            setStopNumber( stopNumber );
     }
 
     public void setCircleColor( @ColorInt int color ) {
