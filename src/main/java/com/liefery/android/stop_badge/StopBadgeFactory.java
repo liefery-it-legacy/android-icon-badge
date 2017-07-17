@@ -1,23 +1,29 @@
 package com.liefery.android.stop_badge;
 
-import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.*;
 import android.util.LruCache;
 
-@SuppressLint( "NewApi" )
 public class StopBadgeFactory {
 
     private static StopBadgeFactory instance = null;
 
-    private BadgeCache cache = new BadgeCache();
+    private LruCache<String, Bitmap> cache;
 
     protected StopBadgeFactory() {
         // Exists only to defeat instantiation.
     }
 
-    public static Bitmap getBitmap( StopBadge badge, int size ) {
+    public static Bitmap getBitmap( Context context, StopBadge badge, int size ) {
         if ( instance == null ) {
             instance = new StopBadgeFactory();
+
+            int memClass = ( (ActivityManager) context
+                            .getSystemService( Context.ACTIVITY_SERVICE ) )
+                            .getMemoryClass();
+            int cacheSize = 1024 * 1024 * memClass / 8;
+            instance.cache = new LruCache<String, Bitmap>( cacheSize );
         }
 
         if ( instance.cache.get( badge.toKey( size ) ) == null ) {
@@ -26,12 +32,6 @@ public class StopBadgeFactory {
             return newBadge;
         } else {
             return instance.cache.get( badge.toKey( size ) );
-        }
-    }
-
-    public class BadgeCache extends LruCache<String, Bitmap> {
-        BadgeCache() {
-            super( 2 * 1024 * 1024 ); // 2MiB
         }
     }
 }

@@ -181,7 +181,7 @@ public class StopBadgeView extends ImageView {
             int width = right - left;
             int height = bottom - top;
             int size = Math.min( width, height );
-            cache = StopBadgeFactory.getBitmap( stopBadge, size );
+            cache = StopBadgeFactory.getBitmap( getContext(), stopBadge, size );
             setImageBitmap( cache );
         }
     }
