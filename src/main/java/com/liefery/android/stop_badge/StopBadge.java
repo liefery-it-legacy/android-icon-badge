@@ -7,6 +7,11 @@ import android.support.annotation.FloatRange;
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class StopBadge {
+
+    static final int BACKGROUND_ROUND = 0;
+
+    static final int BACKGROUND_SQUARE = 1;
+
     static final Path SHAPE_ARROW_UP;
 
     static final Path SHAPE_ARROW_DOWN;
@@ -43,9 +48,11 @@ public class StopBadge {
 
     private float alpha = 1;
 
-    private final Path circlePath = new Path();
+    private Path backgroundPath = new Path();
 
-    private final Paint circlePaint = new Paint( ANTI_ALIAS_FLAG );
+    private int backgroundShape = 0;
+
+    private final Paint backgroundPaint = new Paint( ANTI_ALIAS_FLAG );
 
     private Path shapePath = new Path();
 
@@ -121,11 +128,11 @@ public class StopBadge {
     }
 
     public int getCircleColor() {
-        return circlePaint.getColor();
+        return backgroundPaint.getColor();
     }
 
     public void setCircleColor( @ColorInt int color ) {
-        circlePaint.setColor( color );
+        backgroundPaint.setColor( color );
     }
 
     public int getShapeColor() {
@@ -169,18 +176,28 @@ public class StopBadge {
     }
 
     public int getAlpha() {
-        return circlePaint.getAlpha();
+        return backgroundPaint.getAlpha();
     }
 
     public void setAlpha( @FloatRange( from = 0.0, to = 1.0 ) float alpha ) {
-        float circleAlpha = circlePaint.getAlpha() / 255f;
-        circlePaint.setAlpha( (int) ( 255 * alpha * circleAlpha ) );
+        float circleAlpha = backgroundPaint.getAlpha() / 255f;
+        backgroundPaint.setAlpha( (int) ( 255 * alpha * circleAlpha ) );
         float shapeAlpha = shapePaint.getAlpha() / 255f;
         shapePaint.setAlpha( (int) ( 255 * alpha * shapeAlpha ) );
     }
 
     boolean isShapeTransparent() {
         return shapePaint.getAlpha() == 0;
+    }
+
+    public void setBackgroundShape( int shape ) {
+        if ( shape != StopBadge.BACKGROUND_ROUND
+            && shape != StopBadge.BACKGROUND_SQUARE ) {
+            throw new IllegalArgumentException( "Shape "
+                + shape + " is invalid!" );
+        }
+
+        this.backgroundShape = shape;
     }
 
     private void drawShadow( Canvas canvas, Path shape ) {
@@ -191,10 +208,10 @@ public class StopBadge {
                 shadowDy,
                 shadowColor );
             canvas.drawPath( shape, shadowPaint );
-            circlePaint.setXfermode( new PorterDuffXfermode(
+            backgroundPaint.setXfermode( new PorterDuffXfermode(
                 PorterDuff.Mode.SRC_IN ) );
         } else
-            circlePaint.setXfermode( null );
+            backgroundPaint.setXfermode( null );
     }
 
     private void stopNumberToPath( int stopNumber, Path path ) {
@@ -243,19 +260,27 @@ public class StopBadge {
         int height = bitmap.getHeight();
         Canvas canvas = new Canvas( bitmap );
 
-        circlePath.reset();
-        circlePath.addCircle(
-            width / 2f,
-            height / 2f,
-            size / 2f,
-            Path.Direction.CW );
+        backgroundPath.reset();
+        switch ( backgroundShape ) {
+            case BACKGROUND_ROUND:
+                backgroundPath.addCircle(
+                    width / 2f,
+                    height / 2f,
+                    size / 2f,
+                    Path.Direction.CW );
+            break;
+            case BACKGROUND_SQUARE:
+                backgroundPath.addRect( shadowSizeX(), shadowSizeY(), size
+                    + shadowSizeX(), size + shadowSizeY(), Path.Direction.CW );
+            break;
+        }
 
         adjustPath( shapePath, width, height, size );
 
-        circlePath.setFillType( Path.FillType.EVEN_ODD );
-        circlePath.addPath( adjustedShape );
-        drawShadow( canvas, circlePath );
-        canvas.drawPath( circlePath, circlePaint );
+        backgroundPath.setFillType( Path.FillType.EVEN_ODD );
+        backgroundPath.addPath( adjustedShape );
+        drawShadow( canvas, backgroundPath );
+        canvas.drawPath( backgroundPath, backgroundPaint );
 
         if ( !isShapeTransparent() ) {
             canvas.drawPath( adjustedShape, shapePaint );

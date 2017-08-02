@@ -39,6 +39,20 @@
         </attr>
 
         <attr
+                name="stopBadge_backgroundShape"
+                format="enum">
+
+            <enum
+                    name="round"
+                    value="0" />
+
+            <enum
+                    name="square"
+                    value="1" />
+
+        </attr>
+
+        <attr
             name="stopBadge_shapeColor"
             format="color" />
 
