@@ -46,6 +46,8 @@ public class StopBadge {
         SHAPE_ARROW_DOWN = arrowDown;
     }
 
+    private String pathContents = "empty";
+
     private float alpha = 1;
 
     private Path backgroundPath = new Path();
@@ -100,10 +102,12 @@ public class StopBadge {
     }
 
     public void setShapeArrowUp() {
+        this.pathContents = "arrow_up";
         setShape( SHAPE_ARROW_UP );
     }
 
     public void setShapeArrowDown() {
+        this.pathContents = "arrow_down";
         setShape( SHAPE_ARROW_DOWN );
     }
 
@@ -111,6 +115,8 @@ public class StopBadge {
      * Converts the number's text-representation to an unadjusted Path
      */
     public void setStopNumber( int stopNumber ) {
+        this.pathContents = "num(" + stopNumber + ")";
+
         if ( stopNumber < 0 ) {
             throw new IllegalArgumentException( "stopNumber must be >= 0" );
         }
@@ -253,7 +259,20 @@ public class StopBadge {
         return (int) ( shadowRadius + Math.abs( shadowDy ) );
     }
 
-    public Bitmap export( int size ) {
+    public String toKey( int size ) {
+        StringBuilder builder = new StringBuilder();
+        builder.append( pathContents );
+        builder.append( shadowRadius );
+        builder.append( shadowColor );
+        builder.append( shadowDx );
+        builder.append( shadowDy );
+        builder.append( circlePaint.getAlpha() );
+        builder.append( circlePaint.getColor() );
+        builder.append( shapePaint.getColor() );
+        return Integer.toString( builder.toString().hashCode() ) + "_" + size;
+    }
+
+    protected Bitmap export( int size ) {
         Bitmap bitmap = Bitmap.createBitmap( size + shadowSizeX() * 2, size
             + shadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
         int width = bitmap.getWidth();

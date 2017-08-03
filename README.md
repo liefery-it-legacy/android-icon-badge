@@ -33,6 +33,22 @@ dependencies {
 
 ## Usage
 
+Creating a Bitmap from the `StopBadgeFactory` class
+```
+//Initialize a StopBadge class, set any attributes you need.
+StopBadge stopBadge = new StopBadge();
+stopBadge.setShape(anyShape);
+...
+ 
+/*
+ * Retrieve the Bitmap from cache if it exists, else create it and save it to cache.
+ * Different Sizes of the same StopBadge are cached independently.
+ */
+
+Bitmap myBitmap = StopBadgeFactory.getBitmap(stopBadge, size);
+```
+
+Using the custom layout in XML:
 ```xml
 <com.liefery.android.stop_badge.StopBadgeView
     android:layout_width="50dp"

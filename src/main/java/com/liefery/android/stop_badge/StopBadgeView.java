@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 public class StopBadgeView extends ImageView {
-    private final StopBadge stopBadge = new StopBadge();
+    private StopBadge stopBadge = new StopBadge();
 
     private Bitmap cache;
 
@@ -191,7 +191,7 @@ public class StopBadgeView extends ImageView {
             int width = right - left;
             int height = bottom - top;
             int size = Math.min( width, height );
-            cache = stopBadge.export( size );
+            cache = StopBadgeFactory.getBitmap( getContext(), stopBadge, size );
             setImageBitmap( cache );
         }
     }
