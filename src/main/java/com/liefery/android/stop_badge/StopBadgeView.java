@@ -81,6 +81,11 @@ public class StopBadgeView extends ImageView {
         else if ( shape == 1 )
             setShapeArrowDown();
 
+        int backgroundShape = styles.getInt(
+            R.styleable.StopBadgeView_stopBadge_backgroundShape,
+            StopBadge.BACKGROUND_ROUND );
+        setBackgroundShape( backgroundShape );
+
         int shapeColor = styles.getColor(
             R.styleable.StopBadgeView_stopBadge_shapeColor,
             Integer.MIN_VALUE );
@@ -165,6 +170,11 @@ public class StopBadgeView extends ImageView {
 
     public void setShadowRadius( float radius ) {
         stopBadge.setShadowRadius( radius );
+        invalidateAndReset();
+    }
+
+    public void setBackgroundShape( int backgroundShape ) {
+        stopBadge.setBackgroundShape( backgroundShape );
         invalidateAndReset();
     }
 
