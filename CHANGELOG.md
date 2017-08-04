@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.8
+
+ * `StopBadgeView` no longer extends from `ImageView`
+ * Removed ability to render path on Badge directly
+ * Badges can now be square
+ * Badge can be exported with alpha
+
 ## 1.0.7
  
  * Fix Bitmap already recycled exception when changing `StopBadgeView` parameters after initial rendering 
