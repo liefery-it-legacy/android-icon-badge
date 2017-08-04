@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Path;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -116,11 +115,11 @@ public class StopBadgeView extends ImageView {
         if ( shadowRadius != -1 )
             setShadowRadius( shadowRadius );
 
-        int stopNumber = styles.getInt(
+        int number = styles.getInt(
             R.styleable.StopBadgeView_stopBadge_stopNumber,
             -1 );
-        if ( stopNumber != -1 )
-            setStopNumber( stopNumber );
+        if ( number != -1 )
+            setNumber( number );
     }
 
     public void setCircleColor( @ColorInt int color ) {
@@ -130,11 +129,6 @@ public class StopBadgeView extends ImageView {
 
     public void setShapeColor( @ColorInt int color ) {
         stopBadge.setShapeColor( color );
-        invalidateAndReset();
-    }
-
-    public void setShape( Path path ) {
-        stopBadge.setShape( path );
         invalidateAndReset();
     }
 
@@ -148,8 +142,8 @@ public class StopBadgeView extends ImageView {
         invalidateAndReset();
     }
 
-    public void setStopNumber( int stopNumber ) {
-        stopBadge.setStopNumber( stopNumber );
+    public void setNumber( int number ) {
+        stopBadge.setNumber( number );
         invalidateAndReset();
     }
 

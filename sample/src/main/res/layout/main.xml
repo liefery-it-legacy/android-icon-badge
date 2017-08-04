@@ -28,7 +28,7 @@
                 android:layout_height="50dp"
                 app:stopBadge_circleColor="#f05545"
                 app:stopBadge_shapeColor="#7f0000"
-                app:stopBadge_stopNumber="130" />
+                app:stopBadge_stopNumber="1" />
 
             <TextView
                 android:layout_width="0dp"
@@ -55,7 +55,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:stopBadge_circleColor="#bc477b"
-                app:stopBadge_shape="arrowUp"
+                app:stopBadge_shape="arrowDown"
                 app:stopBadge_shapeColor="#560027"
                 app:stopBadge_backgroundShape="square"/>
 
@@ -85,7 +85,7 @@
                 android:layout_height="50dp"
                 app:stopBadge_circleColor="#ffb04c"
                 app:stopBadge_shapeColor="#bc5100"
-                app:stopBadge_stopNumber="420"
+                app:stopBadge_stopNumber="4"
                 app:stopBadge_backgroundShape="square"/>
 
             <TextView
@@ -200,7 +200,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:stopBadge_circleColor="#4f83cc"
-                app:stopBadge_shape="arrowDown"
+                app:stopBadge_shape="arrowUp"
                 app:stopBadge_backgroundShape="square"/>
 
             <TextView
