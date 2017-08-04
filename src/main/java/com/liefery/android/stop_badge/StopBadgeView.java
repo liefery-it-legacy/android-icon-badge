@@ -4,16 +4,17 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.view.View;
 
-public class StopBadgeView extends ImageView {
+public class StopBadgeView extends View {
     private final StopBadge stopBadge = new StopBadge();
 
-    private Bitmap cache;
+    private int width, height, size;
 
     public StopBadgeView( Context context ) {
         super( context );
@@ -64,8 +65,6 @@ public class StopBadgeView extends ImageView {
     }
 
     private void initialize( @NonNull TypedArray styles ) {
-        setScaleType( ScaleType.CENTER );
-
         int circleColor = styles.getColor(
             R.styleable.StopBadgeView_stopBadge_circleColor,
             Integer.MIN_VALUE );
@@ -124,52 +123,52 @@ public class StopBadgeView extends ImageView {
 
     public void setCircleColor( @ColorInt int color ) {
         stopBadge.setCircleColor( color );
-        invalidateAndReset();
+        invalidate();
     }
 
     public void setShapeColor( @ColorInt int color ) {
         stopBadge.setShapeColor( color );
-        invalidateAndReset();
+        invalidate();
     }
 
     public void setShapeArrowUp() {
         stopBadge.setShapeArrowUp();
-        invalidateAndReset();
+        invalidate();
     }
 
     public void setShapeArrowDown() {
         stopBadge.setShapeArrowDown();
-        invalidateAndReset();
+        invalidate();
     }
 
     public void setNumber( int number ) {
         stopBadge.setNumber( number );
-        invalidateAndReset();
+        invalidate();
     }
 
     public void setShadowColor( @ColorInt int color ) {
         stopBadge.setShadowColor( color );
-        invalidateAndReset();
+        invalidate();
     }
 
     public void setShadowDx( float dx ) {
         stopBadge.setShadowDx( dx );
-        invalidateAndReset();
+        invalidate();
     }
 
     public void setShadowDy( float dy ) {
         stopBadge.setShadowDy( dy );
-        invalidateAndReset();
+        invalidate();
     }
 
     public void setShadowRadius( float radius ) {
         stopBadge.setShadowRadius( radius );
-        invalidateAndReset();
+        invalidate();
     }
 
     public void setBackgroundShape( int backgroundShape ) {
         stopBadge.setBackgroundShape( backgroundShape );
-        invalidateAndReset();
+        invalidate();
     }
 
     @Override
@@ -181,21 +180,28 @@ public class StopBadgeView extends ImageView {
         int bottom ) {
         super.onLayout( changed, left, top, right, bottom );
 
-        if ( cache == null ) {
-            int width = right - left;
-            int height = bottom - top;
-            int size = Math.min( width, height );
-            cache = stopBadge.export( size );
-            setImageBitmap( cache );
-        }
+        width = right - left;
+        height = bottom - top;
+        size = Math.min( width, height );
     }
 
-    private void invalidateAndReset() {
-        if ( cache != null ) {
-            cache.recycle();
-            cache = null;
-            setImageDrawable( null );
+    @Override
+    protected void onDraw( Canvas canvas ) {
+        /*
+         * Hardware rendering causes transparent paint to be completely black,
+         * that is why we are exporting the badge with a shadow and draw it as a
+         * Bitmap.
+         * For badges without a shadow we reduce processing time by rendering
+         * directly to the canvas.
+         * */
+        if ( stopBadge.hasShadow() ) {
+            Bitmap export = stopBadge.export( size );
+            canvas.drawBitmap(
+                export,
+                -stopBadge.shadowSizeX(),
+                -stopBadge.shadowSizeY(),
+                null );
         } else
-            invalidate();
+            stopBadge.draw( canvas, width, height, size );
     }
 }

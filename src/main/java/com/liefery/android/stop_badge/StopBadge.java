@@ -1,12 +1,14 @@
 package com.liefery.android.stop_badge;
 
+import android.content.res.Resources;
 import android.graphics.*;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
-import com.liefery.android.stop_badge.drawing.ArrowDownTarget;
-import com.liefery.android.stop_badge.drawing.ArrowUpTarget;
-import com.liefery.android.stop_badge.drawing.DrawTarget;
-import com.liefery.android.stop_badge.drawing.NumberTarget;
+import android.util.DisplayMetrics;
+import com.liefery.android.stop_badge.drawer.ArrowDownShapeDrawer;
+import com.liefery.android.stop_badge.drawer.ArrowUpShapeDrawer;
+import com.liefery.android.stop_badge.drawer.ForegroundShapeDrawer;
+import com.liefery.android.stop_badge.drawer.NumberShapeDrawer;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -22,7 +24,7 @@ public class StopBadge {
 
     private int backgroundShape = 0;
 
-    private DrawTarget foreground = new NumberTarget( 15 );
+    private ForegroundShapeDrawer foregroundShapeDrawer;
 
     private final Paint backgroundPaint = new Paint( ANTI_ALIAS_FLAG );
 
@@ -38,24 +40,24 @@ public class StopBadge {
 
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
-    private final Paint textPaint = new Paint( ANTI_ALIAS_FLAG );
-
     public StopBadge() {
-        textPaint.setTypeface( Typeface
-                        .create( Typeface.DEFAULT, Typeface.BOLD ) );
         setShapeColor( Color.WHITE );
     }
 
     public void setShapeArrowUp() {
-        foreground = new ArrowUpTarget();
+        foregroundShapeDrawer = new ArrowUpShapeDrawer();
     }
 
     public void setShapeArrowDown() {
-        foreground = new ArrowDownTarget();
+        foregroundShapeDrawer = new ArrowDownShapeDrawer();
     }
 
     public void setNumber( int number ) {
-        foreground = new NumberTarget( number );
+        foregroundShapeDrawer = new NumberShapeDrawer( number );
+    }
+
+    public void setForegroundDrawer( ForegroundShapeDrawer drawer ) {
+        foregroundShapeDrawer = drawer;
     }
 
     public int getCircleColor() {
@@ -106,19 +108,12 @@ public class StopBadge {
         this.shadowRadius = radius;
     }
 
-    public int getAlpha() {
-        return backgroundPaint.getAlpha();
+    public float getAlpha() {
+        return alpha;
     }
 
     public void setAlpha( @FloatRange( from = 0.0, to = 1.0 ) float alpha ) {
-        float circleAlpha = backgroundPaint.getAlpha() / 255f;
-        backgroundPaint.setAlpha( (int) ( 255 * alpha * circleAlpha ) );
-        float shapeAlpha = shapePaint.getAlpha() / 255f;
-        shapePaint.setAlpha( (int) ( 255 * alpha * shapeAlpha ) );
-    }
-
-    boolean isShapeTransparent() {
-        return shapePaint.getAlpha() == 0;
+        this.alpha = alpha;
     }
 
     public void setBackgroundShape( int shape ) {
@@ -146,45 +141,87 @@ public class StopBadge {
     }
 
     int shadowSizeX() {
-        return (int) ( shadowRadius + Math.abs( shadowDx ) );
+        return (int) ( shadowRadius + Math.abs( shadowDx ) * 1.5f );
     }
 
     int shadowSizeY() {
-        return (int) ( shadowRadius + Math.abs( shadowDy ) );
+        return (int) ( shadowRadius + Math.abs( shadowDy ) * 1.5f );
     }
-    
-    public void drawOnCanvas(Canvas canvas, float width, float height, int size) {
+
+    public boolean hasShadow() {
+        return shadowSizeX() > 0 || shadowSizeY() > 0;
+    }
+
+    public void draw( Canvas canvas, float width, float height, int size ) {
         backgroundPath.reset();
         switch ( backgroundShape ) {
             case BACKGROUND_ROUND:
                 backgroundPath.addCircle(
-                        width / 2f,
-                        height / 2f,
-                        size / 2f,
-                        Path.Direction.CW );
-                break;
+                    width / 2f,
+                    height / 2f,
+                    size / 2f,
+                    Path.Direction.CW );
+            break;
             case BACKGROUND_SQUARE:
                 backgroundPath.addRect( shadowSizeX(), shadowSizeY(), size
-                        + shadowSizeX(), size + shadowSizeY(), Path.Direction.CW );
-                break;
+                    + shadowSizeX(), size + shadowSizeY(), Path.Direction.CW );
+            break;
         }
-    
+
         drawShadow( canvas, backgroundPath );
         canvas.drawPath( backgroundPath, backgroundPaint );
-    
-        foreground.draw( canvas, shapePaint, size );
+
+        if ( foregroundShapeDrawer != null ) {
+            foregroundShapeDrawer.draw(
+                canvas,
+                shapePaint,
+                size,
+                shadowSizeX(),
+                shadowSizeY() );
+        }
     }
 
     public Bitmap export( int size ) {
+        Bitmap renderedBitmap = renderBitmap( size );
+
+        if ( alpha < 1 ) {
+            Bitmap alphaBitmap = makeBitmapTransparent( renderedBitmap, alpha );
+            renderedBitmap.recycle();
+            return alphaBitmap;
+        }
+        return renderedBitmap;
+    }
+
+    private Bitmap renderBitmap( int size ) {
         Bitmap bitmap = Bitmap.createBitmap( size + shadowSizeX() * 2, size
             + shadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Canvas canvas = new Canvas( bitmap );
 
-        drawOnCanvas(canvas, width, height, size);
-        
+        draw( canvas, width, height, size );
+
         return bitmap;
+    }
+
+    private Bitmap makeBitmapTransparent( Bitmap originalBitmap, float alpha ) {
+        Bitmap bitmap = Bitmap.createBitmap(
+            originalBitmap.getWidth(),
+            originalBitmap.getHeight(),
+            Bitmap.Config.ARGB_8888 );
+        Canvas canvas = new Canvas( bitmap );
+
+        Paint alphaPaint = new Paint();
+        alphaPaint.setAlpha( (int) ( alpha * 255 ) );
+        canvas.drawBitmap( originalBitmap, 0, 0, alphaPaint );
+
+        return bitmap;
+    }
+
+    public static float dpToPx( float dp ) {
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * ( metrics.densityDpi / 160f );
+        return Math.round( px );
     }
 
 }
