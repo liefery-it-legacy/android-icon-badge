@@ -43,7 +43,7 @@
                 format="enum">
 
             <enum
-                    name="round"
+                    name="circle"
                     value="0" />
 
             <enum

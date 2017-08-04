@@ -1,8 +1,14 @@
 package com.liefery.android.stop_badge;
 
+import android.content.res.Resources;
 import android.graphics.*;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.util.DisplayMetrics;
+import com.liefery.android.stop_badge.drawer.ArrowDownShapeDrawer;
+import com.liefery.android.stop_badge.drawer.ArrowUpShapeDrawer;
+import com.liefery.android.stop_badge.drawer.ForegroundShapeDrawer;
+import com.liefery.android.stop_badge.drawer.NumberShapeDrawer;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -12,53 +18,17 @@ public class StopBadge {
 
     static final int BACKGROUND_SQUARE = 1;
 
-    static final Path SHAPE_ARROW_UP;
-
-    static final Path SHAPE_ARROW_DOWN;
-
-    static {
-        Path arrowUp = new Path();
-        arrowUp.moveTo( .5f, 0 );
-        arrowUp.lineTo( .1f, .4f );
-        arrowUp.lineTo( .1f, .65f );
-        arrowUp.lineTo( .4f, .35f );
-        arrowUp.lineTo( .4f, 1f );
-        arrowUp.lineTo( .6f, 1f );
-        arrowUp.lineTo( .6f, .35f );
-        arrowUp.lineTo( .9f, .65f );
-        arrowUp.lineTo( .9f, .4f );
-        arrowUp.lineTo( .5f, 0 );
-        arrowUp.close();
-        SHAPE_ARROW_UP = arrowUp;
-
-        Path arrowDown = new Path();
-        arrowDown.moveTo( .4f, 0 );
-        arrowDown.lineTo( .4f, .65f );
-        arrowDown.lineTo( .1f, .35f );
-        arrowDown.lineTo( .1f, .6f );
-        arrowDown.lineTo( .5f, 1 );
-        arrowDown.lineTo( .9f, .6f );
-        arrowDown.lineTo( .9f, .35f );
-        arrowDown.lineTo( .6f, .65f );
-        arrowDown.lineTo( .6f, 0 );
-        arrowDown.lineTo( .4f, 0 );
-        arrowDown.close();
-        SHAPE_ARROW_DOWN = arrowDown;
-    }
-
     private float alpha = 1;
 
     private Path backgroundPath = new Path();
 
     private int backgroundShape = 0;
 
+    private ForegroundShapeDrawer foregroundShapeDrawer;
+
     private final Paint backgroundPaint = new Paint( ANTI_ALIAS_FLAG );
 
-    private Path shapePath = new Path();
-
     private Paint shapePaint = new Paint( ANTI_ALIAS_FLAG );
-
-    private final Path adjustedShape = new Path();
 
     private int shadowColor = Color.argb( 125, 0, 0, 0 );
 
@@ -70,61 +40,24 @@ public class StopBadge {
 
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
-    private final Paint textPaint = new Paint( ANTI_ALIAS_FLAG );
-
-    private float scale = 1;
-
-    /**
-     * Cache object to be reused
-     */
-    private RectF bounds = new RectF();
-
-    /**
-     * Cache object to be reused
-     */
-    private Matrix matrix = new Matrix();
-
     public StopBadge() {
-        textPaint.setTypeface( Typeface
-                        .create( Typeface.DEFAULT, Typeface.BOLD ) );
-        setShapeColor( Color.TRANSPARENT );
-    }
-
-    public Path getShape() {
-        return shapePath;
-    }
-
-    public void setShape( Path shape ) {
-        this.scale = .55f;
-        this.shapePath = shape;
+        setShapeColor( Color.WHITE );
     }
 
     public void setShapeArrowUp() {
-        setShape( SHAPE_ARROW_UP );
+        foregroundShapeDrawer = new ArrowUpShapeDrawer();
     }
 
     public void setShapeArrowDown() {
-        setShape( SHAPE_ARROW_DOWN );
+        foregroundShapeDrawer = new ArrowDownShapeDrawer();
     }
 
-    /**
-     * Converts the number's text-representation to an unadjusted Path
-     */
-    public void setStopNumber( int stopNumber ) {
-        if ( stopNumber < 0 ) {
-            throw new IllegalArgumentException( "stopNumber must be >= 0" );
-        }
+    public void setNumber( int number ) {
+        foregroundShapeDrawer = new NumberShapeDrawer( number );
+    }
 
-        if ( stopNumber < 10 )
-            this.scale = .5f;
-        else if ( stopNumber < 100 )
-            this.scale = .6f;
-        else
-            this.scale = .7f;
-
-        Path path = new Path();
-        stopNumberToPath( stopNumber, path );
-        this.shapePath = path;
+    public void setForegroundDrawer( ForegroundShapeDrawer drawer ) {
+        foregroundShapeDrawer = drawer;
     }
 
     public int getCircleColor() {
@@ -174,20 +107,23 @@ public class StopBadge {
     public void setShadowRadius( float radius ) {
         this.shadowRadius = radius;
     }
-
-    public int getAlpha() {
-        return backgroundPaint.getAlpha();
+  
+    public float getAlpha() {
+        return alpha;
     }
 
     public void setAlpha( @FloatRange( from = 0.0, to = 1.0 ) float alpha ) {
-        float circleAlpha = backgroundPaint.getAlpha() / 255f;
-        backgroundPaint.setAlpha( (int) ( 255 * alpha * circleAlpha ) );
-        float shapeAlpha = shapePaint.getAlpha() / 255f;
-        shapePaint.setAlpha( (int) ( 255 * alpha * shapeAlpha ) );
+        this.alpha = alpha;
     }
 
-    boolean isShapeTransparent() {
-        return shapePaint.getAlpha() == 0;
+    public void setBackgroundShape( int shape ) {
+        if ( shape != StopBadge.BACKGROUND_ROUND
+            && shape != StopBadge.BACKGROUND_SQUARE ) {
+            throw new IllegalArgumentException( "Shape "
+                + shape + " is invalid!" );
+        }
+
+        this.backgroundShape = shape;
     }
 
     public void setBackgroundShape( int shape ) {
@@ -214,52 +150,19 @@ public class StopBadge {
             backgroundPaint.setXfermode( null );
     }
 
-    private void stopNumberToPath( int stopNumber, Path path ) {
-        String value = String.valueOf( stopNumber );
-        textPaint.setTextSize( 10 );
-        textPaint.getTextPath( value, 0, value.length(), 0, 0, path );
-    }
-
-    private void adjustPath(
-        Path shape,
-        float outerWidth,
-        float outerHeight,
-        float circleSize ) {
-        adjustedShape.reset();
-        adjustedShape.addPath( shape );
-
-        adjustedShape.computeBounds( bounds, true );
-        float currentSize = Math.max( bounds.width(), bounds.height() );
-        float scale = circleSize / currentSize * this.scale;
-        matrix.reset();
-        matrix.setScale( scale, scale );
-        adjustedShape.transform( matrix );
-
-        adjustedShape.computeBounds( bounds, true );
-        float centerX = outerWidth / 2;
-        float centerY = outerHeight / 2;
-        matrix.reset();
-        matrix.setTranslate(
-            centerX - ( bounds.right + bounds.left ) / 2,
-            centerY - ( bounds.bottom + bounds.top ) / 2 );
-        adjustedShape.transform( matrix );
-    }
-
     int shadowSizeX() {
-        return (int) ( shadowRadius + Math.abs( shadowDx ) );
+        return (int) ( shadowRadius + Math.abs( shadowDx ) * 1.5f );
     }
 
     int shadowSizeY() {
-        return (int) ( shadowRadius + Math.abs( shadowDy ) );
+        return (int) ( shadowRadius + Math.abs( shadowDy ) * 1.5f );
     }
 
-    public Bitmap export( int size ) {
-        Bitmap bitmap = Bitmap.createBitmap( size + shadowSizeX() * 2, size
-            + shadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        Canvas canvas = new Canvas( bitmap );
+    public boolean hasShadow() {
+        return shadowSizeX() > 0 || shadowSizeY() > 0;
+    }
 
+    public void draw( Canvas canvas, float width, float height, int size ) {
         backgroundPath.reset();
         switch ( backgroundShape ) {
             case BACKGROUND_ROUND:
@@ -275,17 +178,60 @@ public class StopBadge {
             break;
         }
 
-        adjustPath( shapePath, width, height, size );
-
-        backgroundPath.setFillType( Path.FillType.EVEN_ODD );
-        backgroundPath.addPath( adjustedShape );
         drawShadow( canvas, backgroundPath );
         canvas.drawPath( backgroundPath, backgroundPaint );
 
-        if ( !isShapeTransparent() ) {
-            canvas.drawPath( adjustedShape, shapePaint );
+        if ( foregroundShapeDrawer != null ) {
+            foregroundShapeDrawer.draw(
+                canvas,
+                shapePaint,
+                size,
+                shadowSizeX(),
+                shadowSizeY() );
         }
+    }
+
+    public Bitmap export( int size ) {
+        Bitmap renderedBitmap = renderBitmap( size );
+
+        if ( alpha < 1 ) {
+            Bitmap alphaBitmap = makeBitmapTransparent( renderedBitmap, alpha );
+            renderedBitmap.recycle();
+            return alphaBitmap;
+        }
+        return renderedBitmap;
+    }
+
+    private Bitmap renderBitmap( int size ) {
+        Bitmap bitmap = Bitmap.createBitmap( size + shadowSizeX() * 2, size
+            + shadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Canvas canvas = new Canvas( bitmap );
+      
+        draw( canvas, width, height, size );
 
         return bitmap;
     }
+
+    private Bitmap makeBitmapTransparent( Bitmap originalBitmap, float alpha ) {
+        Bitmap bitmap = Bitmap.createBitmap(
+            originalBitmap.getWidth(),
+            originalBitmap.getHeight(),
+            Bitmap.Config.ARGB_8888 );
+        Canvas canvas = new Canvas( bitmap );
+
+        Paint alphaPaint = new Paint();
+        alphaPaint.setAlpha( (int) ( alpha * 255 ) );
+        canvas.drawBitmap( originalBitmap, 0, 0, alphaPaint );
+
+        return bitmap;
+    }
+
+    public static float dpToPx( float dp ) {
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * ( metrics.densityDpi / 160f );
+        return Math.round( px );
+    }
+
 }
