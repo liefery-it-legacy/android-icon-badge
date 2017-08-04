@@ -107,13 +107,23 @@ public class StopBadge {
     public void setShadowRadius( float radius ) {
         this.shadowRadius = radius;
     }
-
+  
     public float getAlpha() {
         return alpha;
     }
 
     public void setAlpha( @FloatRange( from = 0.0, to = 1.0 ) float alpha ) {
         this.alpha = alpha;
+    }
+
+    public void setBackgroundShape( int shape ) {
+        if ( shape != StopBadge.BACKGROUND_ROUND
+            && shape != StopBadge.BACKGROUND_SQUARE ) {
+            throw new IllegalArgumentException( "Shape "
+                + shape + " is invalid!" );
+        }
+
+        this.backgroundShape = shape;
     }
 
     public void setBackgroundShape( int shape ) {
@@ -198,7 +208,7 @@ public class StopBadge {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Canvas canvas = new Canvas( bitmap );
-
+      
         draw( canvas, width, height, size );
 
         return bitmap;

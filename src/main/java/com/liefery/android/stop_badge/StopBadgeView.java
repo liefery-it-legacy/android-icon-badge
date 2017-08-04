@@ -171,6 +171,11 @@ public class StopBadgeView extends View {
         invalidate();
     }
 
+    public void setBackgroundShape( int backgroundShape ) {
+        stopBadge.setBackgroundShape( backgroundShape );
+        invalidateAndReset();
+    }
+
     @Override
     protected void onLayout(
         boolean changed,
