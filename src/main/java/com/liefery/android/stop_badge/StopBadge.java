@@ -18,6 +18,8 @@ public class StopBadge {
 
     static final int BACKGROUND_SHAPE_SQUARE = 1;
 
+    static final int BACKGROUND_SHAPE_PIN = 2;
+
     private float alpha = 1;
 
     private Path backgroundPath = new Path();
@@ -119,12 +121,13 @@ public class StopBadge {
 
     public void setBackgroundShape( int shape ) {
         if ( shape != StopBadge.BACKGROUND_SHAPE_ROUND
-            && shape != StopBadge.BACKGROUND_SHAPE_SQUARE ) {
+            && shape != StopBadge.BACKGROUND_SHAPE_SQUARE
+            && shape != StopBadge.BACKGROUND_SHAPE_PIN ) {
             throw new IllegalArgumentException( "Shape "
                 + shape + " is invalid!" );
         }
 
-        this.backgroundShape = shape;
+        this.backgroundShape = /*shape*/2;
     }
 
     private void drawShadow( Canvas canvas, Path shape ) {
@@ -168,6 +171,14 @@ public class StopBadge {
                     size + getShadowSizeY(),
                     Path.Direction.CW );
             break;
+            case BACKGROUND_SHAPE_PIN:
+                backgroundPath.addCircle(
+                    width / 2f,
+                    height / 2f,
+                    size / 2f,
+                    Path.Direction.CW );
+                backgroundPath.addPath( drawTriangle( width ) );
+            break;
         }
 
         drawShadow( canvas, backgroundPath );
@@ -181,6 +192,20 @@ public class StopBadge {
                 getShadowSizeX(),
                 getShadowSizeY() );
         }
+    }
+
+    public Path drawTriangle( float width ) {
+        Path path = new Path();
+        path.moveTo(
+            ( width - getShadowSizeY() ) * 0.14f + getShadowSizeX(),
+            ( width - getShadowSizeY() ) * 0.85f ); //Top Left
+        path.lineTo(
+            ( width - getShadowSizeY() ) * 0.86f,
+            ( width - getShadowSizeY() ) * 0.85f ); //Top Right
+        path.lineTo( width / 2, ( width - getShadowSizeY() ) * 1.09f ); // Bottom Middle
+        path.close();
+
+        return path;
     }
 
     public Bitmap export( int size ) {
