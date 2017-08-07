@@ -69,7 +69,7 @@ public class StopBadgeView extends View {
             R.styleable.StopBadgeView_stopBadge_circleColor,
             Integer.MIN_VALUE );
         if ( circleColor != Integer.MIN_VALUE )
-            setCircleColor( circleColor );
+            setBackgroundShapeColor( circleColor );
 
         int shape = styles.getInt(
             R.styleable.StopBadgeView_stopBadge_shape,
@@ -81,7 +81,7 @@ public class StopBadgeView extends View {
 
         int backgroundShape = styles.getInt(
             R.styleable.StopBadgeView_stopBadge_backgroundShape,
-            StopBadge.BACKGROUND_ROUND );
+            StopBadge.BACKGROUND_SHAPE_ROUND );
         setBackgroundShape( backgroundShape );
 
         int shapeColor = styles.getColor(
@@ -121,13 +121,13 @@ public class StopBadgeView extends View {
             setNumber( number );
     }
 
-    public void setCircleColor( @ColorInt int color ) {
-        stopBadge.setCircleColor( color );
+    public void setBackgroundShapeColor( @ColorInt int color ) {
+        stopBadge.setBackgroundShapeColor( color );
         invalidate();
     }
 
     public void setShapeColor( @ColorInt int color ) {
-        stopBadge.setShapeColor( color );
+        stopBadge.setForegroundShapeColor( color );
         invalidate();
     }
 
@@ -171,11 +171,6 @@ public class StopBadgeView extends View {
         invalidate();
     }
 
-    public void setBackgroundShape( int backgroundShape ) {
-        stopBadge.setBackgroundShape( backgroundShape );
-        invalidateAndReset();
-    }
-
     @Override
     protected void onLayout(
         boolean changed,
@@ -203,8 +198,8 @@ public class StopBadgeView extends View {
             Bitmap export = stopBadge.export( size );
             canvas.drawBitmap(
                 export,
-                -stopBadge.shadowSizeX(),
-                -stopBadge.shadowSizeY(),
+                -stopBadge.getShadowSizeX(),
+                -stopBadge.getShadowSizeY(),
                 null );
         } else
             stopBadge.draw( canvas, width, height, size );

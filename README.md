@@ -13,7 +13,7 @@
 ```scala
 resolvers += "jitpack" at "https://jitpack.io"
 
-libraryDependencies += "com.github.liefery" % "android-stop-badge" % "1.0.8"
+libraryDependencies += "com.github.liefery" % "android-stop-badge" % "1.0.9"
 ```
 
 ### Gradle
@@ -27,7 +27,7 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.github.liefery:android-stop-badge:1.0.8'
+    compile 'com.github.liefery:android-stop-badge:1.0.9'
 }
 ```
 

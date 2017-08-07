@@ -14,9 +14,9 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class StopBadge {
 
-    static final int BACKGROUND_ROUND = 0;
+    static final int BACKGROUND_SHAPE_ROUND = 0;
 
-    static final int BACKGROUND_SQUARE = 1;
+    static final int BACKGROUND_SHAPE_SQUARE = 1;
 
     private float alpha = 1;
 
@@ -26,9 +26,9 @@ public class StopBadge {
 
     private ForegroundShapeDrawer foregroundShapeDrawer;
 
-    private final Paint backgroundPaint = new Paint( ANTI_ALIAS_FLAG );
+    private final Paint backgroundShapePaint = new Paint( ANTI_ALIAS_FLAG );
 
-    private Paint shapePaint = new Paint( ANTI_ALIAS_FLAG );
+    private Paint foregroundShapePaint = new Paint( ANTI_ALIAS_FLAG );
 
     private int shadowColor = Color.argb( 125, 0, 0, 0 );
 
@@ -41,7 +41,8 @@ public class StopBadge {
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
     public StopBadge() {
-        setShapeColor( Color.WHITE );
+        setForegroundShapeColor( Color.WHITE );
+        setBackgroundShapeColor( Color.BLACK );
     }
 
     public void setShapeArrowUp() {
@@ -60,20 +61,20 @@ public class StopBadge {
         foregroundShapeDrawer = drawer;
     }
 
-    public int getCircleColor() {
-        return backgroundPaint.getColor();
+    public int getBackgroundShapeColor() {
+        return backgroundShapePaint.getColor();
     }
 
-    public void setCircleColor( @ColorInt int color ) {
-        backgroundPaint.setColor( color );
+    public void setBackgroundShapeColor( @ColorInt int color ) {
+        backgroundShapePaint.setColor( color );
     }
 
-    public int getShapeColor() {
-        return shapePaint.getColor();
+    public int getForgroundShapeColor() {
+        return foregroundShapePaint.getColor();
     }
 
-    public void setShapeColor( @ColorInt int color ) {
-        shapePaint.setColor( color );
+    public void setForegroundShapeColor( @ColorInt int color ) {
+        foregroundShapePaint.setColor( color );
     }
 
     public int getShadowColor() {
@@ -107,7 +108,7 @@ public class StopBadge {
     public void setShadowRadius( float radius ) {
         this.shadowRadius = radius;
     }
-  
+
     public float getAlpha() {
         return alpha;
     }
@@ -117,18 +118,8 @@ public class StopBadge {
     }
 
     public void setBackgroundShape( int shape ) {
-        if ( shape != StopBadge.BACKGROUND_ROUND
-            && shape != StopBadge.BACKGROUND_SQUARE ) {
-            throw new IllegalArgumentException( "Shape "
-                + shape + " is invalid!" );
-        }
-
-        this.backgroundShape = shape;
-    }
-
-    public void setBackgroundShape( int shape ) {
-        if ( shape != StopBadge.BACKGROUND_ROUND
-            && shape != StopBadge.BACKGROUND_SQUARE ) {
+        if ( shape != StopBadge.BACKGROUND_SHAPE_ROUND
+            && shape != StopBadge.BACKGROUND_SHAPE_SQUARE ) {
             throw new IllegalArgumentException( "Shape "
                 + shape + " is invalid!" );
         }
@@ -144,50 +135,51 @@ public class StopBadge {
                 shadowDy,
                 shadowColor );
             canvas.drawPath( shape, shadowPaint );
-            backgroundPaint.setXfermode( new PorterDuffXfermode(
-                PorterDuff.Mode.SRC_IN ) );
-        } else
-            backgroundPaint.setXfermode( null );
+        }
     }
 
-    int shadowSizeX() {
+    int getShadowSizeX() {
         return (int) ( shadowRadius + Math.abs( shadowDx ) * 1.5f );
     }
 
-    int shadowSizeY() {
+    int getShadowSizeY() {
         return (int) ( shadowRadius + Math.abs( shadowDy ) * 1.5f );
     }
 
     public boolean hasShadow() {
-        return shadowSizeX() > 0 || shadowSizeY() > 0;
+        return getShadowSizeX() > 0 || getShadowSizeY() > 0;
     }
 
     public void draw( Canvas canvas, float width, float height, int size ) {
         backgroundPath.reset();
         switch ( backgroundShape ) {
-            case BACKGROUND_ROUND:
+            case BACKGROUND_SHAPE_ROUND:
                 backgroundPath.addCircle(
                     width / 2f,
                     height / 2f,
                     size / 2f,
                     Path.Direction.CW );
             break;
-            case BACKGROUND_SQUARE:
-                backgroundPath.addRect( shadowSizeX(), shadowSizeY(), size
-                    + shadowSizeX(), size + shadowSizeY(), Path.Direction.CW );
+            case BACKGROUND_SHAPE_SQUARE:
+                backgroundPath.addRect(
+                    getShadowSizeX(),
+                    getShadowSizeY(),
+                    size + getShadowSizeX(),
+                    size + getShadowSizeY(),
+                    Path.Direction.CW );
             break;
         }
 
         drawShadow( canvas, backgroundPath );
-        canvas.drawPath( backgroundPath, backgroundPaint );
+        canvas.drawPath( backgroundPath, backgroundShapePaint );
 
         if ( foregroundShapeDrawer != null ) {
             foregroundShapeDrawer.draw(
                 canvas,
-                shapePaint,
+                foregroundShapePaint,
                 size,
-                shadowSizeX(),
-                shadowSizeY() );
+                getShadowSizeX(),
+                getShadowSizeY() );
         }
     }
 
@@ -203,12 +195,12 @@ public class StopBadge {
     }
 
     private Bitmap renderBitmap( int size ) {
-        Bitmap bitmap = Bitmap.createBitmap( size + shadowSizeX() * 2, size
-            + shadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
+        Bitmap bitmap = Bitmap.createBitmap( size + getShadowSizeX() * 2, size
+            + getShadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Canvas canvas = new Canvas( bitmap );
-      
+
         draw( canvas, width, height, size );
 
         return bitmap;

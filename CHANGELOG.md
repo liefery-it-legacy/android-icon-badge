@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.9
+ * Better Variable and Function Naming
+
 ## 1.0.8
 
  * `StopBadgeView` no longer extends from `ImageView`
