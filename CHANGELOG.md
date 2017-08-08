@@ -2,14 +2,20 @@
 
 ## 1.1.0
 
+_2017-08-08_
+
  *  Add pin background shape
  *  Make xml naming consistent
 
 ## 1.0.9
 
+_2017-08-07_
+
  * Better Variable and Function Naming
 
 ## 1.0.8
+
+_2017-08-04_
 
  * `StopBadgeView` no longer extends from `ImageView`
  * Removed ability to render path on Badge directly
@@ -17,6 +23,8 @@
  * Badge can be exported with alpha
 
 ## 1.0.7
+
+_2017-06-30_
  
  * Fix Bitmap already recycled exception when changing `StopBadgeView` parameters after initial rendering 
 
