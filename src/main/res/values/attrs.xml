@@ -5,7 +5,43 @@
     <declare-styleable name="StopBadgeView">
 
         <attr
-            name="stopBadge_circleColor"
+            name="stopBadge_backgroundShape"
+            format="enum">
+
+            <enum
+                name="circle"
+                value="0" />
+
+            <enum
+                name="square"
+                value="1" />
+
+            <enum
+                name="pin"
+                value="2" />
+
+        </attr>
+
+        <attr
+            name="stopBadge_backgroundShapeColor"
+            format="color" />
+
+        <attr
+            name="stopBadge_foregroundShape"
+            format="enum">
+
+            <enum
+                name="arrowUp"
+                value="0" />
+
+            <enum
+                name="arrowDown"
+                value="1" />
+
+        </attr>
+
+        <attr
+            name="stopBadge_foregroundShapeColor"
             format="color" />
 
         <attr
@@ -23,42 +59,6 @@
         <attr
             name="stopBadge_shadowRadius"
             format="dimension" />
-
-        <attr
-            name="stopBadge_shape"
-            format="enum">
-
-            <enum
-                name="arrowUp"
-                value="0" />
-
-            <enum
-                name="arrowDown"
-                value="1" />
-
-        </attr>
-
-        <attr
-                name="stopBadge_backgroundShape"
-                format="enum">
-
-            <enum
-                    name="circle"
-                    value="0" />
-
-            <enum
-                    name="square"
-                    value="1" />
-
-            <enum
-                    name="pin"
-                    value="2" />
-
-        </attr>
-
-        <attr
-            name="stopBadge_shapeColor"
-            format="color" />
 
         <attr
             name="stopBadge_stopNumber"

@@ -37,8 +37,8 @@ dependencies {
 <com.liefery.android.stop_badge.StopBadgeView
     android:layout_width="50dp"
     android:layout_height="50dp"
-    app:stopBadge_circleColor="#4c8c4a"
-    app:stopBadge_shapeColor="#003300"
+    app:stopBadge_backgroundShapeColor="#4c8c4a"
+    app:stopBadge_foregroundShapeColor="#003300"
     app:stopBadge_shadowColor="#000000"
     app:stopBadge_shadowDx="1dp"
     app:stopBadge_shadowDy="1dp"

@@ -65,18 +65,18 @@ public class StopBadgeView extends View {
     }
 
     private void initialize( @NonNull TypedArray styles ) {
-        int circleColor = styles.getColor(
-            R.styleable.StopBadgeView_stopBadge_circleColor,
+        int backgroundShapeColor = styles.getColor(
+            R.styleable.StopBadgeView_stopBadge_backgroundShapeColor,
             Integer.MIN_VALUE );
-        if ( circleColor != Integer.MIN_VALUE )
-            setBackgroundShapeColor( circleColor );
+        if ( backgroundShapeColor != Integer.MIN_VALUE )
+            setBackgroundShapeColor( backgroundShapeColor );
 
-        int shape = styles.getInt(
-            R.styleable.StopBadgeView_stopBadge_shape,
+        int foregroundShape = styles.getInt(
+            R.styleable.StopBadgeView_stopBadge_foregroundShape,
             -1 );
-        if ( shape == 0 )
+        if ( foregroundShape == 0 )
             setShapeArrowUp();
-        else if ( shape == 1 )
+        else if ( foregroundShape == 1 )
             setShapeArrowDown();
 
         int backgroundShape = styles.getInt(
@@ -85,10 +85,10 @@ public class StopBadgeView extends View {
         setBackgroundShape( backgroundShape );
 
         int shapeColor = styles.getColor(
-            R.styleable.StopBadgeView_stopBadge_shapeColor,
+            R.styleable.StopBadgeView_stopBadge_foregroundShapeColor,
             Integer.MIN_VALUE );
         if ( shapeColor != Integer.MIN_VALUE )
-            setShapeColor( shapeColor );
+            setForegroundShapeColor( shapeColor );
 
         int shadowColor = styles.getColor(
             R.styleable.StopBadgeView_stopBadge_shadowColor,
@@ -126,7 +126,7 @@ public class StopBadgeView extends View {
         invalidate();
     }
 
-    public void setShapeColor( @ColorInt int color ) {
+    public void setForegroundShapeColor( @ColorInt int color ) {
         stopBadge.setForegroundShapeColor( color );
         invalidate();
     }
@@ -187,13 +187,11 @@ public class StopBadgeView extends View {
 
     @Override
     protected void onDraw( Canvas canvas ) {
-        /*
-         * Hardware rendering causes transparent paint to be completely black,
-         * that is why we are exporting the badge with a shadow and draw it as a
-         * Bitmap.
-         * For badges without a shadow we reduce processing time by rendering
-         * directly to the canvas.
-         * */
+        // Hardware rendering causes transparent paint to be completely black,
+        // that is why we are exporting the badge with a shadow and draw it as a
+        // Bitmap.
+        // For badges without a shadow we reduce processing time by rendering
+        // directly to the canvas.
         if ( stopBadge.hasShadow() ) {
             Bitmap export = stopBadge.export( size );
             canvas.drawBitmap(
