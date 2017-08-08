@@ -127,7 +127,7 @@ public class StopBadge {
                 + shape + " is invalid!" );
         }
 
-        this.backgroundShape = /*shape*/2;
+        this.backgroundShape = shape;
     }
 
     private void drawShadow( Canvas canvas, Path shape ) {
@@ -153,31 +153,17 @@ public class StopBadge {
         return getShadowSizeX() > 0 || getShadowSizeY() > 0;
     }
 
-    public void draw( Canvas canvas, float width, float height, int size ) {
+    public void draw( Canvas canvas, float drawingAreaSize, int shapeSize ) {
         backgroundPath.reset();
         switch ( backgroundShape ) {
             case BACKGROUND_SHAPE_ROUND:
-                backgroundPath.addCircle(
-                    width / 2f,
-                    height / 2f,
-                    size / 2f,
-                    Path.Direction.CW );
+                addCirclePath( drawingAreaSize, shapeSize );
             break;
             case BACKGROUND_SHAPE_SQUARE:
-                backgroundPath.addRect(
-                    getShadowSizeX(),
-                    getShadowSizeY(),
-                    size + getShadowSizeX(),
-                    size + getShadowSizeY(),
-                    Path.Direction.CW );
+                addSquarePath( shapeSize );
             break;
             case BACKGROUND_SHAPE_PIN:
-                backgroundPath.addCircle(
-                    width / 2f,
-                    height / 2f,
-                    size / 2f,
-                    Path.Direction.CW );
-                backgroundPath.addPath( drawTriangle( width ) );
+                addPinPath( drawingAreaSize, shapeSize );
             break;
         }
 
@@ -188,24 +174,10 @@ public class StopBadge {
             foregroundShapeDrawer.draw(
                 canvas,
                 foregroundShapePaint,
-                size,
+                shapeSize,
                 getShadowSizeX(),
                 getShadowSizeY() );
         }
-    }
-
-    public Path drawTriangle( float width ) {
-        Path path = new Path();
-        path.moveTo(
-            ( width - getShadowSizeY() ) * 0.14f + getShadowSizeX(),
-            ( width - getShadowSizeY() ) * 0.85f ); //Top Left
-        path.lineTo(
-            ( width - getShadowSizeY() ) * 0.86f,
-            ( width - getShadowSizeY() ) * 0.85f ); //Top Right
-        path.lineTo( width / 2, ( width - getShadowSizeY() ) * 1.09f ); // Bottom Middle
-        path.close();
-
-        return path;
     }
 
     public Bitmap export( int size ) {
@@ -220,13 +192,17 @@ public class StopBadge {
     }
 
     private Bitmap renderBitmap( int size ) {
+        // The heightModifier mutates the height of the Bitmap to make space for
+        // the lower part of the Pin shape. Canvas drawing size is not changed
+        int heightModifier = ( backgroundShape == BACKGROUND_SHAPE_PIN ) ? Math
+                        .round( size * 1.5f ) : 0;
+
         Bitmap bitmap = Bitmap.createBitmap( size + getShadowSizeX() * 2, size
-            + getShadowSizeY() * 2, Bitmap.Config.ARGB_8888 );
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
+            + getShadowSizeY() * 2 + heightModifier, Bitmap.Config.ARGB_8888 );
+        int drawingAreaSize = bitmap.getWidth();
         Canvas canvas = new Canvas( bitmap );
 
-        draw( canvas, width, height, size );
+        draw( canvas, drawingAreaSize, size );
 
         return bitmap;
     }
@@ -249,6 +225,36 @@ public class StopBadge {
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
         float px = dp * ( metrics.densityDpi / 160f );
         return Math.round( px );
+    }
+
+    private void addCirclePath( float drawingAreaSize, float shapeSize ) {
+        backgroundPath.addCircle(
+            drawingAreaSize / 2f,
+            drawingAreaSize / 2f,
+            shapeSize / 2f,
+            Path.Direction.CW );
+    }
+
+    private void addSquarePath( float shapeSize ) {
+        backgroundPath.addRect( getShadowSizeX(), getShadowSizeY(), shapeSize
+            + getShadowSizeX(), shapeSize + getShadowSizeY(), Path.Direction.CW );
+    }
+
+    private void addPinPath( float drawingAreaSize, float shapeSize ) {
+        backgroundPath.addCircle(
+            drawingAreaSize / 2f,
+            drawingAreaSize / 2f,
+            shapeSize / 2f,
+            Path.Direction.CW );
+        Path trianglePath = new Path();
+        trianglePath.moveTo( shapeSize * 0.2f + getShadowSizeX(), shapeSize
+            * 0.9f + getShadowSizeY() ); // Top Left
+        trianglePath.lineTo( shapeSize * 0.8f + getShadowSizeX(), shapeSize
+            * 0.9f + getShadowSizeY() ); // Top Right
+        trianglePath.lineTo( shapeSize / 2 + getShadowSizeX(), shapeSize
+            * 1.09f + getShadowSizeY() ); // Bottom Middle
+        trianglePath.close();
+        backgroundPath.addPath( trianglePath );
     }
 
 }
