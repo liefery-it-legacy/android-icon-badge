@@ -202,6 +202,6 @@ public class StopBadgeView extends View {
                 -stopBadge.getShadowSizeY(),
                 null );
         } else
-            stopBadge.draw( canvas, width, height, size );
+            stopBadge.draw( canvas, width, size );
     }
 }

@@ -50,6 +50,10 @@
                     name="square"
                     value="1" />
 
+            <enum
+                    name="pin"
+                    value="2" />
+
         </attr>
 
         <attr

@@ -30,18 +30,27 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
         paint.setTypeface( Typeface.create( Typeface.DEFAULT, Typeface.BOLD ) );
 
         paint.setTextSize( StopBadge.dpToPx( 36 ) * scale );
-        drawCenter( canvas, paint, Integer.toString( number ) );
+        drawCenter(
+            canvas,
+            paint,
+            Integer.toString( number ),
+            size,
+            shadowSizeX,
+            shadowSizeY );
     }
 
-    private void drawCenter( Canvas canvas, Paint paint, String text ) {
-        canvas.getClipBounds( r );
-        int cHeight = r.height();
-        int cWidth = r.width();
+    private void drawCenter(
+        Canvas canvas,
+        Paint paint,
+        String text,
+        int size,
+        float shadowSizeX,
+        float shadowSizeY ) {
         paint.setTextAlign( Paint.Align.CENTER );
         paint.getTextBounds( text, 0, text.length(), r );
-        float x = cWidth / 2f;
-        float y = cHeight / 2f + r.height() / 2f - r.bottom;
-        canvas.drawText( text, x, y, paint );
+        float x = size / 2f;
+        float y = size / 2f + r.height() / 2f - r.bottom;
+        canvas.drawText( text, x + shadowSizeX, y + shadowSizeY, paint );
     }
 
     private float calculateScale( int number ) {
