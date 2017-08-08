@@ -27,8 +27,8 @@
             <com.liefery.android.stop_badge.StopBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_circleColor="#f05545"
-                app:stopBadge_shapeColor="#7f0000"/>
+                app:stopBadge_backgroundShapeColor="#f05545"
+                app:stopBadge_foregroundShapeColor="#7f0000" />
 
             <TextView
                 android:layout_width="0dp"
@@ -39,93 +39,6 @@
                 android:textColor="#262626"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clipChildren="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-            <com.liefery.android.stop_badge.StopBadgeView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:stopBadge_circleColor="#bc477b"
-                    app:stopBadge_shapeColor="#560027"
-                    app:stopBadge_backgroundShape="square"/>
-
-            <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="16dp"
-                    android:text="..., square ..."
-                    android:textColor="#262626"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clipChildren="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-            <com.liefery.android.stop_badge.StopBadgeView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:stopBadge_circleColor="#6746c3"
-                    app:stopBadge_shapeColor="#000063"
-                    app:stopBadge_backgroundShape="pin"/>
-
-            <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="16dp"
-                    android:text="... or pin-shaped. This can easily be set in XML or programmatically."
-                    android:textColor="#262626"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clipChildren="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-            <com.liefery.android.stop_badge.StopBadgeView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:stopBadge_circleColor="#5472d3"
-                    app:stopBadge_shapeColor="#002171"
-                    app:stopBadge_stopNumber="12"
-                    app:stopBadge_shadowDx="1dp"
-                    app:stopBadge_shadowDy="1dp"
-                    app:stopBadge_shadowRadius="3dp" />
-
-            <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="16dp"
-                    android:text="You can add a shadow to each badge, specifying the radius, dx, dy and color. The shadow has no impact on the view size because it is drawn out of bounds."
-                    android:textColor="#262626"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -141,9 +54,96 @@
             <com.liefery.android.stop_badge.StopBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_circleColor="#bc477b"
+                app:stopBadge_backgroundShapeColor="#bc477b"
+                app:stopBadge_foregroundShapeColor="#560027"
+                app:stopBadge_backgroundShape="square" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="..., square ..."
+                android:textColor="#262626"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipChildren="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.liefery.android.stop_badge.StopBadgeView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:stopBadge_backgroundShapeColor="#6746c3"
+                app:stopBadge_foregroundShapeColor="#000063"
+                app:stopBadge_backgroundShape="pin" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="... or pin-shaped. This can easily be set in XML or programmatically."
+                android:textColor="#262626"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipChildren="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.liefery.android.stop_badge.StopBadgeView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:stopBadge_backgroundShapeColor="#5472d3"
+                app:stopBadge_foregroundShapeColor="#002171"
+                app:stopBadge_stopNumber="12"
+                app:stopBadge_shadowDx="1dp"
+                app:stopBadge_shadowDy="1dp"
+                app:stopBadge_shadowRadius="3dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="You can add a shadow to each badge, specifying the radius, dx, dy and color. The shadow has no impact on the view size because it is drawn out of bounds."
+                android:textColor="#262626"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipChildren="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.liefery.android.stop_badge.StopBadgeView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:stopBadge_backgroundShapeColor="#bc477b"
                 app:stopBadge_stopNumber="11"
-                app:stopBadge_shapeColor="#560027"/>
+                app:stopBadge_foregroundShapeColor="#560027" />
 
             <TextView
                 android:layout_width="0dp"
@@ -170,13 +170,13 @@
             <com.liefery.android.stop_badge.StopBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_circleColor="#ffb04c"
-                app:stopBadge_shapeColor="#bc5100"
-                app:stopBadge_shape="arrowUp"
+                app:stopBadge_backgroundShapeColor="#ffb04c"
+                app:stopBadge_foregroundShape="arrowUp"
+                app:stopBadge_foregroundShapeColor="#bc5100"
                 app:stopBadge_backgroundShape="square"
                 app:stopBadge_shadowDx="5dp"
                 app:stopBadge_shadowDy="5dp"
-                app:stopBadge_shadowRadius="10dp"/>
+                app:stopBadge_shadowRadius="10dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -187,34 +187,6 @@
                 android:textColor="#262626"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clipChildren="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-            <com.liefery.android.stop_badge.StopBadgeView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:stopBadge_circleColor="#ffb04c"
-                    app:stopBadge_shapeColor="#bc5100"
-                    app:stopBadge_shape="arrowDown"/>
-
-            <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="16dp"
-                    android:text="and an arrow down. Adding your own foreground renderer is trivial."
-                    android:textColor="#262626"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -230,10 +202,38 @@
             <com.liefery.android.stop_badge.StopBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_circleColor="#7c43bd"
-                app:stopBadge_shapeColor="#12005e"
+                app:stopBadge_backgroundShapeColor="#ffb04c"
+                app:stopBadge_foregroundShape="arrowDown"
+                app:stopBadge_foregroundShapeColor="#bc5100" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="and an arrow down. Adding your own foreground renderer is trivial."
+                android:textColor="#262626"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipChildren="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.liefery.android.stop_badge.StopBadgeView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:stopBadge_backgroundShapeColor="#7c43bd"
+                app:stopBadge_foregroundShapeColor="#12005e"
                 app:stopBadge_stopNumber="1"
-                app:stopBadge_backgroundShape="square"/>
+                app:stopBadge_backgroundShape="square" />
 
             <TextView
                 android:layout_width="0dp"
@@ -259,8 +259,8 @@
             <com.liefery.android.stop_badge.StopBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_circleColor="#6746c3"
-                app:stopBadge_shapeColor="#000063"
+                app:stopBadge_backgroundShapeColor="#6746c3"
+                app:stopBadge_foregroundShapeColor="#000063"
                 app:stopBadge_stopNumber="4576" />
 
             <TextView
