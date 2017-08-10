@@ -247,6 +247,34 @@
 
         </LinearLayout>
 
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipChildren="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            <com.liefery.android.stop_badge.StopBadgeView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:stopBadge_circleColor="#bc477b"
+                    app:stopBadge_shapeColor="#560027"
+                    app:stopBadge_foregroundShapeDrawable="@drawable/ic_checkmark_all" />
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="16dp"
+                    android:text="You can also draw any Android Drawable into the badge."
+                    android:textColor="#262626"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

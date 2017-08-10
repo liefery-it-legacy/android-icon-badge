@@ -1,14 +1,13 @@
 package com.liefery.android.stop_badge;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.*;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.util.DisplayMetrics;
-import com.liefery.android.stop_badge.drawer.ArrowDownShapeDrawer;
-import com.liefery.android.stop_badge.drawer.ArrowUpShapeDrawer;
-import com.liefery.android.stop_badge.drawer.ForegroundShapeDrawer;
-import com.liefery.android.stop_badge.drawer.NumberShapeDrawer;
+import com.liefery.android.stop_badge.drawer.*;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -55,6 +54,10 @@ public class StopBadge {
 
     public void setNumber( int number ) {
         foregroundShapeDrawer = new NumberShapeDrawer( number );
+    }
+
+    public void setForegroundDrawable(Drawable drawable ) {
+        foregroundShapeDrawer = new DrawableForegroundDrawer( drawable );
     }
 
     public void setForegroundDrawer( ForegroundShapeDrawer drawer ) {
