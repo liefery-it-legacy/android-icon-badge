@@ -64,6 +64,10 @@
             name="stopBadge_stopNumber"
             format="integer" />
 
+        <attr
+            name="stopBadge_foregroundShapeDrawable"
+            format="integer" />
+
     </declare-styleable>
 
 </resources>

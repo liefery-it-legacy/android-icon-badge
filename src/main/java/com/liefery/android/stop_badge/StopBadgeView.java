@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -119,6 +121,16 @@ public class StopBadgeView extends View {
             -1 );
         if ( number != -1 )
             setNumber( number );
+
+        int foregroundDrawableResId = styles.getResourceId(
+            R.styleable.StopBadgeView_stopBadge_foregroundShapeDrawable,
+            -1 );
+        if ( foregroundDrawableResId != -1 ) {
+            Drawable drawable = ContextCompat.getDrawable(
+                getContext(),
+                foregroundDrawableResId );
+            setForegroundDrawable( drawable );
+        }
     }
 
     public void setBackgroundShapeColor( @ColorInt int color ) {
@@ -132,12 +144,17 @@ public class StopBadgeView extends View {
     }
 
     public void setShapeArrowUp() {
-        stopBadge.setShapeArrowUp();
+        stopBadge.setShapeArrowUp( getContext() );
         invalidate();
     }
 
     public void setShapeArrowDown() {
-        stopBadge.setShapeArrowDown();
+        stopBadge.setShapeArrowDown( getContext() );
+        invalidate();
+    }
+
+    public void setForegroundDrawable( Drawable drawable ) {
+        stopBadge.setForegroundDrawable( drawable );
         invalidate();
     }
 

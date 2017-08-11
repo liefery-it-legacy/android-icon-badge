@@ -9,10 +9,10 @@ object Settings {
             "-source" :: "1.7" ::
             "-target" :: "1.7" ::
             Nil,
-        minSdkVersion := "11",
+        minSdkVersion := "14",
         organization := "com.liefery.android",
         platformTarget := "android-26",
-        resolvers += "jitpack" at "https://jitpack.io",
+        resolvers += "Google Maven" at "https://maven.google.com",
         scalaVersion := "2.11.11",
         targetSdkVersion := "26"
     )

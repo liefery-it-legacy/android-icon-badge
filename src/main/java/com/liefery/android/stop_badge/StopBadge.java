@@ -1,14 +1,14 @@
 package com.liefery.android.stop_badge;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.*;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
-import com.liefery.android.stop_badge.drawer.ArrowDownShapeDrawer;
-import com.liefery.android.stop_badge.drawer.ArrowUpShapeDrawer;
-import com.liefery.android.stop_badge.drawer.ForegroundShapeDrawer;
-import com.liefery.android.stop_badge.drawer.NumberShapeDrawer;
+import com.liefery.android.stop_badge.drawer.*;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -47,16 +47,22 @@ public class StopBadge {
         setBackgroundShapeColor( Color.BLACK );
     }
 
-    public void setShapeArrowUp() {
-        foregroundShapeDrawer = new ArrowUpShapeDrawer();
+    public void setShapeArrowUp( Context context ) {
+        foregroundShapeDrawer = new DrawableForegroundDrawer(
+            ContextCompat.getDrawable( context, R.drawable.ic_arrow_up ) );
     }
 
-    public void setShapeArrowDown() {
-        foregroundShapeDrawer = new ArrowDownShapeDrawer();
+    public void setShapeArrowDown( Context context ) {
+        foregroundShapeDrawer = new DrawableForegroundDrawer(
+            ContextCompat.getDrawable( context, R.drawable.ic_arrow_down ) );
     }
 
     public void setNumber( int number ) {
         foregroundShapeDrawer = new NumberShapeDrawer( number );
+    }
+
+    public void setForegroundDrawable( Drawable drawable ) {
+        foregroundShapeDrawer = new DrawableForegroundDrawer( drawable );
     }
 
     public void setForegroundDrawer( ForegroundShapeDrawer drawer ) {
