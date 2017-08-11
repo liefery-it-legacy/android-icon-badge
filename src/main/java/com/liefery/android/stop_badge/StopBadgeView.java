@@ -126,7 +126,9 @@ public class StopBadgeView extends View {
             R.styleable.StopBadgeView_stopBadge_foregroundShapeDrawable,
             -1 );
         if ( foregroundDrawableResId != -1 ) {
-            Drawable drawable = ContextCompat.getDrawable( getContext(), foregroundDrawableResId );
+            Drawable drawable = ContextCompat.getDrawable(
+                getContext(),
+                foregroundDrawableResId );
             setForegroundDrawable( drawable );
         }
     }
@@ -142,12 +144,12 @@ public class StopBadgeView extends View {
     }
 
     public void setShapeArrowUp() {
-        stopBadge.setShapeArrowUp();
+        stopBadge.setShapeArrowUp( getContext() );
         invalidate();
     }
 
     public void setShapeArrowDown() {
-        stopBadge.setShapeArrowDown();
+        stopBadge.setShapeArrowDown( getContext() );
         invalidate();
     }
 

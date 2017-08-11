@@ -2,6 +2,7 @@ package com.liefery.android.stop_badge.drawer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 
 public class DrawableForegroundDrawer extends ForegroundShapeDrawer {
@@ -26,6 +27,7 @@ public class DrawableForegroundDrawer extends ForegroundShapeDrawer {
 
         drawable.setBounds( (int) shadowSizeX + offset, (int) shadowSizeY
             + offset, drawingSize - offset, drawingSize - offset );
+        drawable.setColorFilter( paint.getColor(), PorterDuff.Mode.MULTIPLY );
         drawable.draw( canvas );
     }
 

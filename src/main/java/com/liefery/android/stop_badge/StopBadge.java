@@ -6,6 +6,7 @@ import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import com.liefery.android.stop_badge.drawer.*;
 
@@ -44,19 +45,21 @@ public class StopBadge {
         setBackgroundShapeColor( Color.BLACK );
     }
 
-    public void setShapeArrowUp() {
-        foregroundShapeDrawer = new ArrowUpShapeDrawer();
+    public void setShapeArrowUp( Context context ) {
+        foregroundShapeDrawer = new DrawableForegroundDrawer(
+            ContextCompat.getDrawable( context, R.drawable.ic_arrow_up ) );
     }
 
-    public void setShapeArrowDown() {
-        foregroundShapeDrawer = new ArrowDownShapeDrawer();
+    public void setShapeArrowDown( Context context ) {
+        foregroundShapeDrawer = new DrawableForegroundDrawer(
+            ContextCompat.getDrawable( context, R.drawable.ic_arrow_down ) );
     }
 
     public void setNumber( int number ) {
         foregroundShapeDrawer = new NumberShapeDrawer( number );
     }
 
-    public void setForegroundDrawable(Drawable drawable ) {
+    public void setForegroundDrawable( Drawable drawable ) {
         foregroundShapeDrawer = new DrawableForegroundDrawer( drawable );
     }
 
