@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+_2017-08-16_
+
+ * Allow arbitrary `Drawable`s in foreground shapes
+
 ## 1.1.0
 
 _2017-08-08_
