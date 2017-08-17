@@ -29,7 +29,7 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
         float shadowSizeY ) {
         paint.setTypeface( Typeface.create( Typeface.DEFAULT, Typeface.BOLD ) );
 
-        paint.setTextSize( StopBadge.dpToPx( 36 ) * scale );
+        paint.setTextSize( canvas.getWidth() * 0.8f * scale );
         drawCenter(
             canvas,
             paint,
