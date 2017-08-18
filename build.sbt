@@ -7,7 +7,7 @@ lazy val root = project.in( file( "." ) )
             "com.android.support" % "support-compat" % "26.0.1" ::
 
             Nil,
-        name := "stop-badge",
+        name := "icon-badge",
         publishArtifact in ( Compile, packageDoc ) := false
     )
 
@@ -15,7 +15,7 @@ lazy val sample = project
     .enablePlugins( AndroidApp )
     .settings( Settings.common )
     .settings(
-        organization := organization.value + ".stop_badge.sample",
+        organization := organization.value + ".icon_badge.sample",
         run := ( run in Android ).evaluated
     )
     .dependsOn( root )

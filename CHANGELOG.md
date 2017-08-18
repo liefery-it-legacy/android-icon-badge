@@ -31,8 +31,8 @@ _2017-08-04_
 ## 1.0.7
 
 _2017-06-30_
- 
- * Fix Bitmap already recycled exception when changing `StopBadgeView` parameters after initial rendering 
+
+ * Fix Bitmap already recycled exception when changing `StopBadgeView` parameters after initial rendering
 
 ## 1.0.6
 

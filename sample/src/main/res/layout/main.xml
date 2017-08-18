@@ -24,11 +24,11 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_backgroundShapeColor="#f05545"
-                app:stopBadge_foregroundShapeColor="#7f0000" />
+                app:iconBadge_backgroundShapeColor="#f05545"
+                app:iconBadge_foregroundShapeColor="#7f0000" />
 
             <TextView
                 android:layout_width="0dp"
@@ -51,12 +51,12 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_backgroundShapeColor="#bc477b"
-                app:stopBadge_foregroundShapeColor="#560027"
-                app:stopBadge_backgroundShape="square" />
+                app:iconBadge_backgroundShapeColor="#bc477b"
+                app:iconBadge_foregroundShapeColor="#560027"
+                app:iconBadge_backgroundShape="square" />
 
             <TextView
                 android:layout_width="0dp"
@@ -79,12 +79,12 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_backgroundShapeColor="#6746c3"
-                app:stopBadge_foregroundShapeColor="#000063"
-                app:stopBadge_backgroundShape="pin" />
+                app:iconBadge_backgroundShapeColor="#6746c3"
+                app:iconBadge_foregroundShapeColor="#000063"
+                app:iconBadge_backgroundShape="pin" />
 
             <TextView
                 android:layout_width="0dp"
@@ -107,15 +107,15 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_backgroundShapeColor="#5472d3"
-                app:stopBadge_foregroundShapeColor="#002171"
-                app:stopBadge_stopNumber="12"
-                app:stopBadge_shadowDx="1dp"
-                app:stopBadge_shadowDy="1dp"
-                app:stopBadge_shadowRadius="3dp" />
+                app:iconBadge_backgroundShapeColor="#5472d3"
+                app:iconBadge_foregroundShapeColor="#002171"
+                app:iconBadge_stopNumber="12"
+                app:iconBadge_shadowDx="1dp"
+                app:iconBadge_shadowDy="1dp"
+                app:iconBadge_shadowRadius="3dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -138,12 +138,12 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_backgroundShapeColor="#bc477b"
-                app:stopBadge_stopNumber="11"
-                app:stopBadge_foregroundShapeColor="#560027" />
+                app:iconBadge_backgroundShapeColor="#bc477b"
+                app:iconBadge_stopNumber="11"
+                app:iconBadge_foregroundShapeColor="#560027" />
 
             <TextView
                 android:layout_width="0dp"
@@ -167,16 +167,16 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_backgroundShapeColor="#ffb04c"
-                app:stopBadge_foregroundShape="arrowUp"
-                app:stopBadge_foregroundShapeColor="#bc5100"
-                app:stopBadge_backgroundShape="square"
-                app:stopBadge_shadowDx="5dp"
-                app:stopBadge_shadowDy="5dp"
-                app:stopBadge_shadowRadius="10dp" />
+                app:iconBadge_backgroundShapeColor="#ffb04c"
+                app:iconBadge_foregroundShape="arrowUp"
+                app:iconBadge_foregroundShapeColor="#bc5100"
+                app:iconBadge_backgroundShape="square"
+                app:iconBadge_shadowDx="5dp"
+                app:iconBadge_shadowDy="5dp"
+                app:iconBadge_shadowRadius="10dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -199,12 +199,12 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_backgroundShapeColor="#ffb04c"
-                app:stopBadge_foregroundShape="arrowDown"
-                app:stopBadge_foregroundShapeColor="#bc5100" />
+                app:iconBadge_backgroundShapeColor="#ffb04c"
+                app:iconBadge_foregroundShape="arrowDown"
+                app:iconBadge_foregroundShapeColor="#bc5100" />
 
             <TextView
                 android:layout_width="0dp"
@@ -227,13 +227,13 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_backgroundShapeColor="#7c43bd"
-                app:stopBadge_foregroundShapeColor="#12005e"
-                app:stopBadge_stopNumber="1"
-                app:stopBadge_backgroundShape="square" />
+                app:iconBadge_backgroundShapeColor="#7c43bd"
+                app:iconBadge_foregroundShapeColor="#12005e"
+                app:iconBadge_stopNumber="1"
+                app:iconBadge_backgroundShape="square" />
 
             <TextView
                 android:layout_width="0dp"
@@ -256,12 +256,12 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:stopBadge_backgroundShapeColor="#6746c3"
-                app:stopBadge_foregroundShapeColor="#000063"
-                app:stopBadge_stopNumber="4576" />
+                app:iconBadge_backgroundShapeColor="#6746c3"
+                app:iconBadge_foregroundShapeColor="#000063"
+                app:iconBadge_stopNumber="4576" />
 
             <TextView
                 android:layout_width="0dp"
@@ -284,12 +284,12 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
 
-            <com.liefery.android.stop_badge.StopBadgeView
+            <com.liefery.android.icon_badge.IconBadgeView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:stopBadge_circleColor="#bc477b"
-                    app:stopBadge_shapeColor="#560027"
-                    app:stopBadge_foregroundShapeDrawable="@drawable/ic_checkmark_all" />
+                    app:iconBadge_backgroundShapeColor="#bc477b"
+                    app:iconBadge_foregroundShapeColor="#560027"
+                    app:iconBadge_foregroundShapeDrawable="@drawable/ic_checkmark_all" />
 
             <TextView
                     android:layout_width="0dp"

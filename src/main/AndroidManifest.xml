@@ -2,7 +2,7 @@
 
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.liefery.android.stop_badge">
+    package="com.liefery.android.icon_badge">
 
     <application />
 

@@ -1,4 +1,4 @@
-package com.liefery.android.stop_badge.drawer;
+package com.liefery.android.icon_badge.drawer;
 
 import android.graphics.Matrix;
 import android.graphics.Path;

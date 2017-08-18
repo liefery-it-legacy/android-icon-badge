@@ -1,4 +1,4 @@
-package com.liefery.android.stop_badge;
+package com.liefery.android.icon_badge;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -13,36 +13,36 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class StopBadgeView extends View {
-    private final StopBadge stopBadge = new StopBadge();
+public class IconBadgeView extends View {
+    private final IconBadge iconBadge = new IconBadge();
 
     private int width, height, size;
 
-    public StopBadgeView( Context context ) {
+    public IconBadgeView( Context context ) {
         super( context );
 
         TypedArray styles = context
-                        .obtainStyledAttributes( R.styleable.StopBadgeView );
+                        .obtainStyledAttributes( R.styleable.IconBadgeView );
         initialize( styles );
         styles.recycle();
     }
 
-    public StopBadgeView( Context context, AttributeSet attrs ) {
+    public IconBadgeView( Context context, AttributeSet attrs ) {
         super( context, attrs );
 
         TypedArray styles = context.obtainStyledAttributes(
             attrs,
-            R.styleable.StopBadgeView );
+            R.styleable.IconBadgeView );
         initialize( styles );
         styles.recycle();
     }
 
-    public StopBadgeView( Context context, AttributeSet attrs, int defStyleAttr ) {
+    public IconBadgeView( Context context, AttributeSet attrs, int defStyleAttr ) {
         super( context, attrs, defStyleAttr );
 
         TypedArray styles = context.obtainStyledAttributes(
             attrs,
-            R.styleable.StopBadgeView,
+            R.styleable.IconBadgeView,
             defStyleAttr,
             0 );
         initialize( styles );
@@ -50,7 +50,7 @@ public class StopBadgeView extends View {
     }
 
     @TargetApi( Build.VERSION_CODES.LOLLIPOP )
-    public StopBadgeView(
+    public IconBadgeView(
         Context context,
         AttributeSet attrs,
         int defStyleAttr,
@@ -59,7 +59,7 @@ public class StopBadgeView extends View {
 
         TypedArray styles = context.obtainStyledAttributes(
             attrs,
-            R.styleable.StopBadgeView,
+            R.styleable.IconBadgeView,
             defStyleAttr,
             defStyleRes );
         initialize( styles );
@@ -68,13 +68,13 @@ public class StopBadgeView extends View {
 
     private void initialize( @NonNull TypedArray styles ) {
         int backgroundShapeColor = styles.getColor(
-            R.styleable.StopBadgeView_stopBadge_backgroundShapeColor,
+            R.styleable.IconBadgeView_iconBadge_backgroundShapeColor,
             Integer.MIN_VALUE );
         if ( backgroundShapeColor != Integer.MIN_VALUE )
             setBackgroundShapeColor( backgroundShapeColor );
 
         int foregroundShape = styles.getInt(
-            R.styleable.StopBadgeView_stopBadge_foregroundShape,
+            R.styleable.IconBadgeView_iconBadge_foregroundShape,
             -1 );
         if ( foregroundShape == 0 )
             setShapeArrowUp();
@@ -82,48 +82,48 @@ public class StopBadgeView extends View {
             setShapeArrowDown();
 
         int backgroundShape = styles.getInt(
-            R.styleable.StopBadgeView_stopBadge_backgroundShape,
-            StopBadge.BACKGROUND_SHAPE_ROUND );
+            R.styleable.IconBadgeView_iconBadge_backgroundShape,
+            IconBadge.BACKGROUND_SHAPE_ROUND );
         setBackgroundShape( backgroundShape );
 
         int shapeColor = styles.getColor(
-            R.styleable.StopBadgeView_stopBadge_foregroundShapeColor,
+            R.styleable.IconBadgeView_iconBadge_foregroundShapeColor,
             Integer.MIN_VALUE );
         if ( shapeColor != Integer.MIN_VALUE )
             setForegroundShapeColor( shapeColor );
 
         int shadowColor = styles.getColor(
-            R.styleable.StopBadgeView_stopBadge_shadowColor,
+            R.styleable.IconBadgeView_iconBadge_shadowColor,
             Integer.MIN_VALUE );
         if ( shadowColor != Integer.MIN_VALUE )
             setShadowColor( shadowColor );
 
         float shadowDx = styles.getDimension(
-            R.styleable.StopBadgeView_stopBadge_shadowDx,
+            R.styleable.IconBadgeView_iconBadge_shadowDx,
             Integer.MIN_VALUE );
         if ( shadowDx != Integer.MIN_VALUE )
             setShadowDx( shadowDx );
 
         float shadowDy = styles.getDimension(
-            R.styleable.StopBadgeView_stopBadge_shadowDy,
+            R.styleable.IconBadgeView_iconBadge_shadowDy,
             Integer.MIN_VALUE );
         if ( shadowDy != Integer.MIN_VALUE )
             setShadowDy( shadowDy );
 
         float shadowRadius = styles.getDimension(
-            R.styleable.StopBadgeView_stopBadge_shadowRadius,
+            R.styleable.IconBadgeView_iconBadge_shadowRadius,
             -1 );
         if ( shadowRadius != -1 )
             setShadowRadius( shadowRadius );
 
         int number = styles.getInt(
-            R.styleable.StopBadgeView_stopBadge_stopNumber,
+            R.styleable.IconBadgeView_iconBadge_stopNumber,
             -1 );
         if ( number != -1 )
             setNumber( number );
 
         int foregroundDrawableResId = styles.getResourceId(
-            R.styleable.StopBadgeView_stopBadge_foregroundShapeDrawable,
+            R.styleable.IconBadgeView_iconBadge_foregroundShapeDrawable,
             -1 );
         if ( foregroundDrawableResId != -1 ) {
             Drawable drawable = ContextCompat.getDrawable(
@@ -134,57 +134,57 @@ public class StopBadgeView extends View {
     }
 
     public void setBackgroundShapeColor( @ColorInt int color ) {
-        stopBadge.setBackgroundShapeColor( color );
+        iconBadge.setBackgroundShapeColor( color );
         invalidate();
     }
 
     public void setForegroundShapeColor( @ColorInt int color ) {
-        stopBadge.setForegroundShapeColor( color );
+        iconBadge.setForegroundShapeColor( color );
         invalidate();
     }
 
     public void setShapeArrowUp() {
-        stopBadge.setShapeArrowUp( getContext() );
+        iconBadge.setShapeArrowUp( getContext() );
         invalidate();
     }
 
     public void setShapeArrowDown() {
-        stopBadge.setShapeArrowDown( getContext() );
+        iconBadge.setShapeArrowDown( getContext() );
         invalidate();
     }
 
     public void setForegroundDrawable( Drawable drawable ) {
-        stopBadge.setForegroundDrawable( drawable );
+        iconBadge.setForegroundDrawable( drawable );
         invalidate();
     }
 
     public void setNumber( int number ) {
-        stopBadge.setNumber( number );
+        iconBadge.setNumber( number );
         invalidate();
     }
 
     public void setShadowColor( @ColorInt int color ) {
-        stopBadge.setShadowColor( color );
+        iconBadge.setShadowColor( color );
         invalidate();
     }
 
     public void setShadowDx( float dx ) {
-        stopBadge.setShadowDx( dx );
+        iconBadge.setShadowDx( dx );
         invalidate();
     }
 
     public void setShadowDy( float dy ) {
-        stopBadge.setShadowDy( dy );
+        iconBadge.setShadowDy( dy );
         invalidate();
     }
 
     public void setShadowRadius( float radius ) {
-        stopBadge.setShadowRadius( radius );
+        iconBadge.setShadowRadius( radius );
         invalidate();
     }
 
     public void setBackgroundShape( int backgroundShape ) {
-        stopBadge.setBackgroundShape( backgroundShape );
+        iconBadge.setBackgroundShape( backgroundShape );
         invalidate();
     }
 
@@ -209,14 +209,14 @@ public class StopBadgeView extends View {
         // Bitmap.
         // For badges without a shadow we reduce processing time by rendering
         // directly to the canvas.
-        if ( stopBadge.hasShadow() ) {
-            Bitmap export = stopBadge.export( size );
+        if ( iconBadge.hasShadow() ) {
+            Bitmap export = iconBadge.export( size );
             canvas.drawBitmap(
                 export,
-                -stopBadge.getShadowSizeX(),
-                -stopBadge.getShadowSizeY(),
+                -iconBadge.getShadowSizeX(),
+                -iconBadge.getShadowSizeY(),
                 null );
         } else
-            stopBadge.draw( canvas, width, size );
+            iconBadge.draw( canvas, width, size );
     }
 }

@@ -2,10 +2,10 @@
 
 <resources>
 
-    <declare-styleable name="StopBadgeView">
+    <declare-styleable name="IconBadgeView">
 
         <attr
-            name="stopBadge_backgroundShape"
+            name="iconBadge_backgroundShape"
             format="enum">
 
             <enum
@@ -23,11 +23,11 @@
         </attr>
 
         <attr
-            name="stopBadge_backgroundShapeColor"
+            name="iconBadge_backgroundShapeColor"
             format="color" />
 
         <attr
-            name="stopBadge_foregroundShape"
+            name="iconBadge_foregroundShape"
             format="enum">
 
             <enum
@@ -41,31 +41,31 @@
         </attr>
 
         <attr
-            name="stopBadge_foregroundShapeColor"
+            name="iconBadge_foregroundShapeColor"
             format="color" />
 
         <attr
-            name="stopBadge_shadowColor"
+            name="iconBadge_shadowColor"
             format="color" />
 
         <attr
-            name="stopBadge_shadowDx"
+            name="iconBadge_shadowDx"
             format="dimension" />
 
         <attr
-            name="stopBadge_shadowDy"
+            name="iconBadge_shadowDy"
             format="dimension" />
 
         <attr
-            name="stopBadge_shadowRadius"
+            name="iconBadge_shadowRadius"
             format="dimension" />
 
         <attr
-            name="stopBadge_stopNumber"
+            name="iconBadge_stopNumber"
             format="integer" />
 
         <attr
-            name="stopBadge_foregroundShapeDrawable"
+            name="iconBadge_foregroundShapeDrawable"
             format="integer" />
 
     </declare-styleable>

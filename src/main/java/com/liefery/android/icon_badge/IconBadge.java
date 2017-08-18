@@ -1,4 +1,4 @@
-package com.liefery.android.stop_badge;
+package com.liefery.android.icon_badge;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,11 +8,11 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
-import com.liefery.android.stop_badge.drawer.*;
+import com.liefery.android.icon_badge.drawer.*;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
-public class StopBadge {
+public class IconBadge {
 
     static final int BACKGROUND_SHAPE_ROUND = 0;
 
@@ -42,7 +42,7 @@ public class StopBadge {
 
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
-    public StopBadge() {
+    public IconBadge() {
         setForegroundShapeColor( Color.WHITE );
         setBackgroundShapeColor( Color.BLACK );
     }
@@ -126,9 +126,9 @@ public class StopBadge {
     }
 
     public void setBackgroundShape( int shape ) {
-        if ( shape != StopBadge.BACKGROUND_SHAPE_ROUND
-            && shape != StopBadge.BACKGROUND_SHAPE_SQUARE
-            && shape != StopBadge.BACKGROUND_SHAPE_PIN ) {
+        if ( shape != IconBadge.BACKGROUND_SHAPE_ROUND
+            && shape != IconBadge.BACKGROUND_SHAPE_SQUARE
+            && shape != IconBadge.BACKGROUND_SHAPE_PIN ) {
             throw new IllegalArgumentException( "Shape "
                 + shape + " is invalid!" );
         }
