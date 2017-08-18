@@ -1,10 +1,10 @@
-package com.liefery.android.stop_badge.drawer;
+package com.liefery.android.icon_badge.drawer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import com.liefery.android.stop_badge.StopBadge;
+import com.liefery.android.icon_badge.IconBadge;
 
 public class NumberShapeDrawer extends ForegroundShapeDrawer {
 

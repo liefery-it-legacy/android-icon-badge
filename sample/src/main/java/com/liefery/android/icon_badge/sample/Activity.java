@@ -1,4 +1,4 @@
-package com.liefery.android.stop_badge.sample;
+package com.liefery.android.icon_badge.sample;
 
 import android.os.Bundle;
 
