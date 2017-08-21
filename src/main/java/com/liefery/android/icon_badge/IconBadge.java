@@ -158,6 +158,10 @@ public class IconBadge {
     public boolean hasShadow() {
         return getShadowSizeX() > 0 || getShadowSizeY() > 0;
     }
+    
+    public int getBackgroundShape() {
+        return this.backgroundShape;
+    }
 
     public void draw( Canvas canvas, float drawingAreaSize, int shapeSize ) {
         backgroundPath.reset();

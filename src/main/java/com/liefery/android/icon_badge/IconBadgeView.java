@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Outline;
+import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -12,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 
 public class IconBadgeView extends View {
     private final IconBadge iconBadge = new IconBadge();
@@ -219,4 +222,96 @@ public class IconBadgeView extends View {
         } else
             iconBadge.draw( canvas, width, size );
     }
+    
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+    
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            switch(iconBadge.getBackgroundShape()) {
+                case IconBadge.BACKGROUND_SHAPE_PIN:
+                    setOutlineProvider(new PinOutlineProvider(w, h));
+                    break;
+                case IconBadge.BACKGROUND_SHAPE_ROUND:
+                    setOutlineProvider(new RoundOutlineProvider(w, h));
+                    break;
+                case IconBadge.BACKGROUND_SHAPE_SQUARE:
+                    setOutlineProvider(new SquareOutlineProvider(w, h));
+                    break;
+            }
+        }
+    }
+    
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private class SquareOutlineProvider extends ViewOutlineProvider {
+        
+        int width;
+        int height;
+    
+        SquareOutlineProvider(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+        
+        @Override
+        public void getOutline(View view, Outline outline) {
+            outline.setRect(0, 0, width, height);
+        }
+    }
+    
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private class RoundOutlineProvider extends ViewOutlineProvider {
+        
+        int width;
+        int height;
+    
+        RoundOutlineProvider(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+        
+        @Override
+        public void getOutline(View view, Outline outline) {
+            outline.setOval(0, 0, width, height);
+        }
+    }
+    
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private class PinOutlineProvider extends ViewOutlineProvider {
+        
+        int width;
+        int height;
+        
+        Path pinPath = new Path();
+    
+        PinOutlineProvider(int width, int height) {
+            this.width = width;
+            this.height = height;
+         
+            addPinPath(width, width);
+        }
+        
+        @Override
+        public void getOutline(View view, Outline outline) {
+            outline.setConvexPath(pinPath);
+        }
+        
+        private void addPinPath( float drawingAreaSize, float shapeSize ) {
+            pinPath.addCircle(
+                    drawingAreaSize / 2f,
+                    drawingAreaSize / 2f,
+                    shapeSize / 2f,
+                    Path.Direction.CW );
+            Path trianglePath = new Path();
+            trianglePath.moveTo( shapeSize * 0.2f, shapeSize
+                    * 0.9f); // Top Left
+            trianglePath.lineTo( shapeSize * 0.8f, shapeSize
+                    * 0.9f); // Top Right
+            trianglePath.lineTo( shapeSize / 2, shapeSize
+                    * 1.09f); // Bottom Middle
+            trianglePath.close();
+            pinPath.addPath( trianglePath );
+        }
+    }
+    
 }
