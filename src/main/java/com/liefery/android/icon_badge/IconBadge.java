@@ -176,7 +176,16 @@ public class IconBadge {
                 addPinPath( drawingAreaSize, shapeSize );
             break;
         }
-
+    
+        //Rect newRect = canvas.getClipBounds();
+        //newRect.inset(-50, -50);
+    
+        //canvas.clipRect (newRect, Region.Op.REPLACE);
+    
+        //Matrix matrix = new Matrix();
+        //matrix.setTranslate(-getShadowSizeX(), -getShadowSizeY());
+        //backgroundPath.transform(matrix);
+        
         drawShadow( canvas, backgroundPath );
         canvas.drawPath( backgroundPath, backgroundShapePaint );
 
