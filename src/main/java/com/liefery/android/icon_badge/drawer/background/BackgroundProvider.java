@@ -22,10 +22,13 @@ public abstract class BackgroundProvider {
     
     public BackgroundProvider.Result export(int size) {
         Path adjustedPath = adjustPath(size);
-        RectF bounds = new RectF();
         path.computeBounds(bounds, true);
-        ViewOutlineProvider outline = new PathOutlineProvider(adjustedPath);
-        return new BackgroundProvider.Result(adjustedPath, outline, bounds.width(), bounds.height());
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ViewOutlineProvider outline = new PathOutlineProvider(adjustedPath);
+            return new BackgroundProvider.Result(adjustedPath, outline, bounds.width(), bounds.height());
+        } else {
+            return new BackgroundProvider.Result(adjustedPath, bounds.width(), bounds.height());
+        }
     }
     
     protected Path adjustPath(int size) {
@@ -44,7 +47,7 @@ public abstract class BackgroundProvider {
     @TargetApi( Build.VERSION_CODES.LOLLIPOP )
     private static class PathOutlineProvider extends ViewOutlineProvider {
         
-        Path path;
+        private Path path;
     
         PathOutlineProvider(Path path) {
             this.path = path;
@@ -60,15 +63,24 @@ public abstract class BackgroundProvider {
     public static class Result {
         
         public final Path path;
-        public final ViewOutlineProvider outline;
+    
+        public ViewOutlineProvider outline = null;
         
         public final float width;
         public final float height;
         
+        @TargetApi( Build.VERSION_CODES.LOLLIPOP )
         public Result(Path path, ViewOutlineProvider outline, float width, float height) {
             this.path = path;
             this.outline = outline;
             
+            this.width = width;
+            this.height = height;
+        }
+        
+        public Result(Path path, float width, float height) {
+            this.path = path;
+    
             this.width = width;
             this.height = height;
         }

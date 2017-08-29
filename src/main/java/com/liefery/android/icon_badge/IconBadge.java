@@ -1,13 +1,15 @@
 package com.liefery.android.icon_badge;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.v4.content.ContextCompat;
 import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.PinBackgroundProvider;
 import com.liefery.android.icon_badge.drawer.foreground.DrawableForegroundDrawer;
 import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
 import com.liefery.android.icon_badge.drawer.foreground.NumberShapeDrawer;
@@ -77,11 +79,11 @@ public class IconBadge {
         this.alpha = alpha;
     }
     
-    public void setBackgroundDrawer(BackgroundProvider drawer) {
-        this.backgroundProvider = drawer;
+    public void setBackgroundProvider(BackgroundProvider provider) {
+        this.backgroundProvider = provider;
     }
     
-    public BackgroundProvider getBackgroundDrawer() {
+    public BackgroundProvider getBackgroundProvider() {
         return backgroundProvider;
     }
     
@@ -109,9 +111,8 @@ public class IconBadge {
 
     private Bitmap renderBitmap( int size ) {
         BackgroundProvider.Result result = backgroundProvider.export(size);
-        int heightModifier = (int) Math.ceil(size / Math.max(result.width, result.height));
         
-        Bitmap bitmap = Bitmap.createBitmap( size, size + heightModifier, Bitmap.Config.ARGB_8888 );
+        Bitmap bitmap = Bitmap.createBitmap( (int)result.width, (int)result.height, Bitmap.Config.ARGB_8888 );
         Canvas canvas = new Canvas( bitmap );
 
         draw( canvas, size, result );

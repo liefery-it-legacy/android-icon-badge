@@ -3,7 +3,6 @@ package com.liefery.android.icon_badge.drawer.foreground;
 import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.RectF;
-import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
 
 public abstract class PathShapeDrawer extends ForegroundShapeDrawer {
 

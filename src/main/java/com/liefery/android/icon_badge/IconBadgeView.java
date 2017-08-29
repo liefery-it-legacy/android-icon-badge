@@ -3,7 +3,7 @@ package com.liefery.android.icon_badge;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -154,7 +154,7 @@ public class IconBadgeView extends View {
     }
 
     public void setBackgroundShape( BackgroundProvider backgroundShape ) {
-        iconBadge.setBackgroundDrawer( backgroundShape );
+        iconBadge.setBackgroundProvider( backgroundShape );
         invalidate();
     }
 
@@ -174,7 +174,7 @@ public class IconBadgeView extends View {
 
     @Override
     protected void onDraw( Canvas canvas ) {
-        BackgroundProvider.Result result = iconBadge.getBackgroundDrawer().export(size);
+        BackgroundProvider.Result result = iconBadge.getBackgroundProvider().export(size);
         iconBadge.draw(canvas, size, result);
     }
     
@@ -182,9 +182,10 @@ public class IconBadgeView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         
-        //TODO: Api Version Check
-        int size = Math.min(w, h);
-        ViewOutlineProvider outline = iconBadge.getBackgroundDrawer().export(size).outline;
-        setOutlineProvider(outline);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int size = Math.min(w, h);
+            ViewOutlineProvider outline = iconBadge.getBackgroundProvider().export(size).outline;
+            setOutlineProvider(outline);
+        }
     }
 }

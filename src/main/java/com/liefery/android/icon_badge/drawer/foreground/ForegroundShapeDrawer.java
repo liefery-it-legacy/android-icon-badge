@@ -1,6 +1,7 @@
 package com.liefery.android.icon_badge.drawer.foreground;
 
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public abstract class ForegroundShapeDrawer {
 
