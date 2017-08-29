@@ -20,8 +20,8 @@ public abstract class BackgroundProvider {
         this.path = path;
     }
     
-    public BackgroundProvider.Result export(int size) {
-        Path adjustedPath = adjustPath(size);
+    public BackgroundProvider.Result export(int size, int padding) {
+        Path adjustedPath = adjustPath(size, padding);
         path.computeBounds(bounds, true);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ViewOutlineProvider outline = new PathOutlineProvider(adjustedPath);
@@ -31,14 +31,15 @@ public abstract class BackgroundProvider {
         }
     }
     
-    protected Path adjustPath(int size) {
+    protected Path adjustPath(int size, int padding) {
         Path copy = new Path(path);
         matrix.reset();
         
         copy.computeBounds(bounds, true);
-    
-        float scalar = Math.min(bounds.width(), bounds.height());
+        
+        float scalar = Math.min(bounds.width() + padding, bounds.height() + padding);
         matrix.setScale(size / scalar, size / scalar);
+        matrix.postTranslate(padding, padding);
         copy.transform(matrix);
         
         return copy;

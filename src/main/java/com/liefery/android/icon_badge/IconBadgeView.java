@@ -174,7 +174,7 @@ public class IconBadgeView extends View {
 
     @Override
     protected void onDraw( Canvas canvas ) {
-        BackgroundProvider.Result result = iconBadge.getBackgroundProvider().export(size);
+        BackgroundProvider.Result result = iconBadge.getBackgroundProvider().export(size, 0);
         iconBadge.draw(canvas, size, result);
     }
     
@@ -184,7 +184,7 @@ public class IconBadgeView extends View {
         
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int size = Math.min(w, h);
-            ViewOutlineProvider outline = iconBadge.getBackgroundProvider().export(size).outline;
+            ViewOutlineProvider outline = iconBadge.getBackgroundProvider().export(size, 0).outline;
             setOutlineProvider(outline);
         }
     }

@@ -1,15 +1,13 @@
 package com.liefery.android.icon_badge;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.v4.content.ContextCompat;
 import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
+import com.liefery.android.icon_badge.drawer.background.RoundBackgroundProvider;
 import com.liefery.android.icon_badge.drawer.foreground.DrawableForegroundDrawer;
 import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
 import com.liefery.android.icon_badge.drawer.foreground.NumberShapeDrawer;
@@ -20,13 +18,17 @@ public class IconBadge {
     
     private float alpha = 1;
     
-    private BackgroundProvider backgroundProvider;
+    private int elevation = 10;
+    
+    private BackgroundProvider backgroundProvider = new RoundBackgroundProvider();
 
     private ForegroundShapeDrawer foregroundShapeDrawer;
 
     private final Paint backgroundShapePaint = new Paint( ANTI_ALIAS_FLAG );
 
     private final Paint foregroundShapePaint = new Paint( ANTI_ALIAS_FLAG );
+    
+    private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
     public IconBadge() {
         setForegroundShapeColor( Color.WHITE );
@@ -79,6 +81,15 @@ public class IconBadge {
         this.alpha = alpha;
     }
     
+    public int getElevation() {
+        return elevation;
+    }
+    
+    public IconBadge setElevation(int elevation) {
+        this.elevation = elevation;
+        return this;
+    }
+    
     public void setBackgroundProvider(BackgroundProvider provider) {
         this.backgroundProvider = provider;
     }
@@ -110,16 +121,27 @@ public class IconBadge {
     }
 
     private Bitmap renderBitmap( int size ) {
-        BackgroundProvider.Result result = backgroundProvider.export(size);
+        BackgroundProvider.Result result = backgroundProvider.export(size, 2 * elevation);
         
-        Bitmap bitmap = Bitmap.createBitmap( (int)result.width, (int)result.height, Bitmap.Config.ARGB_8888 );
+        Bitmap bitmap = Bitmap.createBitmap( (int)(result.width + (2 * elevation)), (int)(result.height + (2 * elevation)), Bitmap.Config.ARGB_8888 );
         Canvas canvas = new Canvas( bitmap );
-
+    
+        drawShadow( canvas, result.path );
         draw( canvas, size, result );
-
+        
         return bitmap;
     }
-
+    
+    private void drawShadow( Canvas canvas, Path shape ) {
+        shadowPaint.setShadowLayer(
+                elevation * 1.5f,
+                0f,
+                elevation,
+                Color.BLACK );
+        shadowPaint.setAlpha(70);
+        canvas.drawPath( shape, shadowPaint );
+    }
+    
     private Bitmap makeBitmapTransparent( Bitmap originalBitmap, float alpha ) {
         Bitmap bitmap = Bitmap.createBitmap(
             originalBitmap.getWidth(),
