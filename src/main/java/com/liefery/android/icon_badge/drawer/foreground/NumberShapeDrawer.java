@@ -1,10 +1,9 @@
-package com.liefery.android.icon_badge.drawer;
+package com.liefery.android.icon_badge.drawer.foreground;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import com.liefery.android.icon_badge.IconBadge;
 
 public class NumberShapeDrawer extends ForegroundShapeDrawer {
 
@@ -24,9 +23,7 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
     public void draw(
         Canvas canvas,
         Paint paint,
-        int size,
-        float shadowSizeX,
-        float shadowSizeY ) {
+        int size) {
         paint.setTypeface( Typeface.create( Typeface.DEFAULT, Typeface.BOLD ) );
 
         paint.setTextSize( canvas.getWidth() * 0.8f * scale );
@@ -34,23 +31,19 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
             canvas,
             paint,
             Integer.toString( number ),
-            size,
-            shadowSizeX,
-            shadowSizeY );
+            size);
     }
 
     private void drawCenter(
         Canvas canvas,
         Paint paint,
         String text,
-        int size,
-        float shadowSizeX,
-        float shadowSizeY ) {
+        int size) {
         paint.setTextAlign( Paint.Align.CENTER );
         paint.getTextBounds( text, 0, text.length(), r );
         float x = size / 2f;
         float y = size / 2f + r.height() / 2f - r.bottom;
-        canvas.drawText( text, x + shadowSizeX, y + shadowSizeY, paint );
+        canvas.drawText( text, x, y, paint );
     }
 
     private float calculateScale( int number ) {

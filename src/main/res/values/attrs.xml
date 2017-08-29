@@ -43,23 +43,6 @@
         <attr
             name="iconBadge_foregroundShapeColor"
             format="color" />
-
-        <attr
-            name="iconBadge_shadowColor"
-            format="color" />
-
-        <attr
-            name="iconBadge_shadowDx"
-            format="dimension" />
-
-        <attr
-            name="iconBadge_shadowDy"
-            format="dimension" />
-
-        <attr
-            name="iconBadge_shadowRadius"
-            format="dimension" />
-
         <attr
             name="iconBadge_stopNumber"
             format="integer" />

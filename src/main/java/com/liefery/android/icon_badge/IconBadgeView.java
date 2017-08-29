@@ -10,9 +10,12 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
+import com.liefery.android.icon_badge.drawer.background.PinBackgroundProvider;
+import com.liefery.android.icon_badge.drawer.background.RoundBackgroundProvider;
+import com.liefery.android.icon_badge.drawer.background.SquareBackgroundProvider;
 
 public class IconBadgeView extends View {
     private final IconBadge iconBadge = new IconBadge();
@@ -84,38 +87,24 @@ public class IconBadgeView extends View {
 
         int backgroundShape = styles.getInt(
             R.styleable.IconBadgeView_iconBadge_backgroundShape,
-            IconBadge.BACKGROUND_SHAPE_ROUND );
-        setBackgroundShape( backgroundShape );
+            0 );
+        switch(backgroundShape) {
+            case 0:
+                setBackgroundShape(new RoundBackgroundProvider());
+                break;
+            case 1:
+                setBackgroundShape(new SquareBackgroundProvider());
+                break;
+            case 2:
+                setBackgroundShape(new PinBackgroundProvider());
+                break;
+        }
 
         int shapeColor = styles.getColor(
             R.styleable.IconBadgeView_iconBadge_foregroundShapeColor,
             Integer.MIN_VALUE );
         if ( shapeColor != Integer.MIN_VALUE )
             setForegroundShapeColor( shapeColor );
-
-        int shadowColor = styles.getColor(
-            R.styleable.IconBadgeView_iconBadge_shadowColor,
-            Integer.MIN_VALUE );
-        if ( shadowColor != Integer.MIN_VALUE )
-            setShadowColor( shadowColor );
-
-        float shadowDx = styles.getDimension(
-            R.styleable.IconBadgeView_iconBadge_shadowDx,
-            Integer.MIN_VALUE );
-        if ( shadowDx != Integer.MIN_VALUE )
-            setShadowDx( shadowDx );
-
-        float shadowDy = styles.getDimension(
-            R.styleable.IconBadgeView_iconBadge_shadowDy,
-            Integer.MIN_VALUE );
-        if ( shadowDy != Integer.MIN_VALUE )
-            setShadowDy( shadowDy );
-
-        float shadowRadius = styles.getDimension(
-            R.styleable.IconBadgeView_iconBadge_shadowRadius,
-            -1 );
-        if ( shadowRadius != -1 )
-            setShadowRadius( shadowRadius );
 
         int number = styles.getInt(
             R.styleable.IconBadgeView_iconBadge_stopNumber,
@@ -164,28 +153,8 @@ public class IconBadgeView extends View {
         invalidate();
     }
 
-    public void setShadowColor( @ColorInt int color ) {
-        iconBadge.setShadowColor( color );
-        invalidate();
-    }
-
-    public void setShadowDx( float dx ) {
-        iconBadge.setShadowDx( dx );
-        invalidate();
-    }
-
-    public void setShadowDy( float dy ) {
-        iconBadge.setShadowDy( dy );
-        invalidate();
-    }
-
-    public void setShadowRadius( float radius ) {
-        iconBadge.setShadowRadius( radius );
-        invalidate();
-    }
-
-    public void setBackgroundShape( int backgroundShape ) {
-        iconBadge.setBackgroundShape( backgroundShape );
+    public void setBackgroundShape( BackgroundProvider backgroundShape ) {
+        iconBadge.setBackgroundDrawer( backgroundShape );
         invalidate();
     }
 
@@ -205,21 +174,17 @@ public class IconBadgeView extends View {
 
     @Override
     protected void onDraw( Canvas canvas ) {
-        // Hardware rendering causes transparent paint to be completely black,
-        // that is why we are exporting the badge with a shadow and draw it as a
-        // Bitmap.
-        // For badges without a shadow we reduce processing time by rendering
-        // directly to the canvas.
-        if ( iconBadge.hasShadow() && (android.os.Build.VERSION.SDK_INT <= 14) ) {
-            Bitmap export = iconBadge.export( size );
-            canvas.drawBitmap(
-                export,
-                -iconBadge.getShadowSizeX(),
-                -iconBadge.getShadowSizeY(),
-                null );
-        } else {
-            iconBadge.draw(canvas, width, size + 200);
-        }
+        BackgroundProvider.Result result = iconBadge.getBackgroundDrawer().export(size);
+        iconBadge.draw(canvas, size, result);
     }
     
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        
+        //TODO: Api Version Check
+        int size = Math.min(w, h);
+        ViewOutlineProvider outline = iconBadge.getBackgroundDrawer().export(size).outline;
+        setOutlineProvider(outline);
+    }
 }

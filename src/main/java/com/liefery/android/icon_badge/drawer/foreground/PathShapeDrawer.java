@@ -1,8 +1,9 @@
-package com.liefery.android.icon_badge.drawer;
+package com.liefery.android.icon_badge.drawer.foreground;
 
 import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.RectF;
+import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
 
 public abstract class PathShapeDrawer extends ForegroundShapeDrawer {
 
@@ -21,16 +22,12 @@ public abstract class PathShapeDrawer extends ForegroundShapeDrawer {
 
     protected void centerPath(
         Path path,
-        int size,
-        float shadowSizeX,
-        float shadowSizeY ) {
+        int size) {
         path.computeBounds( bounds, true );
         float centerX = size / 2;
         float centerY = size / 2;
         matrix.reset();
-        matrix.setTranslate( shadowSizeX
-            + centerX - ( bounds.right + bounds.left ) / 2, shadowSizeY
-            + centerY - ( bounds.bottom + bounds.top ) / 2 );
+        matrix.setTranslate(centerX - ( bounds.right + bounds.left ) / 2, centerY - ( bounds.bottom + bounds.top ) / 2 );
         path.transform( matrix );
     }
 }
