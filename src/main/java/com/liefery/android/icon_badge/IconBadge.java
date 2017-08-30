@@ -18,7 +18,7 @@ public class IconBadge {
     
     private float alpha = 1;
     
-    private int elevation = 10;
+    private int elevation = 0;
     
     private BackgroundProvider backgroundProvider = new RoundBackgroundProvider();
 
@@ -33,6 +33,8 @@ public class IconBadge {
     public IconBadge() {
         setForegroundShapeColor( Color.WHITE );
         setBackgroundShapeColor( Color.BLACK );
+    
+        shadowPaint.setAlpha(70);
     }
 
     public void setShapeArrowUp( Context context ) {
@@ -85,9 +87,8 @@ public class IconBadge {
         return elevation;
     }
     
-    public IconBadge setElevation(int elevation) {
+    public void setElevation(int elevation) {
         this.elevation = elevation;
-        return this;
     }
     
     public void setBackgroundProvider(BackgroundProvider provider) {
@@ -121,9 +122,11 @@ public class IconBadge {
     }
 
     private Bitmap renderBitmap( int size ) {
-        BackgroundProvider.Result result = backgroundProvider.export(size, 2 * elevation);
+        int padding = 2 * elevation;
         
-        Bitmap bitmap = Bitmap.createBitmap( (int)(result.width + (2 * elevation)), (int)(result.height + (2 * elevation)), Bitmap.Config.ARGB_8888 );
+        BackgroundProvider.Result result = backgroundProvider.export(size, padding);
+        
+        Bitmap bitmap = Bitmap.createBitmap( (int)(result.width + padding), (int)(result.height + padding), Bitmap.Config.ARGB_8888 );
         Canvas canvas = new Canvas( bitmap );
     
         drawShadow( canvas, result.path );
@@ -133,13 +136,14 @@ public class IconBadge {
     }
     
     private void drawShadow( Canvas canvas, Path shape ) {
-        shadowPaint.setShadowLayer(
-                elevation * 1.5f,
-                0f,
-                elevation,
-                Color.BLACK );
-        shadowPaint.setAlpha(70);
-        canvas.drawPath( shape, shadowPaint );
+        if(elevation > 0) {
+            shadowPaint.setShadowLayer(
+                    elevation * 1.5f,
+                    0f,
+                    elevation,
+                    Color.BLACK );
+            canvas.drawPath( shape, shadowPaint );
+        }
     }
     
     private Bitmap makeBitmapTransparent( Bitmap originalBitmap, float alpha ) {
