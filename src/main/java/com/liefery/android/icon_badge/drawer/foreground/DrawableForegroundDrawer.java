@@ -1,4 +1,4 @@
-package com.liefery.android.icon_badge.drawer;
+package com.liefery.android.icon_badge.drawer.foreground;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -17,16 +17,11 @@ public class DrawableForegroundDrawer extends ForegroundShapeDrawer {
     public void draw(
         Canvas canvas,
         Paint paint,
-        int size,
-        float shadowSizeX,
-        float shadowSizeY ) {
-
-        int drawingSize = size + (int) shadowSizeX;
+        int size) {
 
         int offset = (int) Math.round( size * 0.2 );
 
-        drawable.setBounds( (int) shadowSizeX + offset, (int) shadowSizeY
-            + offset, drawingSize - offset, drawingSize - offset );
+        drawable.setBounds( offset, offset, size - offset, size - offset );
         drawable.setColorFilter( paint.getColor(), PorterDuff.Mode.MULTIPLY );
         drawable.draw( canvas );
     }
