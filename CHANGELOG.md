@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0
+
+_2017-08-30_
+
+ * Remove custom shadowing for the view
+ * Implement ability to use android elevation on SDK version 21+
+ * Badges can be exported with a custom elevation
+
 ## 1.1.1
 
 _2017-08-16_
