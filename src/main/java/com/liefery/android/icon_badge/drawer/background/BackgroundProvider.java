@@ -22,13 +22,19 @@ public abstract class BackgroundProvider {
     
     public BackgroundProvider.Result export(int size, int padding) {
         Path adjustedPath = adjustPath(size, padding);
-        path.computeBounds(bounds, true);
+        adjustedPath.computeBounds(bounds, true);
+        
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewOutlineProvider outline = new PathOutlineProvider(adjustedPath);
-            return new BackgroundProvider.Result(adjustedPath, outline, bounds.width(), bounds.height());
+            return exportLollipop( adjustedPath );
         } else {
             return new BackgroundProvider.Result(adjustedPath, bounds.width(), bounds.height());
         }
+    }
+    
+    @TargetApi( Build.VERSION_CODES.LOLLIPOP )
+    private BackgroundProvider.Result exportLollipop( Path adjustedPath ) {
+        ViewOutlineProvider outline = new PathOutlineProvider(adjustedPath);
+        return new BackgroundProvider.Result(adjustedPath, outline, bounds.width(), bounds.height());
     }
     
     protected Path adjustPath(int size, int padding) {
