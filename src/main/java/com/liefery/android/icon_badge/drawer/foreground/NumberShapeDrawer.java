@@ -20,25 +20,14 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
     }
 
     @Override
-    public void draw(
-        Canvas canvas,
-        Paint paint,
-        int size) {
+    public void draw( Canvas canvas, Paint paint, int size ) {
         paint.setTypeface( Typeface.create( Typeface.DEFAULT, Typeface.BOLD ) );
 
         paint.setTextSize( canvas.getWidth() * 0.8f * scale );
-        drawCenter(
-            canvas,
-            paint,
-            Integer.toString( number ),
-            size);
+        drawCenter( canvas, paint, Integer.toString( number ), size );
     }
 
-    private void drawCenter(
-        Canvas canvas,
-        Paint paint,
-        String text,
-        int size) {
+    private void drawCenter( Canvas canvas, Paint paint, String text, int size ) {
         paint.setTextAlign( Paint.Align.CENTER );
         paint.getTextBounds( text, 0, text.length(), r );
         float x = size / 2f;

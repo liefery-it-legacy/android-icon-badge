@@ -5,9 +5,6 @@ import android.graphics.Paint;
 
 public abstract class ForegroundShapeDrawer {
 
-    public abstract void draw(
-        Canvas canvas,
-        Paint paint,
-        int size);
+    public abstract void draw( Canvas canvas, Paint paint, int size );
 
 }

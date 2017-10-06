@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:clipChildren="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,9 +27,9 @@
             <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:elevation="8dp"
                 app:iconBadge_backgroundShapeColor="#f05545"
-                app:iconBadge_foregroundShapeColor="#7f0000"
-                android:elevation="8dp"/>
+                app:iconBadge_foregroundShapeColor="#7f0000" />
 
             <TextView
                 android:layout_width="0dp"
@@ -55,10 +55,10 @@
             <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:iconBadge_backgroundShapeColor="#bc477b"
-                app:iconBadge_foregroundShapeColor="#560027"
+                android:elevation="2dp"
                 app:iconBadge_backgroundShape="square"
-                android:elevation="2dp"/>
+                app:iconBadge_backgroundShapeColor="#bc477b"
+                app:iconBadge_foregroundShapeColor="#560027" />
 
             <TextView
                 android:layout_width="0dp"
@@ -84,10 +84,10 @@
             <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:iconBadge_backgroundShapeColor="#6746c3"
-                app:iconBadge_foregroundShapeColor="#000063"
+                android:elevation="8dp"
                 app:iconBadge_backgroundShape="pin"
-                android:elevation="8dp"/>
+                app:iconBadge_backgroundShapeColor="#6746c3"
+                app:iconBadge_foregroundShapeColor="#000063" />
 
             <TextView
                 android:layout_width="0dp"
@@ -114,14 +114,14 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:iconBadge_backgroundShapeColor="#bc477b"
-                app:iconBadge_stopNumber="11"
-                app:iconBadge_foregroundShapeColor="#560027" />
+                app:iconBadge_foregroundShapeColor="#560027"
+                app:iconBadge_number="11" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="16dp"
+                android:layout_weight="1"
                 android:text="You can easily draw on the badge. The library comes with predefined foreground shapes for numbers, ..."
                 android:textColor="#262626"
                 android:textSize="16sp"
@@ -142,16 +142,16 @@
             <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                app:iconBadge_backgroundShape="square"
                 app:iconBadge_backgroundShapeColor="#ffb04c"
                 app:iconBadge_foregroundShape="arrowUp"
-                app:iconBadge_foregroundShapeColor="#bc5100"
-                app:iconBadge_backgroundShape="square" />
+                app:iconBadge_foregroundShapeColor="#bc5100" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="16dp"
+                android:layout_weight="1"
                 android:text="an arrow up ..."
                 android:textColor="#262626"
                 android:textSize="16sp"
@@ -199,10 +199,10 @@
             <com.liefery.android.icon_badge.IconBadgeView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                app:iconBadge_backgroundShape="square"
                 app:iconBadge_backgroundShapeColor="#7c43bd"
                 app:iconBadge_foregroundShapeColor="#12005e"
-                app:iconBadge_stopNumber="1"
-                app:iconBadge_backgroundShape="square" />
+                app:iconBadge_number="1" />
 
             <TextView
                 android:layout_width="0dp"
@@ -230,7 +230,7 @@
                 android:layout_height="50dp"
                 app:iconBadge_backgroundShapeColor="#6746c3"
                 app:iconBadge_foregroundShapeColor="#000063"
-                app:iconBadge_stopNumber="4576" />
+                app:iconBadge_number="4576" />
 
             <TextView
                 android:layout_width="0dp"
@@ -245,30 +245,30 @@
         </LinearLayout>
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clipChildren="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="1">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipChildren="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <com.liefery.android.icon_badge.IconBadgeView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:iconBadge_backgroundShapeColor="#bc477b"
-                    app:iconBadge_foregroundShapeColor="#560027"
-                    app:iconBadge_foregroundShapeDrawable="@drawable/ic_checkmark_all" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:iconBadge_backgroundShapeColor="#bc477b"
+                app:iconBadge_foregroundShapeColor="#560027"
+                app:iconBadge_foregroundShapeDrawable="@drawable/ic_checkmark_all" />
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="16dp"
-                    android:text="You can also draw any Android Drawable into the badge."
-                    android:textColor="#262626"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="You can also draw any Android Drawable into the badge."
+                android:textColor="#262626"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

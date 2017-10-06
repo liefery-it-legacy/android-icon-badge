@@ -19,14 +19,14 @@ public abstract class PathShapeDrawer extends ForegroundShapeDrawer {
         path.transform( matrix );
     }
 
-    protected void centerPath(
-        Path path,
-        int size) {
+    protected void centerPath( Path path, int size ) {
         path.computeBounds( bounds, true );
         float centerX = size / 2;
         float centerY = size / 2;
         matrix.reset();
-        matrix.setTranslate(centerX - ( bounds.right + bounds.left ) / 2, centerY - ( bounds.bottom + bounds.top ) / 2 );
+        matrix.setTranslate(
+            centerX - ( bounds.right + bounds.left ) / 2,
+            centerY - ( bounds.bottom + bounds.top ) / 2 );
         path.transform( matrix );
     }
 }

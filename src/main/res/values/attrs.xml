@@ -43,12 +43,13 @@
         <attr
             name="iconBadge_foregroundShapeColor"
             format="color" />
-        <attr
-            name="iconBadge_stopNumber"
-            format="integer" />
 
         <attr
             name="iconBadge_foregroundShapeDrawable"
+            format="integer" />
+
+        <attr
+            name="iconBadge_number"
             format="integer" />
 
     </declare-styleable>
