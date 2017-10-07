@@ -3,24 +3,34 @@ package com.liefery.android.icon_badge;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
 import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
 
 public interface IconBadgeable {
-    void setShapeArrowUp();
+    void setBackgroundShapeCircle();
 
-    void setShapeArrowDown();
+    void setBackgroundShapeSquare();
+
+    void setBackgroundShapePin();
+
+    void setForegroundShapeArrowUp();
+
+    void setForegroundShapeArrowDown();
 
     void setNumber( int number );
 
-    void setForegroundDrawable( Drawable drawable );
+    void setForegroundDrawable( @NonNull Drawable drawable );
 
-    void setForegroundDrawer( ForegroundShapeDrawer drawer );
+    void setForegroundDrawer( @Nullable ForegroundShapeDrawer drawer );
 
+    @ColorInt
     int getBackgroundShapeColor();
 
     void setBackgroundShapeColor( @ColorInt int color );
 
+    @ColorInt
     int getForegroundShapeColor();
 
     void setForegroundShapeColor( @ColorInt int color );
@@ -33,7 +43,8 @@ public interface IconBadgeable {
 
     void setElevation( float elevation );
 
+    @Nullable
     BackgroundProvider getBackgroundProvider();
 
-    void setBackgroundProvider( BackgroundProvider provider );
+    void setBackgroundProvider( @Nullable BackgroundProvider provider );
 }

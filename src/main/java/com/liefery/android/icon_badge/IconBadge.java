@@ -11,6 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
 import com.liefery.android.icon_badge.drawer.background.CircleBackgroundProvider;
+import com.liefery.android.icon_badge.drawer.background.PinBackgroundProvider;
+import com.liefery.android.icon_badge.drawer.background.SquareBackgroundProvider;
 import com.liefery.android.icon_badge.drawer.foreground.DrawableForegroundDrawer;
 import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
 import com.liefery.android.icon_badge.drawer.foreground.NumberShapeDrawer;
@@ -43,13 +45,28 @@ public class IconBadge implements IconBadgeable {
     }
 
     @Override
-    public void setShapeArrowUp() {
+    public void setBackgroundShapeCircle() {
+        backgroundProvider = new CircleBackgroundProvider();
+    }
+
+    @Override
+    public void setBackgroundShapeSquare() {
+        backgroundProvider = new SquareBackgroundProvider();
+    }
+
+    @Override
+    public void setBackgroundShapePin() {
+        backgroundProvider = new PinBackgroundProvider();
+    }
+
+    @Override
+    public void setForegroundShapeArrowUp() {
         foregroundShapeDrawer = new DrawableForegroundDrawer(
             ContextCompat.getDrawable( context, R.drawable.ic_arrow_up ) );
     }
 
     @Override
-    public void setShapeArrowDown() {
+    public void setForegroundShapeArrowDown() {
         foregroundShapeDrawer = new DrawableForegroundDrawer(
             ContextCompat.getDrawable( context, R.drawable.ic_arrow_down ) );
     }

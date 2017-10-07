@@ -10,9 +10,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewOutlineProvider;
 import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
 import com.liefery.android.icon_badge.drawer.background.PinBackgroundProvider;
 import com.liefery.android.icon_badge.drawer.background.CircleBackgroundProvider;
@@ -83,9 +81,9 @@ public class IconBadgeView extends View implements IconBadgeable {
             R.styleable.IconBadgeView_iconBadge_foregroundShape,
             -1 );
         if ( foregroundShape == 0 )
-            setShapeArrowUp();
+            setForegroundShapeArrowUp();
         else if ( foregroundShape == 1 )
-            setShapeArrowDown();
+            setForegroundShapeArrowDown();
 
         int backgroundShape = styles.getInt(
             R.styleable.IconBadgeView_iconBadge_backgroundShape,
@@ -126,6 +124,36 @@ public class IconBadgeView extends View implements IconBadgeable {
     }
 
     @Override
+    public void setBackgroundShapeCircle() {
+        iconBadge.setBackgroundShapeCircle();
+        invalidate();
+    }
+
+    @Override
+    public void setBackgroundShapeSquare() {
+        iconBadge.setBackgroundShapeSquare();
+        invalidate();
+    }
+
+    @Override
+    public void setBackgroundShapePin() {
+        iconBadge.setBackgroundShapePin();
+        invalidate();
+    }
+
+    @Override
+    public void setForegroundShapeArrowUp() {
+        iconBadge.setForegroundShapeArrowUp();
+        invalidate();
+    }
+
+    @Override
+    public void setForegroundShapeArrowDown() {
+        iconBadge.setForegroundShapeArrowDown();
+        invalidate();
+    }
+
+    @Override
     public void setBackgroundShapeColor( @ColorInt int color ) {
         iconBadge.setBackgroundShapeColor( color );
         invalidate();
@@ -134,18 +162,6 @@ public class IconBadgeView extends View implements IconBadgeable {
     @Override
     public void setForegroundShapeColor( @ColorInt int color ) {
         iconBadge.setForegroundShapeColor( color );
-        invalidate();
-    }
-
-    @Override
-    public void setShapeArrowUp() {
-        iconBadge.setShapeArrowUp();
-        invalidate();
-    }
-
-    @Override
-    public void setShapeArrowDown() {
-        iconBadge.setShapeArrowDown();
         invalidate();
     }
 
@@ -182,16 +198,23 @@ public class IconBadgeView extends View implements IconBadgeable {
         return iconBadge;
     }
 
-    //    @Override
-    //    public float getElevation() {
-    //        return iconBadge.getElevation();
-    //    }
-    //
-    //    @Override
-    //    public void setElevation( float elevation ) {
-    //        iconBadge.setElevation( elevation );
-    //        invalidate();
-    //    }
+    @Override
+    public float getElevation() {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
+            return super.getElevation();
+        else
+            return iconBadge.getElevation();
+    }
+
+    @Override
+    public void setElevation( float elevation ) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
+            super.setElevation( elevation );
+        else {
+            iconBadge.setElevation( elevation );
+            invalidate();
+        }
+    }
 
     @Override
     public BackgroundProvider getBackgroundProvider() {
