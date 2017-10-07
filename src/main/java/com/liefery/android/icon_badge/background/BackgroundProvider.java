@@ -1,4 +1,4 @@
-package com.liefery.android.icon_badge.drawer.background;
+package com.liefery.android.icon_badge.background;
 
 import android.annotation.TargetApi;
 import android.graphics.Matrix;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewOutlineProvider;
 
 public abstract class BackgroundProvider {
-
     private Path path;
 
     private RectF bounds = new RectF();
@@ -25,14 +24,13 @@ public abstract class BackgroundProvider {
         Path adjustedPath = adjustPath( size, padding );
         adjustedPath.computeBounds( bounds, true );
 
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
             return exportLollipop( adjustedPath );
-        } else {
+        else
             return new BackgroundProvider.Result(
                 adjustedPath,
                 bounds.width(),
                 bounds.height() );
-        }
     }
 
     @TargetApi( Build.VERSION_CODES.LOLLIPOP )
@@ -73,11 +71,9 @@ public abstract class BackgroundProvider {
         public void getOutline( View view, Outline outline ) {
             outline.setConvexPath( path );
         }
-
     }
 
     public static class Result {
-
         public final Path path;
 
         public ViewOutlineProvider outline = null;
@@ -105,7 +101,5 @@ public abstract class BackgroundProvider {
             this.width = width;
             this.height = height;
         }
-
     }
-
 }

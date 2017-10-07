@@ -11,11 +11,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.PinBackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.CircleBackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.SquareBackgroundProvider;
-import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
+import com.liefery.android.icon_badge.background.BackgroundProvider;
+import com.liefery.android.icon_badge.background.PinBackgroundProvider;
+import com.liefery.android.icon_badge.background.CircleBackgroundProvider;
+import com.liefery.android.icon_badge.background.SquareBackgroundProvider;
+import com.liefery.android.icon_badge.foreground.ForegroundShapeDrawer;
 
 public class IconBadgeView extends View implements IconBadgeable {
     private final IconBadge iconBadge = new IconBadge( getContext() );

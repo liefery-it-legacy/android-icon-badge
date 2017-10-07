@@ -1,4 +1,4 @@
-package com.liefery.android.icon_badge.drawer.background;
+package com.liefery.android.icon_badge.background;
 
 import android.graphics.Path;
 

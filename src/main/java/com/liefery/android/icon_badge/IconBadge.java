@@ -8,14 +8,13 @@ import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.CircleBackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.PinBackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.SquareBackgroundProvider;
-import com.liefery.android.icon_badge.drawer.foreground.DrawableForegroundDrawer;
-import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
-import com.liefery.android.icon_badge.drawer.foreground.NumberShapeDrawer;
+import com.liefery.android.icon_badge.background.BackgroundProvider;
+import com.liefery.android.icon_badge.background.CircleBackgroundProvider;
+import com.liefery.android.icon_badge.background.PinBackgroundProvider;
+import com.liefery.android.icon_badge.background.SquareBackgroundProvider;
+import com.liefery.android.icon_badge.foreground.DrawableForegroundDrawer;
+import com.liefery.android.icon_badge.foreground.ForegroundShapeDrawer;
+import com.liefery.android.icon_badge.foreground.NumberShapeDrawer;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -36,6 +35,8 @@ public class IconBadge implements IconBadgeable {
 
     @ColorInt
     private int foregroundShapeColor;
+
+    private int size = -1;
 
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
@@ -72,7 +73,15 @@ public class IconBadge implements IconBadgeable {
 
     @Override
     public void setBackgroundProvider( @Nullable BackgroundProvider provider ) {
-        this.backgroundProvider = provider;
+        if ( provider == null ) {
+            backgroundProvider = null;
+            return;
+        }
+
+        backgroundProvider = provider;
+
+        if ( size > 0 )
+            prepare( size );
     }
 
     @Override
@@ -104,13 +113,10 @@ public class IconBadge implements IconBadgeable {
             return;
         }
 
-        if ( foregroundShapeDrawer != null ) {
-            int color = foregroundShapeDrawer.getColor();
-            int size = foregroundShapeDrawer.getSize();
-            drawer.prepare( color, size );
-        }
-
         foregroundShapeDrawer = drawer;
+
+        if ( size > 0 )
+            prepare( size );
     }
 
     @Override
@@ -153,7 +159,9 @@ public class IconBadge implements IconBadgeable {
         this.elevation = elevation;
     }
 
-    public void prepare( int size ) {
+    void prepare( int size ) {
+        this.size = size;
+
         if ( getBackgroundProvider() != null )
             backgroundProviderResult = getBackgroundProvider().export( size, 0 );
         else
@@ -205,7 +213,6 @@ public class IconBadge implements IconBadgeable {
     }
 
     private void drawShadow( Canvas canvas, Path shape ) {
-        // TODO draw actual elevation when possible?
         if ( elevation > 0 ) {
             shadowPaint.setShadowLayer(
                 elevation * 1.5f,

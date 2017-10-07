@@ -5,8 +5,8 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
-import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
+import com.liefery.android.icon_badge.background.BackgroundProvider;
+import com.liefery.android.icon_badge.foreground.ForegroundShapeDrawer;
 
 public interface IconBadgeable {
     void setBackgroundShapeCircle();
