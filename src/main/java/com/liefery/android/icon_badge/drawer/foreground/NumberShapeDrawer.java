@@ -4,34 +4,45 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.support.annotation.ColorInt;
+import android.util.Log;
+
+import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class NumberShapeDrawer extends ForegroundShapeDrawer {
+    private final int number;
 
-    private int number;
+    private final String text;
 
-    private float scale;
+    private final Paint paint = new Paint( ANTI_ALIAS_FLAG );
 
-    private Rect r = new Rect();
+    private Rect rect = new Rect();
+
+    private float x;
+
+    private float y;
 
     public NumberShapeDrawer( int number ) {
         this.number = number;
+        this.text = Integer.toString( number );
 
-        this.scale = calculateScale( number );
+        paint.setTextAlign( Paint.Align.CENTER );
+        paint.setTypeface( Typeface.create( Typeface.DEFAULT, Typeface.BOLD ) );
     }
 
     @Override
-    public void draw( Canvas canvas, Paint paint, int size ) {
-        paint.setTypeface( Typeface.create( Typeface.DEFAULT, Typeface.BOLD ) );
+    public void prepare( int color, int size ) {
+        paint.setColor( color );
 
-        paint.setTextSize( canvas.getWidth() * 0.8f * scale );
-        drawCenter( canvas, paint, Integer.toString( number ), size );
+        float scale = calculateScale( number );
+        paint.setTextSize( size * 0.8f * scale );
+
+        x = size / 2;
+        y = calculateCenterVertical( size );
     }
 
-    private void drawCenter( Canvas canvas, Paint paint, String text, int size ) {
-        paint.setTextAlign( Paint.Align.CENTER );
-        paint.getTextBounds( text, 0, text.length(), r );
-        float x = size / 2f;
-        float y = size / 2f + r.height() / 2f - r.bottom;
+    @Override
+    public void draw( Canvas canvas ) {
         canvas.drawText( text, x, y, paint );
     }
 
@@ -52,4 +63,8 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
                 "Number too big - 9999 allowed as max" );
     }
 
+    private float calculateCenterVertical( int size ) {
+        paint.getTextBounds( text, 0, text.length(), rect );
+        return ( size + rect.height() ) / 2f;
+    }
 }

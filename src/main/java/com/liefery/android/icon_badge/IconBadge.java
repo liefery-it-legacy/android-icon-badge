@@ -26,11 +26,14 @@ public class IconBadge implements IconBadgeable {
 
     private BackgroundProvider backgroundProvider;
 
+    private BackgroundProvider.Result backgroundProviderResult;
+
     private ForegroundShapeDrawer foregroundShapeDrawer;
 
     private final Paint backgroundShapePaint = new Paint( ANTI_ALIAS_FLAG );
 
-    private final Paint foregroundShapePaint = new Paint( ANTI_ALIAS_FLAG );
+    @ColorInt
+    private int foregroundShapeColor;
 
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
@@ -78,12 +81,12 @@ public class IconBadge implements IconBadgeable {
 
     @Override
     public int getForegroundShapeColor() {
-        return foregroundShapePaint.getColor();
+        return foregroundShapeColor;
     }
 
     @Override
     public void setForegroundShapeColor( @ColorInt int color ) {
-        foregroundShapePaint.setColor( color );
+        foregroundShapeColor = color;
     }
 
     @Override
@@ -112,25 +115,38 @@ public class IconBadge implements IconBadgeable {
         return backgroundProvider;
     }
 
+    @Nullable
+    BackgroundProvider.Result getBackgroundProviderResult() {
+        return backgroundProviderResult;
+    }
+
     @Override
     public void setBackgroundProvider( @Nullable BackgroundProvider provider ) {
         this.backgroundProvider = provider;
     }
 
-    public void draw(
-        Canvas canvas,
-        int shapeSize,
-        BackgroundProvider.Result backgroundResult ) {
-        canvas.drawPath( backgroundResult.path, backgroundShapePaint );
+    public void prepare( int size ) {
+        if ( getBackgroundProvider() != null )
+            backgroundProviderResult = getBackgroundProvider().export( size, 0 );
+        else
+            backgroundProviderResult = null;
 
-        Log.wtf( "WTF", "Drawing foreground: " + foregroundShapeDrawer );
-        if ( foregroundShapeDrawer != null ) {
-            foregroundShapeDrawer
-                            .draw( canvas, foregroundShapePaint, shapeSize );
-        }
+        if ( foregroundShapeDrawer != null )
+            foregroundShapeDrawer.prepare( getForegroundShapeColor(), size );
+    }
+
+    public void draw( Canvas canvas ) {
+        if ( backgroundProviderResult != null )
+            canvas.drawPath(
+                backgroundProviderResult.path,
+                backgroundShapePaint );
+
+        if ( foregroundShapeDrawer != null )
+            foregroundShapeDrawer.draw( canvas );
     }
 
     public Bitmap export( int size ) {
+        prepare( size );
         Bitmap renderedBitmap = renderBitmap( size );
 
         if ( alpha < 1 ) {
@@ -155,7 +171,7 @@ public class IconBadge implements IconBadgeable {
         Canvas canvas = new Canvas( bitmap );
 
         drawShadow( canvas, result.path );
-        draw( canvas, size, result );
+        draw( canvas );
 
         return bitmap;
     }
@@ -185,5 +201,4 @@ public class IconBadge implements IconBadgeable {
 
         return bitmap;
     }
-
 }

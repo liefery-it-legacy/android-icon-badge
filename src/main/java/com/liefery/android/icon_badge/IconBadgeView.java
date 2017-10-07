@@ -22,10 +22,6 @@ import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
 public class IconBadgeView extends View implements IconBadgeable {
     private final IconBadge iconBadge = new IconBadge( getContext() );
 
-    private int size;
-
-    private BackgroundProvider.Result backgroundProviderResult;
-
     public IconBadgeView( Context context ) {
         super( context );
 
@@ -181,6 +177,11 @@ public class IconBadgeView extends View implements IconBadgeable {
         return iconBadge.getForegroundShapeColor();
     }
 
+    @NonNull
+    public IconBadge getIconBadge() {
+        return iconBadge;
+    }
+
     //    @Override
     //    public float getElevation() {
     //        return iconBadge.getElevation();
@@ -205,7 +206,7 @@ public class IconBadgeView extends View implements IconBadgeable {
 
     @Override
     protected void onDraw( Canvas canvas ) {
-        iconBadge.draw( canvas, size, backgroundProviderResult );
+        iconBadge.draw( canvas );
     }
 
     @Override
@@ -216,16 +217,15 @@ public class IconBadgeView extends View implements IconBadgeable {
         int oldHeight ) {
         super.onSizeChanged( width, height, oldWeight, oldHeight );
 
-        size = Math.min( width, height );
+        int size = Math.min( width, height );
 
-        backgroundProviderResult = iconBadge.getBackgroundProvider().export(
-            size,
-            0 );
+        iconBadge.prepare( size );
+        BackgroundProvider.Result result = iconBadge
+                        .getBackgroundProviderResult();
 
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
-            ViewOutlineProvider outline = iconBadge.getBackgroundProvider()
-                            .export( size, 0 ).outline;
-            setOutlineProvider( outline );
+        if ( result != null
+            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+            setOutlineProvider( result.outline );
         }
     }
 }

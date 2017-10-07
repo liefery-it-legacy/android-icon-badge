@@ -5,26 +5,30 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 
-public class DrawableForegroundDrawer extends ForegroundShapeDrawer {
+import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
+public class DrawableForegroundDrawer extends ForegroundShapeDrawer {
     private Drawable drawable;
 
-    public DrawableForegroundDrawer( Drawable drawable ) {
-        this.drawable = drawable;
+    public DrawableForegroundDrawer( @NonNull Drawable drawable ) {
+        this.drawable = DrawableCompat.wrap( drawable ).mutate();
     }
 
     @Override
-    public void draw( Canvas canvas, Paint paint, int size ) {
+    public void prepare( int color, int size ) {
+        DrawableCompat.setTint( drawable, color );
         int offset = (int) Math.round( size * 0.2 );
-
-        Drawable wrapped = DrawableCompat.wrap( drawable );
-        wrapped.mutate();
-        DrawableCompat.setTint( drawable, paint.getColor() );
         drawable.setBounds( offset, offset, size - offset, size - offset );
-        wrapped.draw( canvas );
+    }
+
+    @Override
+    public void draw( Canvas canvas ) {
+        drawable.draw( canvas );
     }
 
 }
