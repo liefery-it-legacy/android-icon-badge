@@ -13,7 +13,7 @@
 ```scala
 resolvers += "jitpack" at "https://jitpack.io"
 
-libraryDependencies += "com.github.liefery" % "android-icon-badge" % "1.2.0"
+libraryDependencies += "com.github.liefery" % "android-icon-badge" % "1.2.1-SNAPSHOT"
 ```
 
 ### Gradle
@@ -27,7 +27,7 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.github.liefery:android-icon-badge:1.2.0'
+    compile 'com.github.liefery:android-icon-badge:1.2.1-SNAPSHOT'
 }
 ```
 
@@ -40,7 +40,7 @@ dependencies {
     android:elevation="3dp"
     app:iconBadge_backgroundShapeColor="#4c8c4a"
     app:iconBadge_foregroundShapeColor="#003300"
-    app:iconBadge_stopNumber="123" />
+    app:iconBadge_number="123" />
 ```
 
 Please have a look at the sample application for more details.
