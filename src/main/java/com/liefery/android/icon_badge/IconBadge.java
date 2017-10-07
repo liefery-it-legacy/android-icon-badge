@@ -25,10 +25,13 @@ public class IconBadge implements IconBadgeable {
 
     private float elevation = 0;
 
+    @Nullable
     private BackgroundProvider backgroundProvider;
 
-    private BackgroundProvider.Result backgroundProviderResult;
+    @Nullable
+    BackgroundProvider.Result backgroundProviderDrawingResult;
 
+    @Nullable
     private ForegroundShapeDrawer foregroundShapeDrawer;
 
     private final Paint backgroundShapePaint = new Paint( ANTI_ALIAS_FLAG );
@@ -64,11 +67,6 @@ public class IconBadge implements IconBadgeable {
     @Override
     public BackgroundProvider getBackgroundProvider() {
         return backgroundProvider;
-    }
-
-    @Nullable
-    BackgroundProvider.Result getBackgroundProviderResult() {
-        return backgroundProviderResult;
     }
 
     @Override
@@ -163,18 +161,20 @@ public class IconBadge implements IconBadgeable {
         this.size = size;
 
         if ( getBackgroundProvider() != null )
-            backgroundProviderResult = getBackgroundProvider().export( size, 0 );
+            backgroundProviderDrawingResult = getBackgroundProvider().export(
+                size,
+                0 );
         else
-            backgroundProviderResult = null;
+            backgroundProviderDrawingResult = null;
 
         if ( foregroundShapeDrawer != null )
             foregroundShapeDrawer.prepare( getForegroundShapeColor(), size );
     }
 
     public void draw( Canvas canvas ) {
-        if ( backgroundProviderResult != null )
+        if ( backgroundProviderDrawingResult != null )
             canvas.drawPath(
-                backgroundProviderResult.path,
+                backgroundProviderDrawingResult.path,
                 backgroundShapePaint );
 
         if ( foregroundShapeDrawer != null )
@@ -189,38 +189,49 @@ public class IconBadge implements IconBadgeable {
             Bitmap alphaBitmap = makeBitmapTransparent( renderedBitmap, alpha );
             renderedBitmap.recycle();
             return alphaBitmap;
-        }
-        return renderedBitmap;
+        } else
+            return renderedBitmap;
     }
 
     private Bitmap renderBitmap( int size ) {
-        int padding = (int) ( 2 * elevation );
+        Bitmap bitmap;
+        Canvas canvas;
 
-        BackgroundProvider.Result result = backgroundProvider.export(
-            size,
-            padding );
+        if ( backgroundProvider != null ) {
+            int padding = (int) ( 2 * elevation );
 
-        Bitmap bitmap = Bitmap.createBitmap(
-            (int) ( result.width + padding ),
-            (int) ( result.height + padding ),
-            Bitmap.Config.ARGB_8888 );
-        Canvas canvas = new Canvas( bitmap );
+            BackgroundProvider.Result result = backgroundProvider.export(
+                size,
+                padding );
 
-        drawShadow( canvas, result.path );
+            bitmap = Bitmap.createBitmap(
+                (int) ( size + padding ),
+                (int) ( size + padding ),
+                Bitmap.Config.ARGB_8888 );
+
+            canvas = new Canvas( bitmap );
+
+            if ( elevation > 0 ) {
+                drawShadow( canvas, result.path );
+            }
+        } else {
+            bitmap = Bitmap.createBitmap( size, size, Bitmap.Config.ARGB_8888 );
+            canvas = new Canvas( bitmap );
+        }
+
+        // TODO draw in center
         draw( canvas );
 
         return bitmap;
     }
 
     private void drawShadow( Canvas canvas, Path shape ) {
-        if ( elevation > 0 ) {
-            shadowPaint.setShadowLayer(
-                elevation * 1.5f,
-                0f,
-                elevation,
-                Color.BLACK );
-            canvas.drawPath( shape, shadowPaint );
-        }
+        shadowPaint.setShadowLayer(
+            elevation * 1.5f,
+            0f,
+            elevation,
+            Color.BLACK );
+        canvas.drawPath( shape, shadowPaint );
     }
 
     private Bitmap makeBitmapTransparent( Bitmap originalBitmap, float alpha ) {
@@ -228,6 +239,7 @@ public class IconBadge implements IconBadgeable {
             originalBitmap.getWidth(),
             originalBitmap.getHeight(),
             Bitmap.Config.ARGB_8888 );
+        
         Canvas canvas = new Canvas( bitmap );
 
         Paint alphaPaint = new Paint();

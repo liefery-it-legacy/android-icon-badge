@@ -12,9 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import com.liefery.android.icon_badge.background.BackgroundProvider;
-import com.liefery.android.icon_badge.background.PinBackgroundProvider;
-import com.liefery.android.icon_badge.background.CircleBackgroundProvider;
-import com.liefery.android.icon_badge.background.SquareBackgroundProvider;
 import com.liefery.android.icon_badge.foreground.ForegroundShapeDrawer;
 
 public class IconBadgeView extends View implements IconBadgeable {
@@ -241,8 +238,7 @@ public class IconBadgeView extends View implements IconBadgeable {
         int size = Math.min( width, height );
 
         iconBadge.prepare( size );
-        BackgroundProvider.Result result = iconBadge
-                        .getBackgroundProviderResult();
+        BackgroundProvider.Result result = iconBadge.backgroundProviderDrawingResult;
 
         if ( result != null
             && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {

@@ -23,6 +23,7 @@ public class Activity extends android.app.Activity {
         badge.setBackgroundShapeColor( Color.RED );
         badge.setForegroundShapeArrowUp();
         badge.setForegroundShapeColor( Color.WHITE );
+        badge.setElevation( dpToPx( 5 ) );
         image.setImageBitmap( badge.export( dpToPx( 50 ) ) );
     }
 }
