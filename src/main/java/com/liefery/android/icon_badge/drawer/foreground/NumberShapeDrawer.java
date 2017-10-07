@@ -4,8 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.support.annotation.ColorInt;
-import android.util.Log;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -17,6 +15,8 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
     private final Paint paint = new Paint( ANTI_ALIAS_FLAG );
 
     private Rect rect = new Rect();
+
+    private int size;
 
     private float x;
 
@@ -33,12 +33,23 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
     @Override
     public void prepare( int color, int size ) {
         paint.setColor( color );
+        this.size = size;
 
         float scale = calculateScale( number );
         paint.setTextSize( size * 0.8f * scale );
 
         x = size / 2;
         y = calculateCenterVertical( size );
+    }
+
+    @Override
+    public int getColor() {
+        return paint.getColor();
+    }
+
+    @Override
+    public int getSize() {
+        return size;
     }
 
     @Override

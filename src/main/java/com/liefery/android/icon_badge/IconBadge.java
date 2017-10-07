@@ -59,30 +59,57 @@ public class IconBadge implements IconBadgeable {
         backgroundProvider = new PinBackgroundProvider();
     }
 
+    @Nullable
+    @Override
+    public BackgroundProvider getBackgroundProvider() {
+        return backgroundProvider;
+    }
+
+    @Nullable
+    BackgroundProvider.Result getBackgroundProviderResult() {
+        return backgroundProviderResult;
+    }
+
+    @Override
+    public void setBackgroundProvider( @Nullable BackgroundProvider provider ) {
+        this.backgroundProvider = provider;
+    }
+
     @Override
     public void setForegroundShapeArrowUp() {
-        foregroundShapeDrawer = new DrawableForegroundDrawer(
-            ContextCompat.getDrawable( context, R.drawable.ic_arrow_up ) );
+        setForegroundDrawer( new DrawableForegroundDrawer(
+            ContextCompat.getDrawable( context, R.drawable.ic_arrow_up ) ) );
     }
 
     @Override
     public void setForegroundShapeArrowDown() {
-        foregroundShapeDrawer = new DrawableForegroundDrawer(
-            ContextCompat.getDrawable( context, R.drawable.ic_arrow_down ) );
+        setForegroundDrawer( new DrawableForegroundDrawer(
+            ContextCompat.getDrawable( context, R.drawable.ic_arrow_down ) ) );
     }
 
     @Override
     public void setNumber( int number ) {
-        foregroundShapeDrawer = new NumberShapeDrawer( number );
+        setForegroundDrawer( new NumberShapeDrawer( number ) );
     }
 
     @Override
     public void setForegroundDrawable( @NonNull Drawable drawable ) {
-        foregroundShapeDrawer = new DrawableForegroundDrawer( drawable );
+        setForegroundDrawer( new DrawableForegroundDrawer( drawable ) );
     }
 
     @Override
     public void setForegroundDrawer( @Nullable ForegroundShapeDrawer drawer ) {
+        if ( drawer == null ) {
+            foregroundShapeDrawer = null;
+            return;
+        }
+
+        if ( foregroundShapeDrawer != null ) {
+            int color = foregroundShapeDrawer.getColor();
+            int size = foregroundShapeDrawer.getSize();
+            drawer.prepare( color, size );
+        }
+
         foregroundShapeDrawer = drawer;
     }
 
@@ -124,22 +151,6 @@ public class IconBadge implements IconBadgeable {
     @Override
     public void setElevation( float elevation ) {
         this.elevation = elevation;
-    }
-
-    @Nullable
-    @Override
-    public BackgroundProvider getBackgroundProvider() {
-        return backgroundProvider;
-    }
-
-    @Nullable
-    BackgroundProvider.Result getBackgroundProviderResult() {
-        return backgroundProviderResult;
-    }
-
-    @Override
-    public void setBackgroundProvider( @Nullable BackgroundProvider provider ) {
-        this.backgroundProvider = provider;
     }
 
     public void prepare( int size ) {
