@@ -69,8 +69,6 @@ public class IconBadgeView extends View implements IconBadgeable {
     }
 
     private void initialize( @NonNull TypedArray styles ) {
-        // setLayerType( View.LAYER_TYPE_SOFTWARE, null );
-
         int backgroundShapeColor = styles.getColor(
             R.styleable.IconBadgeView_iconBadge_backgroundShapeColor,
             Integer.MIN_VALUE );
@@ -90,13 +88,13 @@ public class IconBadgeView extends View implements IconBadgeable {
             0 );
         switch ( backgroundShape ) {
             case 0:
-                setBackgroundProvider( new CircleBackgroundProvider() );
+                setBackgroundShapeCircle();
             break;
             case 1:
-                setBackgroundProvider( new SquareBackgroundProvider() );
+                setBackgroundShapeSquare();
             break;
             case 2:
-                setBackgroundProvider( new PinBackgroundProvider() );
+                setBackgroundShapePin();
             break;
         }
 

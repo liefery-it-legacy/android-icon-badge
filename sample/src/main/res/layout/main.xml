@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="16dp"
-                android:text="... or pin-shaped. This can easily be set in XML or programmatically."
+                android:text="... or pin-shaped. This can be set in XML or programmatically."
                 android:textColor="#262626"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -237,7 +237,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="16dp"
-                android:text="... that they fit the surrounding circle nicely while still being readable."
+                android:text="... that they fit the surrounding shape nicely while still being readable."
                 android:textColor="#262626"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -266,6 +266,32 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="16dp"
                 android:text="You can also draw any Android Drawable into the badge."
+                android:textColor="#262626"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipChildren="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="All badges can be exported to Bitmaps (as in this example)"
                 android:textColor="#262626"
                 android:textSize="16sp"
                 android:textStyle="bold" />
