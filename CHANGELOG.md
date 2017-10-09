@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0
+
+_2017-10-09_
+
+ * Fix drawables sharing properties across instances (`Drawable.mutate`)
+ * Streamline API (introduce `IconBadgeable`)
+ * Improve drawing performance by removing `onDraw` allocations
+
 ## 1.2.0
 
 _2017-08-30_
