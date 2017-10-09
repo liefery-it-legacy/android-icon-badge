@@ -90,14 +90,12 @@ public abstract class BackgroundProvider {
             float height ) {
             this.path = path;
             this.outline = outline;
-
             this.width = width;
             this.height = height;
         }
 
         public Result( Path path, float width, float height ) {
             this.path = path;
-
             this.width = width;
             this.height = height;
         }

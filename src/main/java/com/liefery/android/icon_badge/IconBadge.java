@@ -160,18 +160,22 @@ public class IconBadge implements IconBadgeable {
     void prepare( int size ) {
         this.size = size;
 
-        if ( getBackgroundProvider() != null )
+        if ( getBackgroundProvider() != null ) {
             backgroundProviderDrawingResult = getBackgroundProvider().export(
                 size,
                 0 );
-        else
+        } else {
             backgroundProviderDrawingResult = null;
+        }
 
         if ( foregroundShapeDrawer != null )
             foregroundShapeDrawer.prepare( getForegroundShapeColor(), size );
     }
 
     public void draw( Canvas canvas ) {
+        // TODO shift path to be drawn in the center of the canvas
+        // when drawing a bitmap with shadow, it is currently aligned to the
+        // left of the canvas, but should horizontally centered
         if ( backgroundProviderDrawingResult != null )
             canvas.drawPath(
                 backgroundProviderDrawingResult.path,
@@ -197,29 +201,30 @@ public class IconBadge implements IconBadgeable {
         Bitmap bitmap;
         Canvas canvas;
 
-        if ( backgroundProvider != null ) {
+        if ( backgroundProvider != null
+            && backgroundProviderDrawingResult != null ) {
+            int actualSize = (int) Math.max(
+                backgroundProviderDrawingResult.width,
+                backgroundProviderDrawingResult.height );
+
             int padding = (int) ( 2 * elevation );
 
             BackgroundProvider.Result result = backgroundProvider.export(
                 size,
                 padding );
 
-            bitmap = Bitmap.createBitmap(
-                (int) ( size + padding ),
-                (int) ( size + padding ),
-                Bitmap.Config.ARGB_8888 );
+            bitmap = Bitmap.createBitmap( actualSize + padding, actualSize
+                + padding, Bitmap.Config.ARGB_8888 );
 
             canvas = new Canvas( bitmap );
 
-            if ( elevation > 0 ) {
+            if ( elevation > 0 )
                 drawShadow( canvas, result.path );
-            }
         } else {
             bitmap = Bitmap.createBitmap( size, size, Bitmap.Config.ARGB_8888 );
             canvas = new Canvas( bitmap );
         }
 
-        // TODO draw in center
         draw( canvas );
 
         return bitmap;
@@ -239,7 +244,7 @@ public class IconBadge implements IconBadgeable {
             originalBitmap.getWidth(),
             originalBitmap.getHeight(),
             Bitmap.Config.ARGB_8888 );
-        
+
         Canvas canvas = new Canvas( bitmap );
 
         Paint alphaPaint = new Paint();
