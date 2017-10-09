@@ -5,152 +5,246 @@ import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.RoundBackgroundProvider;
-import com.liefery.android.icon_badge.drawer.foreground.DrawableForegroundDrawer;
-import com.liefery.android.icon_badge.drawer.foreground.ForegroundShapeDrawer;
-import com.liefery.android.icon_badge.drawer.foreground.NumberShapeDrawer;
+import com.liefery.android.icon_badge.background.BackgroundProvider;
+import com.liefery.android.icon_badge.background.CircleBackgroundProvider;
+import com.liefery.android.icon_badge.background.PinBackgroundProvider;
+import com.liefery.android.icon_badge.background.SquareBackgroundProvider;
+import com.liefery.android.icon_badge.foreground.DrawableForegroundDrawer;
+import com.liefery.android.icon_badge.foreground.ForegroundShapeDrawer;
+import com.liefery.android.icon_badge.foreground.NumberShapeDrawer;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
-public class IconBadge {
-    
-    private float alpha = 1;
-    
-    private int elevation = 0;
-    
-    private BackgroundProvider backgroundProvider = new RoundBackgroundProvider();
+public class IconBadge implements IconBadgeable {
+    private final Context context;
 
+    private float alpha = 1;
+
+    private float elevation = 0;
+
+    @Nullable
+    private BackgroundProvider backgroundProvider;
+
+    @Nullable
+    BackgroundProvider.Result backgroundProviderDrawingResult;
+
+    @Nullable
     private ForegroundShapeDrawer foregroundShapeDrawer;
 
     private final Paint backgroundShapePaint = new Paint( ANTI_ALIAS_FLAG );
 
-    private final Paint foregroundShapePaint = new Paint( ANTI_ALIAS_FLAG );
-    
+    @ColorInt
+    private int foregroundShapeColor;
+
+    private int size = -1;
+
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
-    public IconBadge() {
-        setForegroundShapeColor( Color.WHITE );
-        setBackgroundShapeColor( Color.BLACK );
-    
-        shadowPaint.setAlpha(70);
+    public IconBadge( Context context ) {
+        this.context = context;
+        shadowPaint.setAlpha( 70 );
     }
 
-    public void setShapeArrowUp( Context context ) {
-        foregroundShapeDrawer = new DrawableForegroundDrawer(
-            ContextCompat.getDrawable( context, R.drawable.ic_arrow_up ) );
+    @Override
+    public void setBackgroundShapeCircle() {
+        backgroundProvider = new CircleBackgroundProvider();
     }
 
-    public void setShapeArrowDown( Context context ) {
-        foregroundShapeDrawer = new DrawableForegroundDrawer(
-            ContextCompat.getDrawable( context, R.drawable.ic_arrow_down ) );
+    @Override
+    public void setBackgroundShapeSquare() {
+        backgroundProvider = new SquareBackgroundProvider();
     }
 
+    @Override
+    public void setBackgroundShapePin() {
+        backgroundProvider = new PinBackgroundProvider();
+    }
+
+    @Nullable
+    @Override
+    public BackgroundProvider getBackgroundProvider() {
+        return backgroundProvider;
+    }
+
+    @Override
+    public void setBackgroundProvider( @Nullable BackgroundProvider provider ) {
+        if ( provider == null ) {
+            backgroundProvider = null;
+            return;
+        }
+
+        backgroundProvider = provider;
+
+        if ( size > 0 )
+            prepare( size );
+    }
+
+    @Override
+    public void setForegroundShapeArrowUp() {
+        setForegroundDrawer( new DrawableForegroundDrawer(
+            ContextCompat.getDrawable( context, R.drawable.ic_arrow_up ) ) );
+    }
+
+    @Override
+    public void setForegroundShapeArrowDown() {
+        setForegroundDrawer( new DrawableForegroundDrawer(
+            ContextCompat.getDrawable( context, R.drawable.ic_arrow_down ) ) );
+    }
+
+    @Override
     public void setNumber( int number ) {
-        foregroundShapeDrawer = new NumberShapeDrawer( number );
+        setForegroundDrawer( new NumberShapeDrawer( number ) );
     }
 
-    public void setForegroundDrawable( Drawable drawable ) {
-        foregroundShapeDrawer = new DrawableForegroundDrawer( drawable );
+    @Override
+    public void setForegroundDrawable( @NonNull Drawable drawable ) {
+        setForegroundDrawer( new DrawableForegroundDrawer( drawable ) );
     }
 
-    public void setForegroundDrawer( ForegroundShapeDrawer drawer ) {
+    @Override
+    public void setForegroundDrawer( @Nullable ForegroundShapeDrawer drawer ) {
+        if ( drawer == null ) {
+            foregroundShapeDrawer = null;
+            return;
+        }
+
         foregroundShapeDrawer = drawer;
+
+        if ( size > 0 )
+            prepare( size );
     }
 
+    @Override
     public int getBackgroundShapeColor() {
         return backgroundShapePaint.getColor();
     }
 
+    @Override
     public void setBackgroundShapeColor( @ColorInt int color ) {
         backgroundShapePaint.setColor( color );
     }
 
-    public int getForgroundShapeColor() {
-        return foregroundShapePaint.getColor();
+    @Override
+    public int getForegroundShapeColor() {
+        return foregroundShapeColor;
     }
 
+    @Override
     public void setForegroundShapeColor( @ColorInt int color ) {
-        foregroundShapePaint.setColor( color );
+        foregroundShapeColor = color;
     }
 
+    @Override
     public float getAlpha() {
         return alpha;
     }
 
+    @Override
     public void setAlpha( @FloatRange( from = 0.0, to = 1.0 ) float alpha ) {
         this.alpha = alpha;
     }
-    
-    public int getElevation() {
+
+    @Override
+    public float getElevation() {
         return elevation;
     }
-    
-    public void setElevation(int elevation) {
+
+    @Override
+    public void setElevation( float elevation ) {
         this.elevation = elevation;
     }
-    
-    public void setBackgroundProvider(BackgroundProvider provider) {
-        this.backgroundProvider = provider;
-    }
-    
-    public BackgroundProvider getBackgroundProvider() {
-        return backgroundProvider;
-    }
-    
-    public void draw(Canvas canvas, int shapeSize, BackgroundProvider.Result backgroundResult ) {
-        canvas.drawPath( backgroundResult.path, backgroundShapePaint );
 
-        if ( foregroundShapeDrawer != null ) {
-            foregroundShapeDrawer.draw(
-                canvas,
-                foregroundShapePaint,
-                shapeSize);
+    void prepare( int size ) {
+        this.size = size;
+
+        if ( getBackgroundProvider() != null ) {
+            backgroundProviderDrawingResult = getBackgroundProvider().export(
+                size,
+                0 );
+        } else {
+            backgroundProviderDrawingResult = null;
         }
+
+        if ( foregroundShapeDrawer != null )
+            foregroundShapeDrawer.prepare( getForegroundShapeColor(), size );
+    }
+
+    public void draw( Canvas canvas ) {
+        // TODO shift path to be drawn in the center of the canvas
+        // when drawing a bitmap with shadow, it is currently aligned to the
+        // left of the canvas, but should horizontally centered
+        if ( backgroundProviderDrawingResult != null )
+            canvas.drawPath(
+                backgroundProviderDrawingResult.path,
+                backgroundShapePaint );
+
+        if ( foregroundShapeDrawer != null )
+            foregroundShapeDrawer.draw( canvas );
     }
 
     public Bitmap export( int size ) {
+        prepare( size );
         Bitmap renderedBitmap = renderBitmap( size );
 
         if ( alpha < 1 ) {
             Bitmap alphaBitmap = makeBitmapTransparent( renderedBitmap, alpha );
             renderedBitmap.recycle();
             return alphaBitmap;
-        }
-        return renderedBitmap;
+        } else
+            return renderedBitmap;
     }
 
     private Bitmap renderBitmap( int size ) {
-        int padding = 2 * elevation;
-        
-        BackgroundProvider.Result result = backgroundProvider.export(size, padding);
-        
-        Bitmap bitmap = Bitmap.createBitmap( (int)(result.width + padding), (int)(result.height + padding), Bitmap.Config.ARGB_8888 );
-        Canvas canvas = new Canvas( bitmap );
-    
-        drawShadow( canvas, result.path );
-        draw( canvas, size, result );
-        
+        Bitmap bitmap;
+        Canvas canvas;
+
+        if ( backgroundProvider != null
+            && backgroundProviderDrawingResult != null ) {
+            int actualSize = (int) Math.max(
+                backgroundProviderDrawingResult.width,
+                backgroundProviderDrawingResult.height );
+
+            int padding = (int) ( 2 * elevation );
+
+            BackgroundProvider.Result result = backgroundProvider.export(
+                size,
+                padding );
+
+            bitmap = Bitmap.createBitmap( actualSize + padding, actualSize
+                + padding, Bitmap.Config.ARGB_8888 );
+
+            canvas = new Canvas( bitmap );
+
+            if ( elevation > 0 )
+                drawShadow( canvas, result.path );
+        } else {
+            bitmap = Bitmap.createBitmap( size, size, Bitmap.Config.ARGB_8888 );
+            canvas = new Canvas( bitmap );
+        }
+
+        draw( canvas );
+
         return bitmap;
     }
-    
+
     private void drawShadow( Canvas canvas, Path shape ) {
-        if(elevation > 0) {
-            shadowPaint.setShadowLayer(
-                    elevation * 1.5f,
-                    0f,
-                    elevation,
-                    Color.BLACK );
-            canvas.drawPath( shape, shadowPaint );
-        }
+        shadowPaint.setShadowLayer(
+            elevation * 1.5f,
+            0f,
+            elevation,
+            Color.BLACK );
+        canvas.drawPath( shape, shadowPaint );
     }
-    
+
     private Bitmap makeBitmapTransparent( Bitmap originalBitmap, float alpha ) {
         Bitmap bitmap = Bitmap.createBitmap(
             originalBitmap.getWidth(),
             originalBitmap.getHeight(),
             Bitmap.Config.ARGB_8888 );
+
         Canvas canvas = new Canvas( bitmap );
 
         Paint alphaPaint = new Paint();
@@ -159,5 +253,4 @@ public class IconBadge {
 
         return bitmap;
     }
-
 }

@@ -11,16 +11,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewOutlineProvider;
-import com.liefery.android.icon_badge.drawer.background.BackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.PinBackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.RoundBackgroundProvider;
-import com.liefery.android.icon_badge.drawer.background.SquareBackgroundProvider;
+import com.liefery.android.icon_badge.background.BackgroundProvider;
+import com.liefery.android.icon_badge.foreground.ForegroundShapeDrawer;
 
-public class IconBadgeView extends View {
-    private final IconBadge iconBadge = new IconBadge();
-
-    private int width, height, size;
+public class IconBadgeView extends View implements IconBadgeable {
+    private final IconBadge iconBadge = new IconBadge( getContext() );
 
     public IconBadgeView( Context context ) {
         super( context );
@@ -81,33 +76,33 @@ public class IconBadgeView extends View {
             R.styleable.IconBadgeView_iconBadge_foregroundShape,
             -1 );
         if ( foregroundShape == 0 )
-            setShapeArrowUp();
+            setForegroundShapeArrowUp();
         else if ( foregroundShape == 1 )
-            setShapeArrowDown();
+            setForegroundShapeArrowDown();
 
         int backgroundShape = styles.getInt(
             R.styleable.IconBadgeView_iconBadge_backgroundShape,
             0 );
-        switch(backgroundShape) {
+        switch ( backgroundShape ) {
             case 0:
-                setBackgroundShape(new RoundBackgroundProvider());
-                break;
+                setBackgroundShapeCircle();
+            break;
             case 1:
-                setBackgroundShape(new SquareBackgroundProvider());
-                break;
+                setBackgroundShapeSquare();
+            break;
             case 2:
-                setBackgroundShape(new PinBackgroundProvider());
-                break;
+                setBackgroundShapePin();
+            break;
         }
 
-        int shapeColor = styles.getColor(
+        int foregroundShapeColor = styles.getColor(
             R.styleable.IconBadgeView_iconBadge_foregroundShapeColor,
             Integer.MIN_VALUE );
-        if ( shapeColor != Integer.MIN_VALUE )
-            setForegroundShapeColor( shapeColor );
+        if ( foregroundShapeColor != Integer.MIN_VALUE )
+            setForegroundShapeColor( foregroundShapeColor );
 
         int number = styles.getInt(
-            R.styleable.IconBadgeView_iconBadge_stopNumber,
+            R.styleable.IconBadgeView_iconBadge_number,
             -1 );
         if ( number != -1 )
             setNumber( number );
@@ -123,69 +118,131 @@ public class IconBadgeView extends View {
         }
     }
 
+    @Override
+    public void setBackgroundShapeCircle() {
+        iconBadge.setBackgroundShapeCircle();
+        invalidate();
+    }
+
+    @Override
+    public void setBackgroundShapeSquare() {
+        iconBadge.setBackgroundShapeSquare();
+        invalidate();
+    }
+
+    @Override
+    public void setBackgroundShapePin() {
+        iconBadge.setBackgroundShapePin();
+        invalidate();
+    }
+
+    @Override
+    public void setForegroundShapeArrowUp() {
+        iconBadge.setForegroundShapeArrowUp();
+        invalidate();
+    }
+
+    @Override
+    public void setForegroundShapeArrowDown() {
+        iconBadge.setForegroundShapeArrowDown();
+        invalidate();
+    }
+
+    @Override
     public void setBackgroundShapeColor( @ColorInt int color ) {
         iconBadge.setBackgroundShapeColor( color );
         invalidate();
     }
 
+    @Override
     public void setForegroundShapeColor( @ColorInt int color ) {
         iconBadge.setForegroundShapeColor( color );
         invalidate();
     }
 
-    public void setShapeArrowUp() {
-        iconBadge.setShapeArrowUp( getContext() );
-        invalidate();
-    }
-
-    public void setShapeArrowDown() {
-        iconBadge.setShapeArrowDown( getContext() );
-        invalidate();
-    }
-
+    @Override
     public void setForegroundDrawable( Drawable drawable ) {
         iconBadge.setForegroundDrawable( drawable );
         invalidate();
     }
 
+    @Override
     public void setNumber( int number ) {
         iconBadge.setNumber( number );
         invalidate();
     }
 
-    public void setBackgroundShape( BackgroundProvider backgroundShape ) {
-        iconBadge.setBackgroundProvider( backgroundShape );
+    @Override
+    public void setForegroundDrawer( ForegroundShapeDrawer drawer ) {
+        iconBadge.setForegroundDrawer( drawer );
         invalidate();
     }
 
     @Override
-    protected void onLayout(
-        boolean changed,
-        int left,
-        int top,
-        int right,
-        int bottom ) {
-        super.onLayout( changed, left, top, right, bottom );
+    public int getBackgroundShapeColor() {
+        return iconBadge.getBackgroundShapeColor();
+    }
 
-        width = right - left;
-        height = bottom - top;
-        size = Math.min( width, height );
+    @Override
+    public int getForegroundShapeColor() {
+        return iconBadge.getForegroundShapeColor();
+    }
+
+    @NonNull
+    public IconBadge getIconBadge() {
+        return iconBadge;
+    }
+
+    @Override
+    public float getElevation() {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
+            return super.getElevation();
+        else
+            return iconBadge.getElevation();
+    }
+
+    @Override
+    public void setElevation( float elevation ) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
+            super.setElevation( elevation );
+        else {
+            iconBadge.setElevation( elevation );
+            invalidate();
+        }
+    }
+
+    @Override
+    public BackgroundProvider getBackgroundProvider() {
+        return iconBadge.getBackgroundProvider();
+    }
+
+    @Override
+    public void setBackgroundProvider( BackgroundProvider provider ) {
+        iconBadge.setBackgroundProvider( provider );
+        invalidate();
     }
 
     @Override
     protected void onDraw( Canvas canvas ) {
-        BackgroundProvider.Result result = iconBadge.getBackgroundProvider().export(size, 0);
-        iconBadge.draw(canvas, size, result);
+        iconBadge.draw( canvas );
     }
-    
+
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int size = Math.min(w, h);
-            ViewOutlineProvider outline = iconBadge.getBackgroundProvider().export(size, 0).outline;
-            setOutlineProvider(outline);
+    protected void onSizeChanged(
+        int width,
+        int height,
+        int oldWeight,
+        int oldHeight ) {
+        super.onSizeChanged( width, height, oldWeight, oldHeight );
+
+        int size = Math.min( width, height );
+
+        iconBadge.prepare( size );
+        BackgroundProvider.Result result = iconBadge.backgroundProviderDrawingResult;
+
+        if ( result != null
+            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+            setOutlineProvider( result.outline );
         }
     }
 }
