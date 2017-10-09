@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.1
+
+_2017-10-09_
+
+ * Improve compatibility support for vector
+ * Upgrade to support library 26.1.0
+
 ## 1.3.0
 
 _2017-10-09_
