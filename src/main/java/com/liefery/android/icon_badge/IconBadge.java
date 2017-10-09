@@ -7,7 +7,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import com.liefery.android.icon_badge.background.BackgroundProvider;
 import com.liefery.android.icon_badge.background.CircleBackgroundProvider;
 import com.liefery.android.icon_badge.background.PinBackgroundProvider;
@@ -85,13 +85,13 @@ public class IconBadge implements IconBadgeable {
     @Override
     public void setForegroundShapeArrowUp() {
         setForegroundDrawer( new DrawableForegroundDrawer(
-            ContextCompat.getDrawable( context, R.drawable.ic_arrow_up ) ) );
+            AppCompatResources.getDrawable( context, R.drawable.ic_arrow_up ) ) );
     }
 
     @Override
     public void setForegroundShapeArrowDown() {
         setForegroundDrawer( new DrawableForegroundDrawer(
-            ContextCompat.getDrawable( context, R.drawable.ic_arrow_down ) ) );
+            AppCompatResources.getDrawable( context, R.drawable.ic_arrow_down ) ) );
     }
 
     @Override

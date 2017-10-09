@@ -3,9 +3,7 @@ lazy val root = project.in( file( "." ) )
     .settings( Settings.common )
     .settings(
         libraryDependencies ++=
-            "com.android.support" % "support-annotations" % "26.0.1" % "compile" ::
-            "com.android.support" % "support-compat" % "26.0.1" ::
-
+            "com.android.support" % "appcompat-v7" % "26.0.1" ::
             Nil,
         name := "icon-badge",
         publishArtifact in ( Compile, packageDoc ) := false

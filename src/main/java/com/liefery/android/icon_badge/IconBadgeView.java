@@ -8,10 +8,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.view.View;
 import com.liefery.android.icon_badge.background.BackgroundProvider;
+import com.liefery.android.icon_badge.foreground.DrawableForegroundDrawer;
 import com.liefery.android.icon_badge.foreground.ForegroundShapeDrawer;
 
 public class IconBadgeView extends View implements IconBadgeable {
@@ -111,7 +114,7 @@ public class IconBadgeView extends View implements IconBadgeable {
             R.styleable.IconBadgeView_iconBadge_foregroundShapeDrawable,
             -1 );
         if ( foregroundDrawableResId != -1 ) {
-            Drawable drawable = ContextCompat.getDrawable(
+            Drawable drawable = AppCompatResources.getDrawable(
                 getContext(),
                 foregroundDrawableResId );
             setForegroundDrawable( drawable );
