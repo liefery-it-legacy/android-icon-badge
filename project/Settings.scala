@@ -9,6 +9,7 @@ object Settings {
             "-source" :: "1.7" ::
             "-target" :: "1.7" ::
             Nil,
+        lintStrict := true,
         minSdkVersion := "14",
         organization := "com.liefery.android",
         platformTarget := "android-26",
