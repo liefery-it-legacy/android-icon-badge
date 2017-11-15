@@ -9,16 +9,11 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class NumberShapeDrawer extends ForegroundShapeDrawer {
     private final int number;
-
     private final String text;
-
     private final Paint paint = new Paint( ANTI_ALIAS_FLAG );
-
     private Rect rect = new Rect();
-
-    private float x;
-
     private float y;
+    private int size;
 
     public NumberShapeDrawer( int number ) {
         this.number = number;
@@ -29,18 +24,19 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
     }
 
     @Override
-    public void prepare( int color, int size ) {
+    public void prepare( int color, int size, float elevation ) {
         paint.setColor( color );
 
         float scale = calculateScale( number );
         paint.setTextSize( size * 0.8f * scale );
-
-        x = size / 2;
-        y = calculateCenterVertical( size );
+    
+        this.size = size;
+        this.y = calculateCenterVertical( size ) + elevation;
     }
 
     @Override
     public void draw( Canvas canvas ) {
+        int x = canvas.getWidth() / 2;
         canvas.drawText( text, x, y, paint );
     }
 
