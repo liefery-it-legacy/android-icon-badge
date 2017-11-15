@@ -42,6 +42,8 @@ public class IconBadge implements IconBadgeable {
     private int size = -1;
 
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
+    
+    private Matrix matrix = new Matrix();
 
     public IconBadge( Context context ) {
         this.context = context;
@@ -173,14 +175,8 @@ public class IconBadge implements IconBadgeable {
     }
 
     public void draw( Canvas canvas ) {
-        // TODO shift path to be drawn in the center of the canvas
-        // when drawing a bitmap with shadow, it is currently aligned to the
-        // left of the canvas, but should horizontally centered
         if ( backgroundProviderDrawingResult != null ) {
-            Matrix matrix = new Matrix();
-            matrix.setTranslate((canvas.getWidth() - backgroundProviderDrawingResult.width) / 2, elevation);
-            Path adjustedPath = new Path(backgroundProviderDrawingResult.path);
-            adjustedPath.transform(matrix);
+            Path adjustedPath = adjustPathCenter(canvas.getWidth(), backgroundProviderDrawingResult);
             canvas.drawPath(adjustedPath, backgroundShapePaint);
         }
         
@@ -235,10 +231,7 @@ public class IconBadge implements IconBadgeable {
             0f,
             elevation,
             Color.BLACK );
-        Matrix matrix = new Matrix();
-        matrix.setTranslate((canvas.getWidth() - backgroundResult.width) / 2, elevation);
-        Path adjustedPath = new Path(backgroundResult.path);
-        adjustedPath.transform(matrix);
+        Path adjustedPath = adjustPathCenter(canvas.getWidth(), backgroundResult);
         canvas.drawPath(adjustedPath, shadowPaint);
     }
 
@@ -255,5 +248,13 @@ public class IconBadge implements IconBadgeable {
         canvas.drawBitmap( originalBitmap, 0, 0, alphaPaint );
 
         return bitmap;
+    }
+    
+    private Path adjustPathCenter(int canvasWidth, BackgroundProvider.Result backgroundProviderDrawingResult) {
+        matrix.reset();
+        matrix.setTranslate((canvasWidth - backgroundProviderDrawingResult.width) / 2, elevation);
+        Path adjustedPath = new Path(backgroundProviderDrawingResult.path);
+        adjustedPath.transform(matrix);
+        return adjustedPath;
     }
 }

@@ -21,8 +21,7 @@ public class Activity extends android.app.Activity {
         IconBadge badge = new IconBadge( this );
         badge.setBackgroundShapePin();
         badge.setBackgroundShapeColor( Color.RED );
-        badge.setNumber(1234);
-//        badge.setForegroundShapeArrowUp();
+        badge.setForegroundShapeArrowUp();
         badge.setForegroundShapeColor( Color.WHITE );
         badge.setElevation( dpToPx( 5 ) );
         image.setImageBitmap( badge.export( dpToPx( 50 ) ) );
