@@ -10,9 +10,9 @@ public class DrawableForegroundDrawer extends ForegroundShapeDrawer {
 
     private int size;
 
-    private int offset;
+    private float offset;
 
-    private int elevation;
+    private float elevation;
 
     public DrawableForegroundDrawer( @NonNull Drawable drawable ) {
         this.drawable = DrawableCompat.wrap( drawable ).mutate();
@@ -21,17 +21,20 @@ public class DrawableForegroundDrawer extends ForegroundShapeDrawer {
     @Override
     public void prepare( int color, int size, float elevation ) {
         DrawableCompat.setTint( drawable, color );
-        this.offset = (int) Math.round( size * 0.2 );
+        this.offset = Math.round( size * 0.2 );
         this.size = size;
-        this.elevation = (int) elevation;
+        this.elevation = elevation;
     }
 
     @Override
     public void draw( Canvas canvas ) {
-        int paddingWidth = ( canvas.getWidth() - size ) / 2;
+        float paddingWidth = ( canvas.getWidth() - size ) / 2f;
 
-        drawable.setBounds( offset + paddingWidth, offset + elevation, size
-            - offset + paddingWidth, size - offset + elevation );
+        drawable.setBounds(
+            (int) ( offset + paddingWidth ),
+            (int) ( offset + elevation ),
+            (int) ( size - offset + paddingWidth ),
+            (int) ( size - offset + elevation ) );
         drawable.draw( canvas );
     }
 }
