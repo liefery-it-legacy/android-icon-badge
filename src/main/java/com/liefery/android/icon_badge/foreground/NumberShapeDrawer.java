@@ -18,8 +18,6 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
 
     private float y;
 
-    private int size;
-
     public NumberShapeDrawer( int number ) {
         this.number = number;
         this.text = Integer.toString( number );
@@ -35,8 +33,7 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
         float scale = calculateScale( number );
         paint.setTextSize( size * 0.8f * scale );
 
-        this.size = size;
-        this.y = calculateCenterVertical( size ) + elevation;
+        y = calculateCenterVertical( size ) + elevation;
     }
 
     @Override
