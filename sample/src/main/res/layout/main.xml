@@ -302,6 +302,107 @@
 
         </LinearLayout>
 
+        <TextView
+                android:layout_marginTop="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Android Views (Top) and exported Bitmaps (Bottom) are not distinguishable by eye."
+                android:textColor="#262626"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clipChildren="false">
+
+            <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:clipChildren="false">
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:clipChildren="false"
+                        android:gravity="center">
+
+                    <com.liefery.android.icon_badge.IconBadgeView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginBottom="16dp"
+                            app:iconBadge_backgroundShapeColor="#4CAF50"
+                            app:iconBadge_foregroundShapeColor="#87000000"
+                            app:iconBadge_foregroundShapeDrawable="@drawable/ic_checkmark_all" />
+
+                    <ImageView
+                            android:id="@+id/image2"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:clipChildren="false"
+                        android:gravity="center">
+
+                    <com.liefery.android.icon_badge.IconBadgeView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginBottom="16dp"
+                            app:iconBadge_backgroundShapeColor="#FFEB3B"
+                            app:iconBadge_foregroundShapeColor="#87000000"
+                            app:iconBadge_foregroundShape="arrowDown"
+                            app:iconBadge_backgroundShape="pin"/>
+
+                    <ImageView
+                            android:id="@+id/image3"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:clipChildren="false"
+                        android:gravity="center">
+
+                    <com.liefery.android.icon_badge.IconBadgeView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginBottom="16dp"
+                            app:iconBadge_backgroundShapeColor="#F44336"
+                            app:iconBadge_foregroundShapeColor="#87ffffff"
+                            app:iconBadge_number="69"
+                            app:iconBadge_backgroundShape="square"/>
+
+                    <ImageView
+                            android:id="@+id/image4"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="center" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
