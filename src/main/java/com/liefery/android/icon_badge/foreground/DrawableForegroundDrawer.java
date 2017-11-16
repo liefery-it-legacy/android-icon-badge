@@ -7,8 +7,11 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 
 public class DrawableForegroundDrawer extends ForegroundShapeDrawer {
     private Drawable drawable;
+
     private int size;
+
     private int offset;
+
     private int elevation;
 
     public DrawableForegroundDrawer( @NonNull Drawable drawable ) {
@@ -25,9 +28,10 @@ public class DrawableForegroundDrawer extends ForegroundShapeDrawer {
 
     @Override
     public void draw( Canvas canvas ) {
-        int paddingWidth = (canvas.getWidth() - size) / 2;
-        
-        drawable.setBounds( offset + paddingWidth, offset + elevation, size - offset + paddingWidth, size - offset + elevation);
+        int paddingWidth = ( canvas.getWidth() - size ) / 2;
+
+        drawable.setBounds( offset + paddingWidth, offset + elevation, size
+            - offset + paddingWidth, size - offset + elevation );
         drawable.draw( canvas );
     }
 }

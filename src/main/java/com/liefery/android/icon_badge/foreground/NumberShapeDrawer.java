@@ -9,10 +9,15 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class NumberShapeDrawer extends ForegroundShapeDrawer {
     private final int number;
+
     private final String text;
+
     private final Paint paint = new Paint( ANTI_ALIAS_FLAG );
+
     private Rect rect = new Rect();
+
     private float y;
+
     private int size;
 
     public NumberShapeDrawer( int number ) {
@@ -29,7 +34,7 @@ public class NumberShapeDrawer extends ForegroundShapeDrawer {
 
         float scale = calculateScale( number );
         paint.setTextSize( size * 0.8f * scale );
-    
+
         this.size = size;
         this.y = calculateCenterVertical( size ) + elevation;
     }
