@@ -43,6 +43,8 @@ public class IconBadge implements IconBadgeable {
 
     private final Paint shadowPaint = new Paint( ANTI_ALIAS_FLAG );
 
+    private Matrix matrix = new Matrix();
+
     public IconBadge( Context context ) {
         this.context = context;
         shadowPaint.setAlpha( 70 );
@@ -169,17 +171,19 @@ public class IconBadge implements IconBadgeable {
         }
 
         if ( foregroundShapeDrawer != null )
-            foregroundShapeDrawer.prepare( getForegroundShapeColor(), size );
+            foregroundShapeDrawer.prepare(
+                getForegroundShapeColor(),
+                size,
+                elevation );
     }
 
     public void draw( Canvas canvas ) {
-        // TODO shift path to be drawn in the center of the canvas
-        // when drawing a bitmap with shadow, it is currently aligned to the
-        // left of the canvas, but should horizontally centered
-        if ( backgroundProviderDrawingResult != null )
-            canvas.drawPath(
-                backgroundProviderDrawingResult.path,
-                backgroundShapePaint );
+        if ( backgroundProviderDrawingResult != null ) {
+            Path adjustedPath = adjustPathCenter(
+                canvas.getWidth(),
+                backgroundProviderDrawingResult );
+            canvas.drawPath( adjustedPath, backgroundShapePaint );
+        }
 
         if ( foregroundShapeDrawer != null )
             foregroundShapeDrawer.draw( canvas );
@@ -207,11 +211,7 @@ public class IconBadge implements IconBadgeable {
                 backgroundProviderDrawingResult.width,
                 backgroundProviderDrawingResult.height );
 
-            int padding = (int) ( 2 * elevation );
-
-            BackgroundProvider.Result result = backgroundProvider.export(
-                size,
-                padding );
+            int padding = (int) ( 3 * elevation );
 
             bitmap = Bitmap.createBitmap( actualSize + padding, actualSize
                 + padding, Bitmap.Config.ARGB_8888 );
@@ -219,7 +219,7 @@ public class IconBadge implements IconBadgeable {
             canvas = new Canvas( bitmap );
 
             if ( elevation > 0 )
-                drawShadow( canvas, result.path );
+                drawShadow( canvas, backgroundProviderDrawingResult );
         } else {
             bitmap = Bitmap.createBitmap( size, size, Bitmap.Config.ARGB_8888 );
             canvas = new Canvas( bitmap );
@@ -230,13 +230,18 @@ public class IconBadge implements IconBadgeable {
         return bitmap;
     }
 
-    private void drawShadow( Canvas canvas, Path shape ) {
+    private void drawShadow(
+        Canvas canvas,
+        BackgroundProvider.Result backgroundResult ) {
         shadowPaint.setShadowLayer(
             elevation * 1.5f,
             0f,
             elevation,
             Color.BLACK );
-        canvas.drawPath( shape, shadowPaint );
+        Path adjustedPath = adjustPathCenter(
+            canvas.getWidth(),
+            backgroundResult );
+        canvas.drawPath( adjustedPath, shadowPaint );
     }
 
     private Bitmap makeBitmapTransparent( Bitmap originalBitmap, float alpha ) {
@@ -252,5 +257,17 @@ public class IconBadge implements IconBadgeable {
         canvas.drawBitmap( originalBitmap, 0, 0, alphaPaint );
 
         return bitmap;
+    }
+
+    private Path adjustPathCenter(
+        int canvasWidth,
+        BackgroundProvider.Result backgroundProviderDrawingResult ) {
+        matrix.reset();
+        matrix.setTranslate(
+            ( canvasWidth - backgroundProviderDrawingResult.width ) / 2,
+            elevation );
+        Path adjustedPath = new Path( backgroundProviderDrawingResult.path );
+        adjustedPath.transform( matrix );
+        return adjustedPath;
     }
 }
