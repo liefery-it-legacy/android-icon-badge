@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2
+
+_2017-11-18_
+
+ * Fix shape position when rendering badge as `Bitmap` with shadow
+
 ## 1.3.1
 
 _2017-10-09_
