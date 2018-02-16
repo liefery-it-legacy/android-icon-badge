@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.3
+
+_2018-02-16_
+
+ * Fix missing background on API 16 devices
+
 ## 1.3.2
 
 _2017-11-18_
