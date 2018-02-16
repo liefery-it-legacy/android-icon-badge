@@ -69,6 +69,10 @@ public class IconBadgeView extends View implements IconBadgeable {
     }
 
     private void initialize( @NonNull TypedArray styles ) {
+        if(Build.VERSION.SDK_INT <= 16) {
+            setLayerType( LAYER_TYPE_SOFTWARE, null );
+        }
+
         int backgroundShapeColor = styles.getColor(
             R.styleable.IconBadgeView_iconBadge_backgroundShapeColor,
             Integer.MIN_VALUE );
