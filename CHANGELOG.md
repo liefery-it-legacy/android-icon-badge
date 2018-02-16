@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.4
+
+_2018-02-16_
+
+The `1.3.3` release was corrupted. This is a new build on the same source.
+
 ## 1.3.3
 
 _2018-02-16_
