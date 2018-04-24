@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.0
+
+_2018-04-24_
+
+ * Reenable Java source formatter
+ * Upgrade to sbt 0.13.17
+ * Upgrade to android platform 27
+
 ## 1.3.4
 
 _2018-02-16_
