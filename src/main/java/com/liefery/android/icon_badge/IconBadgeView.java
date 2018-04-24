@@ -69,7 +69,7 @@ public class IconBadgeView extends View implements IconBadgeable {
     }
 
     private void initialize( @NonNull TypedArray styles ) {
-        if(Build.VERSION.SDK_INT <= 16) {
+        if ( Build.VERSION.SDK_INT <= 16 ) {
             setLayerType( LAYER_TYPE_SOFTWARE, null );
         }
 
