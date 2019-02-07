@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="define_LiferyIconBadge"></string>
+  <string name="library_LiferyIconBadge_author">LieferFactory GmbH</string>
+  <string name="library_LiferyIconBadge_authorWebsite">https://www.liefery.com/</string>
+  <string name="library_LiferyIconBadge_libraryName">Android Icon Badge</string>
+  <string name="library_LiferyIconBadge_libraryDescription">A simple badge widget to display numbers and shapes</string>
+  <string name="library_LiferyIconBadge_libraryVersion">1.4.0</string>
+  <string name="library_LiferyIconBadge_libraryWebsite">https://github.com/liefery/android-icon-badge</string>
+  <string name="library_LiferyIconBadge_licenseId">mit</string>
+  <string name="library_LiferyIconBadge_isOpenSource">true</string>
+  <string name="library_LiferyIconBadge_repositoryLink">https://github.com/liefery/android-icon-badge/blob/master/LICENSE</string>
+</resources>
